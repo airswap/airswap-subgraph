@@ -22,7 +22,7 @@ export function handleConvertAndTransfer(event: ConvertAndTransferEvent): void {
   entity.swapToToken = event.params.swapToToken
   entity.amountTokenFrom = event.params.amountTokenFrom
   entity.amountTokenTo = event.params.amountTokenTo
-  entity.recievedAddresses = event.params.recievedAddresses
+  // entity.recievedAddresses = event.params.recievedAddresses
   entity.save()
 }
 
@@ -30,7 +30,7 @@ export function handleDrainTo(event: DrainToEvent): void {
   let entity = new DrainTo(
     event.transaction.hash.toHex() + "-" + event.logIndex.toString()
   )
-  entity.tokens = event.params.tokens
+  // entity.tokens = event.params.tokens
   entity.dest = event.params.dest
   entity.save()
 }

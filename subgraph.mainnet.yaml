@@ -4,11 +4,11 @@ schema:
 dataSources:
   - kind: ethereum
     name: Staking
-    network: '{{network}}'
+    network: rinkeby
     source:
-      address: '{{staking_address}}'
+      address: "0x1f22124a0cfa8e54005CC3b1186ACE50a4cB0229"
       abi: Staking
-      startBlock: {{start_block_staking}}
+      startBlock: 10208978
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -42,11 +42,11 @@ dataSources:
       file: ./src/StakingMapping.ts
   - kind: ethereum
     name: Swap
-    network: '{{network}}'
+    network: rinkeby
     source:
-      address: '{{swap_address}}'
+      address: "0x03710fb8e65070A4Bc6422d111a1beb7949e1a87"
       abi: Swap
-      startBlock: {{start_block_swap}}
+      startBlock: 10349820
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -92,11 +92,11 @@ dataSources:
       file: ./src/SwapMapping.ts
   - kind: ethereum
     name: Wrapper
-    network: '{{network}}'
+    network: rinkeby
     source:
-      address: '{{wrapper_address}}'
+      address: "0x74b9e644cB5C0b174c1531e3a4c50e0A3ed13961"
       abi: Wrapper
-      startBlock: {{start_block_wrapper}}
+      startBlock: 10364094
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -115,11 +115,11 @@ dataSources:
       file: ./src/WrapperMapping.ts
   - kind: ethereum
     name: Pool
-    network: '{{network}}'
+    network: rinkeby
     source:
-      address: '{{pool_address}}'
+      address: "0x2b8CAb4a96E843159A4cb6d4C071Ed4b4C15c476"
       abi: Pool
-      startBlock: {{start_block_pool}}
+      startBlock: 10209005
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -147,11 +147,11 @@ dataSources:
       file: ./src/PoolMapping.ts
   - kind: ethereum
     name: Converter
-    network: '{{network}}'
+    network: rinkeby
     source:
-      address: '{{converter_address}}'
+      address: "0x04Ca0A9a349F5F24E7ca4e36a0a20D977518A033"
       abi: Converter
-      startBlock: {{start_block_converter}}
+      startBlock: 10209037
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5

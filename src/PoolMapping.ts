@@ -1,4 +1,4 @@
-import { Bytes } from "@graphprotocol/graph-ts"
+import { Address, Bytes } from "@graphprotocol/graph-ts"
 import {
   DrainTo as DrainToEvent,
   OwnershipTransferred as OwnershipTransferredEvent,
@@ -18,7 +18,7 @@ export function handleDrainTo(event: DrainToEvent): void {
   let entity = new DrainTo(
     event.transaction.hash.toHex() + "-" + event.logIndex.toString()
   )
-  entity.tokens = event.params.tokens
+  // entity.tokens = event.params.tokens
   entity.dest = event.params.dest
   entity.save()
 }

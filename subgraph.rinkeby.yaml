@@ -4,11 +4,10 @@ schema:
 dataSources:
   - kind: ethereum
     name: Staking
-    network: '{{network}}'
+    network: mainnet
     source:
-      address: '{{staking_address}}'
+      address: "0x6d88B09805b90dad911E5C5A512eEDd984D6860B"
       abi: Staking
-      startBlock: {{start_block_staking}}
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -42,11 +41,10 @@ dataSources:
       file: ./src/StakingMapping.ts
   - kind: ethereum
     name: Swap
-    network: '{{network}}'
+    network: mainnet
     source:
-      address: '{{swap_address}}'
+      address: "0x522D6F36c95A1b6509A14272C17747BbB582F2A6"
       abi: Swap
-      startBlock: {{start_block_swap}}
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -92,11 +90,10 @@ dataSources:
       file: ./src/SwapMapping.ts
   - kind: ethereum
     name: Wrapper
-    network: '{{network}}'
+    network: mainnet
     source:
-      address: '{{wrapper_address}}'
+      address: "0x3A0e257568cc9c6c5d767d5DC0CD8A9Ac69Cc3aE"
       abi: Wrapper
-      startBlock: {{start_block_wrapper}}
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -115,11 +112,10 @@ dataSources:
       file: ./src/WrapperMapping.ts
   - kind: ethereum
     name: Pool
-    network: '{{network}}'
+    network: mainnet
     source:
-      address: '{{pool_address}}'
+      address: "0xaeB0E11e7C21715b4e8F3425Cb3d4978e5a7cf11"
       abi: Pool
-      startBlock: {{start_block_pool}}
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -147,11 +143,10 @@ dataSources:
       file: ./src/PoolMapping.ts
   - kind: ethereum
     name: Converter
-    network: '{{network}}'
+    network: mainnet
     source:
-      address: '{{converter_address}}'
+      address: "0x191A6Da5543772779CaBa4730cEdb2fF030b8b13"
       abi: Converter
-      startBlock: {{start_block_converter}}
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
