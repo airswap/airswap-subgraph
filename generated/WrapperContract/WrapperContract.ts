@@ -50,9 +50,9 @@ export class WrappedSwapFor__Params {
   }
 }
 
-export class Wrapper extends ethereum.SmartContract {
-  static bind(address: Address): Wrapper {
-    return new Wrapper("Wrapper", address);
+export class WrapperContract extends ethereum.SmartContract {
+  static bind(address: Address): WrapperContract {
+    return new WrapperContract("WrapperContract", address);
   }
 
   owner(): Address {

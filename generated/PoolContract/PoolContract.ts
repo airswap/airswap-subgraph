@@ -128,9 +128,9 @@ export class Withdraw__Params {
   }
 }
 
-export class Pool extends ethereum.SmartContract {
-  static bind(address: Address): Pool {
-    return new Pool("Pool", address);
+export class PoolContract extends ethereum.SmartContract {
+  static bind(address: Address): PoolContract {
+    return new PoolContract("PoolContract", address);
   }
 
   CLAIM_TYPEHASH(): Bytes {

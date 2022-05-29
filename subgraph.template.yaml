@@ -3,11 +3,11 @@ schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum
-    name: Staking
+    name: StakingContract
     network: '{{network}}'
     source:
       address: '{{staking_address}}'
-      abi: Staking
+      abi: StakingContract
       startBlock: {{start_block_staking}}
     mapping:
       kind: ethereum/events
@@ -22,7 +22,7 @@ dataSources:
         - SetDelegate
         - Transfer
       abis:
-        - name: Staking
+        - name: StakingContract
           file: ./abis/Staking.json
       eventHandlers:
         - event: CancelDurationChange()
@@ -41,11 +41,11 @@ dataSources:
           handler: handleTransfer
       file: ./src/StakingMapping.ts
   - kind: ethereum
-    name: Swap
+    name: SwapContract
     network: '{{network}}'
     source:
       address: '{{swap_address}}'
-      abi: Swap
+      abi: SwapContract
       startBlock: {{start_block_swap}}
     mapping:
       kind: ethereum/events
@@ -64,7 +64,7 @@ dataSources:
         - SetStaking
         - Swap
       abis:
-        - name: Swap
+        - name: SwapContract
           file: ./abis/Swap.json
       eventHandlers:
         - event: Authorize(indexed address,indexed address)
@@ -91,11 +91,11 @@ dataSources:
           handler: handleSwap
       file: ./src/SwapMapping.ts
   - kind: ethereum
-    name: Wrapper
+    name: WrapperContract
     network: '{{network}}'
     source:
       address: '{{wrapper_address}}'
-      abi: Wrapper
+      abi: WrapperContract
       startBlock: {{start_block_wrapper}}
     mapping:
       kind: ethereum/events
@@ -105,7 +105,7 @@ dataSources:
         - OwnershipTransferred
         - WrappedSwapFor
       abis:
-        - name: Wrapper
+        - name: WrapperContract
           file: ./abis/Wrapper.json
       eventHandlers:
         - event: OwnershipTransferred(indexed address,indexed address)
@@ -114,11 +114,11 @@ dataSources:
           handler: handleWrappedSwapFor
       file: ./src/WrapperMapping.ts
   - kind: ethereum
-    name: Pool
+    name: PoolContract
     network: '{{network}}'
     source:
       address: '{{pool_address}}'
-      abi: Pool
+      abi: PoolContract
       startBlock: {{start_block_pool}}
     mapping:
       kind: ethereum/events
@@ -131,7 +131,7 @@ dataSources:
         - SetScale
         - Withdraw
       abis:
-        - name: Pool
+        - name: PoolContract
           file: ./abis/Pool.json
       eventHandlers:
         - event: DrainTo(address[],address)

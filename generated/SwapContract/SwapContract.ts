@@ -256,7 +256,7 @@ export class Swap__Params {
   }
 }
 
-export class Swap__checkResult {
+export class SwapContract__checkResult {
   value0: BigInt;
   value1: Array<Bytes>;
 
@@ -273,468 +273,471 @@ export class Swap__checkResult {
   }
 }
 
-// export class Swap extends ethereum.SmartContract {
-//   static bind(address: Address): Swap {
-//     return new Swap("Swap", address);
-//   }
+export class SwapContract extends ethereum.SmartContract {
+  static bind(address: Address): SwapContract {
+    return new SwapContract("SwapContract", address);
+  }
 
-//   DOMAIN_CHAIN_ID(): BigInt {
-//     let result = super.call(
-//       "DOMAIN_CHAIN_ID",
-//       "DOMAIN_CHAIN_ID():(uint256)",
-//       []
-//     );
+  DOMAIN_CHAIN_ID(): BigInt {
+    let result = super.call(
+      "DOMAIN_CHAIN_ID",
+      "DOMAIN_CHAIN_ID():(uint256)",
+      []
+    );
 
-//     return result[0].toBigInt();
-//   }
+    return result[0].toBigInt();
+  }
 
-//   try_DOMAIN_CHAIN_ID(): ethereum.CallResult<BigInt> {
-//     let result = super.tryCall(
-//       "DOMAIN_CHAIN_ID",
-//       "DOMAIN_CHAIN_ID():(uint256)",
-//       []
-//     );
-//     if (result.reverted) {
-//       return new ethereum.CallResult();
-//     }
-//     let value = result.value;
-//     return ethereum.CallResult.fromValue(value[0].toBigInt());
-//   }
+  try_DOMAIN_CHAIN_ID(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      "DOMAIN_CHAIN_ID",
+      "DOMAIN_CHAIN_ID():(uint256)",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
 
-//   DOMAIN_NAME(): Bytes {
-//     let result = super.call("DOMAIN_NAME", "DOMAIN_NAME():(bytes32)", []);
+  DOMAIN_NAME(): Bytes {
+    let result = super.call("DOMAIN_NAME", "DOMAIN_NAME():(bytes32)", []);
 
-//     return result[0].toBytes();
-//   }
+    return result[0].toBytes();
+  }
 
-//   try_DOMAIN_NAME(): ethereum.CallResult<Bytes> {
-//     let result = super.tryCall("DOMAIN_NAME", "DOMAIN_NAME():(bytes32)", []);
-//     if (result.reverted) {
-//       return new ethereum.CallResult();
-//     }
-//     let value = result.value;
-//     return ethereum.CallResult.fromValue(value[0].toBytes());
-//   }
+  try_DOMAIN_NAME(): ethereum.CallResult<Bytes> {
+    let result = super.tryCall("DOMAIN_NAME", "DOMAIN_NAME():(bytes32)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBytes());
+  }
 
-//   DOMAIN_SEPARATOR(): Bytes {
-//     let result = super.call(
-//       "DOMAIN_SEPARATOR",
-//       "DOMAIN_SEPARATOR():(bytes32)",
-//       []
-//     );
+  DOMAIN_SEPARATOR(): Bytes {
+    let result = super.call(
+      "DOMAIN_SEPARATOR",
+      "DOMAIN_SEPARATOR():(bytes32)",
+      []
+    );
 
-//     return result[0].toBytes();
-//   }
+    return result[0].toBytes();
+  }
 
-//   try_DOMAIN_SEPARATOR(): ethereum.CallResult<Bytes> {
-//     let result = super.tryCall(
-//       "DOMAIN_SEPARATOR",
-//       "DOMAIN_SEPARATOR():(bytes32)",
-//       []
-//     );
-//     if (result.reverted) {
-//       return new ethereum.CallResult();
-//     }
-//     let value = result.value;
-//     return ethereum.CallResult.fromValue(value[0].toBytes());
-//   }
+  try_DOMAIN_SEPARATOR(): ethereum.CallResult<Bytes> {
+    let result = super.tryCall(
+      "DOMAIN_SEPARATOR",
+      "DOMAIN_SEPARATOR():(bytes32)",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBytes());
+  }
 
-//   DOMAIN_TYPEHASH(): Bytes {
-//     let result = super.call(
-//       "DOMAIN_TYPEHASH",
-//       "DOMAIN_TYPEHASH():(bytes32)",
-//       []
-//     );
+  DOMAIN_TYPEHASH(): Bytes {
+    let result = super.call(
+      "DOMAIN_TYPEHASH",
+      "DOMAIN_TYPEHASH():(bytes32)",
+      []
+    );
 
-//     return result[0].toBytes();
-//   }
+    return result[0].toBytes();
+  }
 
-//   try_DOMAIN_TYPEHASH(): ethereum.CallResult<Bytes> {
-//     let result = super.tryCall(
-//       "DOMAIN_TYPEHASH",
-//       "DOMAIN_TYPEHASH():(bytes32)",
-//       []
-//     );
-//     if (result.reverted) {
-//       return new ethereum.CallResult();
-//     }
-//     let value = result.value;
-//     return ethereum.CallResult.fromValue(value[0].toBytes());
-//   }
+  try_DOMAIN_TYPEHASH(): ethereum.CallResult<Bytes> {
+    let result = super.tryCall(
+      "DOMAIN_TYPEHASH",
+      "DOMAIN_TYPEHASH():(bytes32)",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBytes());
+  }
 
-//   DOMAIN_VERSION(): Bytes {
-//     let result = super.call("DOMAIN_VERSION", "DOMAIN_VERSION():(bytes32)", []);
+  DOMAIN_VERSION(): Bytes {
+    let result = super.call("DOMAIN_VERSION", "DOMAIN_VERSION():(bytes32)", []);
 
-//     return result[0].toBytes();
-//   }
+    return result[0].toBytes();
+  }
 
-//   try_DOMAIN_VERSION(): ethereum.CallResult<Bytes> {
-//     let result = super.tryCall(
-//       "DOMAIN_VERSION",
-//       "DOMAIN_VERSION():(bytes32)",
-//       []
-//     );
-//     if (result.reverted) {
-//       return new ethereum.CallResult();
-//     }
-//     let value = result.value;
-//     return ethereum.CallResult.fromValue(value[0].toBytes());
-//   }
+  try_DOMAIN_VERSION(): ethereum.CallResult<Bytes> {
+    let result = super.tryCall(
+      "DOMAIN_VERSION",
+      "DOMAIN_VERSION():(bytes32)",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBytes());
+  }
 
-//   FEE_DIVISOR(): BigInt {
-//     let result = super.call("FEE_DIVISOR", "FEE_DIVISOR():(uint256)", []);
+  FEE_DIVISOR(): BigInt {
+    let result = super.call("FEE_DIVISOR", "FEE_DIVISOR():(uint256)", []);
 
-//     return result[0].toBigInt();
-//   }
+    return result[0].toBigInt();
+  }
 
-//   try_FEE_DIVISOR(): ethereum.CallResult<BigInt> {
-//     let result = super.tryCall("FEE_DIVISOR", "FEE_DIVISOR():(uint256)", []);
-//     if (result.reverted) {
-//       return new ethereum.CallResult();
-//     }
-//     let value = result.value;
-//     return ethereum.CallResult.fromValue(value[0].toBigInt());
-//   }
+  try_FEE_DIVISOR(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall("FEE_DIVISOR", "FEE_DIVISOR():(uint256)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
 
-//   ORDER_TYPEHASH(): Bytes {
-//     let result = super.call("ORDER_TYPEHASH", "ORDER_TYPEHASH():(bytes32)", []);
+  ORDER_TYPEHASH(): Bytes {
+    let result = super.call("ORDER_TYPEHASH", "ORDER_TYPEHASH():(bytes32)", []);
 
-//     return result[0].toBytes();
-//   }
+    return result[0].toBytes();
+  }
 
-//   try_ORDER_TYPEHASH(): ethereum.CallResult<Bytes> {
-//     let result = super.tryCall(
-//       "ORDER_TYPEHASH",
-//       "ORDER_TYPEHASH():(bytes32)",
-//       []
-//     );
-//     if (result.reverted) {
-//       return new ethereum.CallResult();
-//     }
-//     let value = result.value;
-//     return ethereum.CallResult.fromValue(value[0].toBytes());
-//   }
+  try_ORDER_TYPEHASH(): ethereum.CallResult<Bytes> {
+    let result = super.tryCall(
+      "ORDER_TYPEHASH",
+      "ORDER_TYPEHASH():(bytes32)",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBytes());
+  }
 
-//   authorized(param0: Address): Address {
-//     let result = super.call("authorized", "authorized(address):(address)", [
-//       ethereum.Value.fromAddress(param0)
-//     ]);
+  authorized(param0: Address): Address {
+    let result = super.call("authorized", "authorized(address):(address)", [
+      ethereum.Value.fromAddress(param0)
+    ]);
 
-//     return result[0].toAddress();
-//   }
+    return result[0].toAddress();
+  }
 
-//   try_authorized(param0: Address): ethereum.CallResult<Address> {
-//     let result = super.tryCall("authorized", "authorized(address):(address)", [
-//       ethereum.Value.fromAddress(param0)
-//     ]);
-//     if (result.reverted) {
-//       return new ethereum.CallResult();
-//     }
-//     let value = result.value;
-//     return ethereum.CallResult.fromValue(value[0].toAddress());
-//   }
+  try_authorized(param0: Address): ethereum.CallResult<Address> {
+    let result = super.tryCall("authorized", "authorized(address):(address)", [
+      ethereum.Value.fromAddress(param0)
+    ]);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toAddress());
+  }
 
-//   calculateDiscount(stakingBalance: BigInt, feeAmount: BigInt): BigInt {
-//     let result = super.call(
-//       "calculateDiscount",
-//       "calculateDiscount(uint256,uint256):(uint256)",
-//       [
-//         ethereum.Value.fromUnsignedBigInt(stakingBalance),
-//         ethereum.Value.fromUnsignedBigInt(feeAmount)
-//       ]
-//     );
+  calculateDiscount(stakingBalance: BigInt, feeAmount: BigInt): BigInt {
+    let result = super.call(
+      "calculateDiscount",
+      "calculateDiscount(uint256,uint256):(uint256)",
+      [
+        ethereum.Value.fromUnsignedBigInt(stakingBalance),
+        ethereum.Value.fromUnsignedBigInt(feeAmount)
+      ]
+    );
 
-//     return result[0].toBigInt();
-//   }
+    return result[0].toBigInt();
+  }
 
-//   try_calculateDiscount(
-//     stakingBalance: BigInt,
-//     feeAmount: BigInt
-//   ): ethereum.CallResult<BigInt> {
-//     let result = super.tryCall(
-//       "calculateDiscount",
-//       "calculateDiscount(uint256,uint256):(uint256)",
-//       [
-//         ethereum.Value.fromUnsignedBigInt(stakingBalance),
-//         ethereum.Value.fromUnsignedBigInt(feeAmount)
-//       ]
-//     );
-//     if (result.reverted) {
-//       return new ethereum.CallResult();
-//     }
-//     let value = result.value;
-//     return ethereum.CallResult.fromValue(value[0].toBigInt());
-//   }
+  try_calculateDiscount(
+    stakingBalance: BigInt,
+    feeAmount: BigInt
+  ): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      "calculateDiscount",
+      "calculateDiscount(uint256,uint256):(uint256)",
+      [
+        ethereum.Value.fromUnsignedBigInt(stakingBalance),
+        ethereum.Value.fromUnsignedBigInt(feeAmount)
+      ]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
 
-//   calculateProtocolFee(wallet: Address, amount: BigInt): BigInt {
-//     let result = super.call(
-//       "calculateProtocolFee",
-//       "calculateProtocolFee(address,uint256):(uint256)",
-//       [
-//         ethereum.Value.fromAddress(wallet),
-//         ethereum.Value.fromUnsignedBigInt(amount)
-//       ]
-//     );
+  calculateProtocolFee(wallet: Address, amount: BigInt): BigInt {
+    let result = super.call(
+      "calculateProtocolFee",
+      "calculateProtocolFee(address,uint256):(uint256)",
+      [
+        ethereum.Value.fromAddress(wallet),
+        ethereum.Value.fromUnsignedBigInt(amount)
+      ]
+    );
 
-//     return result[0].toBigInt();
-//   }
+    return result[0].toBigInt();
+  }
 
-//   try_calculateProtocolFee(
-//     wallet: Address,
-//     amount: BigInt
-//   ): ethereum.CallResult<BigInt> {
-//     let result = super.tryCall(
-//       "calculateProtocolFee",
-//       "calculateProtocolFee(address,uint256):(uint256)",
-//       [
-//         ethereum.Value.fromAddress(wallet),
-//         ethereum.Value.fromUnsignedBigInt(amount)
-//       ]
-//     );
-//     if (result.reverted) {
-//       return new ethereum.CallResult();
-//     }
-//     let value = result.value;
-//     return ethereum.CallResult.fromValue(value[0].toBigInt());
-//   }
+  try_calculateProtocolFee(
+    wallet: Address,
+    amount: BigInt
+  ): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      "calculateProtocolFee",
+      "calculateProtocolFee(address,uint256):(uint256)",
+      [
+        ethereum.Value.fromAddress(wallet),
+        ethereum.Value.fromUnsignedBigInt(amount)
+      ]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
 
-//   check(
-//     senderWallet: Address,
-//     nonce: BigInt,
-//     expiry: BigInt,
-//     signerWallet: Address,
-//     signerToken: Address,
-//     signerAmount: BigInt,
-//     senderToken: Address,
-//     senderAmount: BigInt,
-//     v: i32,
-//     r: Bytes,
-//     s: Bytes
-//   ): Swap__checkResult {
-//     let result = super.call(
-//       "check",
-//       "check(address,uint256,uint256,address,address,uint256,address,uint256,uint8,bytes32,bytes32):(uint256,bytes32[])",
-//       [
-//         ethereum.Value.fromAddress(senderWallet),
-//         ethereum.Value.fromUnsignedBigInt(nonce),
-//         ethereum.Value.fromUnsignedBigInt(expiry),
-//         ethereum.Value.fromAddress(signerWallet),
-//         ethereum.Value.fromAddress(signerToken),
-//         ethereum.Value.fromUnsignedBigInt(signerAmount),
-//         ethereum.Value.fromAddress(senderToken),
-//         ethereum.Value.fromUnsignedBigInt(senderAmount),
-//         ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(v)),
-//         ethereum.Value.fromFixedBytes(r),
-//         ethereum.Value.fromFixedBytes(s)
-//       ]
-//     );
+  check(
+    senderWallet: Address,
+    nonce: BigInt,
+    expiry: BigInt,
+    signerWallet: Address,
+    signerToken: Address,
+    signerAmount: BigInt,
+    senderToken: Address,
+    senderAmount: BigInt,
+    v: i32,
+    r: Bytes,
+    s: Bytes
+  ): SwapContract__checkResult {
+    let result = super.call(
+      "check",
+      "check(address,uint256,uint256,address,address,uint256,address,uint256,uint8,bytes32,bytes32):(uint256,bytes32[])",
+      [
+        ethereum.Value.fromAddress(senderWallet),
+        ethereum.Value.fromUnsignedBigInt(nonce),
+        ethereum.Value.fromUnsignedBigInt(expiry),
+        ethereum.Value.fromAddress(signerWallet),
+        ethereum.Value.fromAddress(signerToken),
+        ethereum.Value.fromUnsignedBigInt(signerAmount),
+        ethereum.Value.fromAddress(senderToken),
+        ethereum.Value.fromUnsignedBigInt(senderAmount),
+        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(v)),
+        ethereum.Value.fromFixedBytes(r),
+        ethereum.Value.fromFixedBytes(s)
+      ]
+    );
 
-//     return new Swap__checkResult(
-//       result[0].toBigInt(),
-//       result[1].toBytesArray()
-//     );
-//   }
+    return new SwapContract__checkResult(
+      result[0].toBigInt(),
+      result[1].toBytesArray()
+    );
+  }
 
-//   try_check(
-//     senderWallet: Address,
-//     nonce: BigInt,
-//     expiry: BigInt,
-//     signerWallet: Address,
-//     signerToken: Address,
-//     signerAmount: BigInt,
-//     senderToken: Address,
-//     senderAmount: BigInt,
-//     v: i32,
-//     r: Bytes,
-//     s: Bytes
-//   ): ethereum.CallResult<Swap__checkResult> {
-//     let result = super.tryCall(
-//       "check",
-//       "check(address,uint256,uint256,address,address,uint256,address,uint256,uint8,bytes32,bytes32):(uint256,bytes32[])",
-//       [
-//         ethereum.Value.fromAddress(senderWallet),
-//         ethereum.Value.fromUnsignedBigInt(nonce),
-//         ethereum.Value.fromUnsignedBigInt(expiry),
-//         ethereum.Value.fromAddress(signerWallet),
-//         ethereum.Value.fromAddress(signerToken),
-//         ethereum.Value.fromUnsignedBigInt(signerAmount),
-//         ethereum.Value.fromAddress(senderToken),
-//         ethereum.Value.fromUnsignedBigInt(senderAmount),
-//         ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(v)),
-//         ethereum.Value.fromFixedBytes(r),
-//         ethereum.Value.fromFixedBytes(s)
-//       ]
-//     );
-//     if (result.reverted) {
-//       return new ethereum.CallResult();
-//     }
-//     let value = result.value;
-//     return ethereum.CallResult.fromValue(
-//       new Swap__checkResult(value[0].toBigInt(), value[1].toBytesArray())
-//     );
-//   }
+  try_check(
+    senderWallet: Address,
+    nonce: BigInt,
+    expiry: BigInt,
+    signerWallet: Address,
+    signerToken: Address,
+    signerAmount: BigInt,
+    senderToken: Address,
+    senderAmount: BigInt,
+    v: i32,
+    r: Bytes,
+    s: Bytes
+  ): ethereum.CallResult<SwapContract__checkResult> {
+    let result = super.tryCall(
+      "check",
+      "check(address,uint256,uint256,address,address,uint256,address,uint256,uint8,bytes32,bytes32):(uint256,bytes32[])",
+      [
+        ethereum.Value.fromAddress(senderWallet),
+        ethereum.Value.fromUnsignedBigInt(nonce),
+        ethereum.Value.fromUnsignedBigInt(expiry),
+        ethereum.Value.fromAddress(signerWallet),
+        ethereum.Value.fromAddress(signerToken),
+        ethereum.Value.fromUnsignedBigInt(signerAmount),
+        ethereum.Value.fromAddress(senderToken),
+        ethereum.Value.fromUnsignedBigInt(senderAmount),
+        ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(v)),
+        ethereum.Value.fromFixedBytes(r),
+        ethereum.Value.fromFixedBytes(s)
+      ]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(
+      new SwapContract__checkResult(
+        value[0].toBigInt(),
+        value[1].toBytesArray()
+      )
+    );
+  }
 
-//   getChainId(): BigInt {
-//     let result = super.call("getChainId", "getChainId():(uint256)", []);
+  getChainId(): BigInt {
+    let result = super.call("getChainId", "getChainId():(uint256)", []);
 
-//     return result[0].toBigInt();
-//   }
+    return result[0].toBigInt();
+  }
 
-//   try_getChainId(): ethereum.CallResult<BigInt> {
-//     let result = super.tryCall("getChainId", "getChainId():(uint256)", []);
-//     if (result.reverted) {
-//       return new ethereum.CallResult();
-//     }
-//     let value = result.value;
-//     return ethereum.CallResult.fromValue(value[0].toBigInt());
-//   }
+  try_getChainId(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall("getChainId", "getChainId():(uint256)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
 
-//   nonceUsed(signer: Address, nonce: BigInt): boolean {
-//     let result = super.call("nonceUsed", "nonceUsed(address,uint256):(bool)", [
-//       ethereum.Value.fromAddress(signer),
-//       ethereum.Value.fromUnsignedBigInt(nonce)
-//     ]);
+  nonceUsed(signer: Address, nonce: BigInt): boolean {
+    let result = super.call("nonceUsed", "nonceUsed(address,uint256):(bool)", [
+      ethereum.Value.fromAddress(signer),
+      ethereum.Value.fromUnsignedBigInt(nonce)
+    ]);
 
-//     return result[0].toBoolean();
-//   }
+    return result[0].toBoolean();
+  }
 
-//   try_nonceUsed(signer: Address, nonce: BigInt): ethereum.CallResult<boolean> {
-//     let result = super.tryCall(
-//       "nonceUsed",
-//       "nonceUsed(address,uint256):(bool)",
-//       [
-//         ethereum.Value.fromAddress(signer),
-//         ethereum.Value.fromUnsignedBigInt(nonce)
-//       ]
-//     );
-//     if (result.reverted) {
-//       return new ethereum.CallResult();
-//     }
-//     let value = result.value;
-//     return ethereum.CallResult.fromValue(value[0].toBoolean());
-//   }
+  try_nonceUsed(signer: Address, nonce: BigInt): ethereum.CallResult<boolean> {
+    let result = super.tryCall(
+      "nonceUsed",
+      "nonceUsed(address,uint256):(bool)",
+      [
+        ethereum.Value.fromAddress(signer),
+        ethereum.Value.fromUnsignedBigInt(nonce)
+      ]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBoolean());
+  }
 
-//   owner(): Address {
-//     let result = super.call("owner", "owner():(address)", []);
+  owner(): Address {
+    let result = super.call("owner", "owner():(address)", []);
 
-//     return result[0].toAddress();
-//   }
+    return result[0].toAddress();
+  }
 
-//   try_owner(): ethereum.CallResult<Address> {
-//     let result = super.tryCall("owner", "owner():(address)", []);
-//     if (result.reverted) {
-//       return new ethereum.CallResult();
-//     }
-//     let value = result.value;
-//     return ethereum.CallResult.fromValue(value[0].toAddress());
-//   }
+  try_owner(): ethereum.CallResult<Address> {
+    let result = super.tryCall("owner", "owner():(address)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toAddress());
+  }
 
-//   protocolFee(): BigInt {
-//     let result = super.call("protocolFee", "protocolFee():(uint256)", []);
+  protocolFee(): BigInt {
+    let result = super.call("protocolFee", "protocolFee():(uint256)", []);
 
-//     return result[0].toBigInt();
-//   }
+    return result[0].toBigInt();
+  }
 
-//   try_protocolFee(): ethereum.CallResult<BigInt> {
-//     let result = super.tryCall("protocolFee", "protocolFee():(uint256)", []);
-//     if (result.reverted) {
-//       return new ethereum.CallResult();
-//     }
-//     let value = result.value;
-//     return ethereum.CallResult.fromValue(value[0].toBigInt());
-//   }
+  try_protocolFee(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall("protocolFee", "protocolFee():(uint256)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
 
-//   protocolFeeLight(): BigInt {
-//     let result = super.call(
-//       "protocolFeeLight",
-//       "protocolFeeLight():(uint256)",
-//       []
-//     );
+  protocolFeeLight(): BigInt {
+    let result = super.call(
+      "protocolFeeLight",
+      "protocolFeeLight():(uint256)",
+      []
+    );
 
-//     return result[0].toBigInt();
-//   }
+    return result[0].toBigInt();
+  }
 
-//   try_protocolFeeLight(): ethereum.CallResult<BigInt> {
-//     let result = super.tryCall(
-//       "protocolFeeLight",
-//       "protocolFeeLight():(uint256)",
-//       []
-//     );
-//     if (result.reverted) {
-//       return new ethereum.CallResult();
-//     }
-//     let value = result.value;
-//     return ethereum.CallResult.fromValue(value[0].toBigInt());
-//   }
+  try_protocolFeeLight(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      "protocolFeeLight",
+      "protocolFeeLight():(uint256)",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
 
-//   protocolFeeWallet(): Address {
-//     let result = super.call(
-//       "protocolFeeWallet",
-//       "protocolFeeWallet():(address)",
-//       []
-//     );
+  protocolFeeWallet(): Address {
+    let result = super.call(
+      "protocolFeeWallet",
+      "protocolFeeWallet():(address)",
+      []
+    );
 
-//     return result[0].toAddress();
-//   }
+    return result[0].toAddress();
+  }
 
-//   try_protocolFeeWallet(): ethereum.CallResult<Address> {
-//     let result = super.tryCall(
-//       "protocolFeeWallet",
-//       "protocolFeeWallet():(address)",
-//       []
-//     );
-//     if (result.reverted) {
-//       return new ethereum.CallResult();
-//     }
-//     let value = result.value;
-//     return ethereum.CallResult.fromValue(value[0].toAddress());
-//   }
+  try_protocolFeeWallet(): ethereum.CallResult<Address> {
+    let result = super.tryCall(
+      "protocolFeeWallet",
+      "protocolFeeWallet():(address)",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toAddress());
+  }
 
-//   rebateMax(): BigInt {
-//     let result = super.call("rebateMax", "rebateMax():(uint256)", []);
+  rebateMax(): BigInt {
+    let result = super.call("rebateMax", "rebateMax():(uint256)", []);
 
-//     return result[0].toBigInt();
-//   }
+    return result[0].toBigInt();
+  }
 
-//   try_rebateMax(): ethereum.CallResult<BigInt> {
-//     let result = super.tryCall("rebateMax", "rebateMax():(uint256)", []);
-//     if (result.reverted) {
-//       return new ethereum.CallResult();
-//     }
-//     let value = result.value;
-//     return ethereum.CallResult.fromValue(value[0].toBigInt());
-//   }
+  try_rebateMax(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall("rebateMax", "rebateMax():(uint256)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
 
-//   rebateScale(): BigInt {
-//     let result = super.call("rebateScale", "rebateScale():(uint256)", []);
+  rebateScale(): BigInt {
+    let result = super.call("rebateScale", "rebateScale():(uint256)", []);
 
-//     return result[0].toBigInt();
-//   }
+    return result[0].toBigInt();
+  }
 
-//   try_rebateScale(): ethereum.CallResult<BigInt> {
-//     let result = super.tryCall("rebateScale", "rebateScale():(uint256)", []);
-//     if (result.reverted) {
-//       return new ethereum.CallResult();
-//     }
-//     let value = result.value;
-//     return ethereum.CallResult.fromValue(value[0].toBigInt());
-//   }
+  try_rebateScale(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall("rebateScale", "rebateScale():(uint256)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
 
-//   staking(): Address {
-//     let result = super.call("staking", "staking():(address)", []);
+  staking(): Address {
+    let result = super.call("staking", "staking():(address)", []);
 
-//     return result[0].toAddress();
-//   }
+    return result[0].toAddress();
+  }
 
-//   try_staking(): ethereum.CallResult<Address> {
-//     let result = super.tryCall("staking", "staking():(address)", []);
-//     if (result.reverted) {
-//       return new ethereum.CallResult();
-//     }
-//     let value = result.value;
-//     return ethereum.CallResult.fromValue(value[0].toAddress());
-//   }
-// }
+  try_staking(): ethereum.CallResult<Address> {
+    let result = super.tryCall("staking", "staking():(address)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toAddress());
+  }
+}
 
 export class ConstructorCall extends ethereum.Call {
   get inputs(): ConstructorCall__Inputs {

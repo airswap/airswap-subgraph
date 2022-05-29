@@ -152,7 +152,7 @@ export class Transfer__Params {
   }
 }
 
-export class Staking__getStakesResultAccountStakeStruct extends ethereum.Tuple {
+export class StakingContract__getStakesResultAccountStakeStruct extends ethereum.Tuple {
   get duration(): BigInt {
     return this[0].toBigInt();
   }
@@ -166,9 +166,9 @@ export class Staking__getStakesResultAccountStakeStruct extends ethereum.Tuple {
   }
 }
 
-export class Staking extends ethereum.SmartContract {
-  static bind(address: Address): Staking {
-    return new Staking("Staking", address);
+export class StakingContract extends ethereum.SmartContract {
+  static bind(address: Address): StakingContract {
+    return new StakingContract("StakingContract", address);
   }
 
   accountDelegates(param0: Address): Address {
@@ -285,21 +285,23 @@ export class Staking extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
-  getStakes(account: Address): Staking__getStakesResultAccountStakeStruct {
+  getStakes(
+    account: Address
+  ): StakingContract__getStakesResultAccountStakeStruct {
     let result = super.call(
       "getStakes",
       "getStakes(address):((uint256,uint256,uint256))",
       [ethereum.Value.fromAddress(account)]
     );
 
-    return changetype<Staking__getStakesResultAccountStakeStruct>(
+    return changetype<StakingContract__getStakesResultAccountStakeStruct>(
       result[0].toTuple()
     );
   }
 
   try_getStakes(
     account: Address
-  ): ethereum.CallResult<Staking__getStakesResultAccountStakeStruct> {
+  ): ethereum.CallResult<StakingContract__getStakesResultAccountStakeStruct> {
     let result = super.tryCall(
       "getStakes",
       "getStakes(address):((uint256,uint256,uint256))",
@@ -310,7 +312,9 @@ export class Staking extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      changetype<Staking__getStakesResultAccountStakeStruct>(value[0].toTuple())
+      changetype<StakingContract__getStakesResultAccountStakeStruct>(
+        value[0].toTuple()
+      )
     );
   }
 
