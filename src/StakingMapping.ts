@@ -6,7 +6,7 @@ import {
   ScheduleDurationChange as ScheduleDurationChangeEvent,
   SetDelegate as SetDelegateEvent,
   Transfer as TransferEvent
-} from "../generated/Staking/Staking"
+} from "../generated/StakingContract/StakingContract"
 import {
   CancelDurationChange,
   CompleteDurationChange,

@@ -10,7 +10,7 @@ import {
   SetRebateScale as SetRebateScaleEvent,
   SetStaking as SetStakingEvent,
   Swap as SwapEvent
-} from "../generated/Swap/Swap"
+} from "../generated/SwapContract/SwapContract"
 import {
   Authorize,
   Cancel,

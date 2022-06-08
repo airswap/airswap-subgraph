@@ -5,7 +5,7 @@ import {
   SetMax as SetMaxEvent,
   SetScale as SetScaleEvent,
   Withdraw as WithdrawEvent
-} from "../generated/Pool/Pool"
+} from "../generated/PoolContract/PoolContract"
 import {
   DrainTo,
   OwnershipTransferred,

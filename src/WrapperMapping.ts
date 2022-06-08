@@ -1,7 +1,7 @@
 import {
   OwnershipTransferred as OwnershipTransferredEvent,
   WrappedSwapFor as WrappedSwapForEvent
-} from "../generated/Wrapper/Wrapper"
+} from "../generated/WrapperContract/WrapperContract"
 import { OwnershipTransferred, WrappedSwapFor } from "../generated/schema"
 
 export function handleOwnershipTransferred(
