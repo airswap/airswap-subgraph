@@ -1,5 +1,5 @@
 {
-    "network": "bsc",
+    "network": "bnb",
     "staking_address": "0xd161ddCFCC0C2D823021AA26200824Efa75218d1",
     "swap_address" : "0x132F13C3896eAB218762B9e46F55C9c478905849",
     "wrapper_address" : "0x6713C23261c8A9B7D84Dd6114E78d9a7B9863C1a",
@@ -11,4 +11,3 @@
     "start_block_pool": 15963819,
     "start_block_converter": 15963864
   }
-  

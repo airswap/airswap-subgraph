@@ -1,42 +1,45 @@
-# Subgraph for airswap v3 protocol
+# AirSwap Subgraph
 
-This is the subgraph for airswap V3 Protocol.
-
-The subgraph is going to be updated regularly
+AirSwap subgraph for [The Graph](https://thegraph.com/).
 
 # Get Started
-### Install dependencies
+
+### Dependencies
 
 ```
-Using Yarn: yarn install
-Using NPM: npm install
+yarn
+```
+
+### Generate
 
 ```
-1. Checkout the Schema
-
-2. Generate Code
-`graph codegen`
+yarn codegen
+```
 
 ## Build Graph
-Airswap V3 is deployed to  the following Chains
 
-1. Mainnet
-2. Polygon
-3. BSC
-4. Avalanche
+AirSwap is deployed to the following chains. Generate the `subgraph.yaml` manifest files for each chain using the commands below.
 
-You can generate the subgraph.yaml manifest files for the following above chains using the commands below
+**Ethereum**
 
-#### Mainnet
-`npm run prepare:mainnet`
+```
+yarn prepare:ethereum
+```
 
-#### Polygon
-`npm run prepare:polygon`
+**BNB Chain**
 
-#### Avalanche
-`npm run prepare:avalanche`
+```
+yarn prepare:bnb
+```
 
-#### BSC
-`npm run prepare:bsc`
-### Rinkeby
-`npm run prepare:rinkeby`
+**Avalanche**
+
+```
+yarn prepare:avalanche
+```
+
+**Polygon**
+
+```
+yarn prepare:polygon
+```

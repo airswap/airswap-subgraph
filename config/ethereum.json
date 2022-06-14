@@ -1,5 +1,5 @@
 {
-  "network": "mainnet",
+  "network": "ethereum",
   "staking_address": "0x6d88B09805b90dad911E5C5A512eEDd984D6860B",
   "swap_address" : "0x522D6F36c95A1b6509A14272C17747BbB582F2A6",
   "wrapper_address" : "0x3A0e257568cc9c6c5d767d5DC0CD8A9Ac69Cc3aE",
