@@ -1,0 +1,180 @@
+specVersion: 0.0.2
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: StakingContract
+    network: '{{network}}'
+    source:
+      address: '{{staking_address}}'
+      abi: StakingContract
+      startBlock: {{start_block_staking}}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - CancelDurationChange
+        - CompleteDurationChange
+        - OwnershipTransferred
+        - ProposeDelegate
+        - ScheduleDurationChange
+        - SetDelegate
+        - Transfer
+      abis:
+        - name: StakingContract
+          file: ./abis/Staking.json
+      eventHandlers:
+        - event: CancelDurationChange()
+          handler: handleCancelDurationChange
+        - event: CompleteDurationChange(indexed uint256)
+          handler: handleCompleteDurationChange
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: ProposeDelegate(indexed address,indexed address)
+          handler: handleProposeDelegate
+        - event: ScheduleDurationChange(indexed uint256)
+          handler: handleScheduleDurationChange
+        - event: SetDelegate(indexed address,indexed address)
+          handler: handleSetDelegate
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+      file: ./src/StakingMapping.ts
+  - kind: ethereum
+    name: SwapContract
+    network: '{{network}}'
+    source:
+      address: '{{swap_address}}'
+      abi: SwapContract
+      startBlock: {{start_block_swap}}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - Authorize
+        - Cancel
+        - OwnershipTransferred
+        - Revoke
+        - SetProtocolFee
+        - SetProtocolFeeLight
+        - SetProtocolFeeWallet
+        - SetRebateMax
+        - SetRebateScale
+        - SetStaking
+        - Swap
+      abis:
+        - name: SwapContract
+          file: ./abis/Swap.json
+      eventHandlers:
+        - event: Authorize(indexed address,indexed address)
+          handler: handleAuthorize
+        - event: Cancel(indexed uint256,indexed address)
+          handler: handleCancel
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: Revoke(indexed address,indexed address)
+          handler: handleRevoke
+        - event: SetProtocolFee(uint256)
+          handler: handleSetProtocolFee
+        - event: SetProtocolFeeLight(uint256)
+          handler: handleSetProtocolFeeLight
+        - event: SetProtocolFeeWallet(indexed address)
+          handler: handleSetProtocolFeeWallet
+        - event: SetRebateMax(uint256)
+          handler: handleSetRebateMax
+        - event: SetRebateScale(uint256)
+          handler: handleSetRebateScale
+        - event: SetStaking(indexed address)
+          handler: handleSetStaking
+        - event: Swap(indexed uint256,uint256,indexed address,address,uint256,uint256,indexed address,address,uint256)
+          handler: handleSwap
+      file: ./src/SwapMapping.ts
+  - kind: ethereum
+    name: WrapperContract
+    network: '{{network}}'
+    source:
+      address: '{{wrapper_address}}'
+      abi: WrapperContract
+      startBlock: {{start_block_wrapper}}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - OwnershipTransferred
+        - WrappedSwapFor
+      abis:
+        - name: WrapperContract
+          file: ./abis/Wrapper.json
+      eventHandlers:
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: WrappedSwapFor(address)
+          handler: handleWrappedSwapFor
+      file: ./src/WrapperMapping.ts
+  - kind: ethereum
+    name: PoolContract
+    network: '{{network}}'
+    source:
+      address: '{{pool_address}}'
+      abi: PoolContract
+      startBlock: {{start_block_pool}}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - DrainTo
+        - OwnershipTransferred
+        - SetMax
+        - SetScale
+        - Withdraw
+      abis:
+        - name: PoolContract
+          file: ./abis/Pool.json
+      eventHandlers:
+        - event: DrainTo(address[],address)
+          handler: handleDrainTo
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: SetMax(uint256)
+          handler: handleSetMax
+        - event: SetScale(uint256)
+          handler: handleSetScale
+        - event: Withdraw(indexed uint256,indexed uint256,indexed address,address,uint256,uint256)
+          handler: handleWithdraw
+      file: ./src/PoolMapping.ts
+  - kind: ethereum
+    name: Converter
+    network: '{{network}}'
+    source:
+      address: '{{converter_address}}'
+      abi: Converter
+      startBlock: {{start_block_converter}}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - ConvertAndTransfer
+        - DrainTo
+        - OwnershipTransferred
+        - PayeeAdded
+        - PayeeRemoved
+      abis:
+        - name: Converter
+          file: ./abis/Converter.json
+      eventHandlers:
+        - event: ConvertAndTransfer(address,address,address,uint256,uint256,address[])
+          handler: handleConvertAndTransfer
+        - event: DrainTo(address[],address)
+          handler: handleDrainTo
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: PayeeAdded(address,uint256)
+          handler: handlePayeeAdded
+        - event: PayeeRemoved(address)
+          handler: handlePayeeRemoved
+      file: ./src/ConverterMapping.ts
+

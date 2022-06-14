@@ -1,0 +1,31 @@
+{
+  "name": "@airswap/subgraph-v3",
+  "version": "0.0.1",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "create-local": "graph create --node http://localhost:8020/ AirSwap/AirSwap",
+    "remove-local": "graph remove --node http://localhost:8020/ AirSwap/AirSwap",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 AirSwap/AirSwap",
+    "deploy:ethereum": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ AirSwap/AirSwap",
+    "deploy:rinkeby": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ AirSwap/AirSwap-Rinkeby",
+    "deploy:kovan": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ AirSwap/AirSwap-Kovan",
+    "deploy:goerli": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ AirSwap/AirSwap-Goerli",
+    "deploy:bnb": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ AirSwap/AirSwap-BNB",
+    "prepare:development": "mustache config/development.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:ethereum": "mustache config/ethereum.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:rinkeby": "mustache config/rinkeby.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:kovan": "mustache config/kovan.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:avalanche": "mustache config/avalanche.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:polygon": "mustache config/polygon.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:goerli": "mustache config/goerli.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:bnb": "mustache config/bnb.json subgraph.template.yaml > subgraph.yaml"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "^0.26.0",
+    "@graphprotocol/graph-ts": "^0.24.1",
+    "mustache": "^3.1.0"
+  }
+}
