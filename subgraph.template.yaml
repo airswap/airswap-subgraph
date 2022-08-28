@@ -25,16 +25,10 @@ dataSources:
         - name: StakingContract
           file: ./abis/Staking.json
       eventHandlers:
-        - event: CancelDurationChange()
-          handler: handleCancelDurationChange
         - event: CompleteDurationChange(indexed uint256)
           handler: handleCompleteDurationChange
-        - event: OwnershipTransferred(indexed address,indexed address)
-          handler: handleOwnershipTransferred
         - event: ProposeDelegate(indexed address,indexed address)
           handler: handleProposeDelegate
-        - event: ScheduleDurationChange(indexed uint256)
-          handler: handleScheduleDurationChange
         - event: SetDelegate(indexed address,indexed address)
           handler: handleSetDelegate
         - event: Transfer(indexed address,indexed address,uint256)
@@ -71,22 +65,6 @@ dataSources:
           handler: handleAuthorize
         - event: Cancel(indexed uint256,indexed address)
           handler: handleCancel
-        - event: OwnershipTransferred(indexed address,indexed address)
-          handler: handleOwnershipTransferred
-        - event: Revoke(indexed address,indexed address)
-          handler: handleRevoke
-        - event: SetProtocolFee(uint256)
-          handler: handleSetProtocolFee
-        - event: SetProtocolFeeLight(uint256)
-          handler: handleSetProtocolFeeLight
-        - event: SetProtocolFeeWallet(indexed address)
-          handler: handleSetProtocolFeeWallet
-        - event: SetRebateMax(uint256)
-          handler: handleSetRebateMax
-        - event: SetRebateScale(uint256)
-          handler: handleSetRebateScale
-        - event: SetStaking(indexed address)
-          handler: handleSetStaking
         - event: Swap(indexed uint256,uint256,indexed address,address,uint256,uint256,indexed address,address,uint256)
           handler: handleSwap
       file: ./src/SwapMapping.ts
@@ -108,8 +86,6 @@ dataSources:
         - name: WrapperContract
           file: ./abis/Wrapper.json
       eventHandlers:
-        - event: OwnershipTransferred(indexed address,indexed address)
-          handler: handleOwnershipTransferred
         - event: WrappedSwapFor(address)
           handler: handleWrappedSwapFor
       file: ./src/WrapperMapping.ts
@@ -134,10 +110,6 @@ dataSources:
         - name: PoolContract
           file: ./abis/Pool.json
       eventHandlers:
-        - event: DrainTo(address[],address)
-          handler: handleDrainTo
-        - event: OwnershipTransferred(indexed address,indexed address)
-          handler: handleOwnershipTransferred
         - event: SetMax(uint256)
           handler: handleSetMax
         - event: SetScale(uint256)
@@ -168,10 +140,6 @@ dataSources:
       eventHandlers:
         - event: ConvertAndTransfer(address,address,address,uint256,uint256,address[])
           handler: handleConvertAndTransfer
-        - event: DrainTo(address[],address)
-          handler: handleDrainTo
-        - event: OwnershipTransferred(indexed address,indexed address)
-          handler: handleOwnershipTransferred
         - event: PayeeAdded(address,uint256)
           handler: handlePayeeAdded
         - event: PayeeRemoved(address)
