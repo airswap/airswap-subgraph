@@ -1,28 +1,13 @@
 # Staking
-type CancelDurationChange @entity {
-  id: ID!
-}
-
 type CompleteDurationChange @entity {
   id: ID!
   newDuration: BigInt! # uint256
-}
-
-type OwnershipTransferred @entity {
-  id: ID!
-  previousOwner: Bytes! # address
-  newOwner: Bytes! # address
 }
 
 type ProposeDelegate @entity {
   id: ID!
   delegate: Bytes! # address
   account: Bytes! # address
-}
-
-type ScheduleDurationChange @entity {
-  id: ID!
-  unlockTimestamp: BigInt! # uint256
 }
 
 type SetDelegate @entity {
@@ -39,6 +24,20 @@ type Transfer @entity {
 }
 
 # Swap
+type User @entity {
+  id: ID! # wallet address
+  authorizeAddress: [User!]! # signers this user has authorized
+}
+
+type SwapContract @entity {
+  id: ID! # address of the swap contract
+}
+
+type Token @entity {
+  id: ID! # token address
+  isBlacklisted: Boolean
+}
+
 type Authorize @entity {
   id: ID!
   signer: Bytes! # address
@@ -51,53 +50,24 @@ type Cancel @entity {
   signerWallet: Bytes! # address
 }
 
-type Revoke @entity {
-  id: ID!
-  signer: Bytes! # address
-  signerWallet: Bytes! # address
-}
-
-type SetProtocolFee @entity {
-  id: ID!
-  protocolFee: BigInt! # uint256
-}
-
-type SetProtocolFeeLight @entity {
-  id: ID!
-  protocolFeeLight: BigInt! # uint256
-}
-
-type SetProtocolFeeWallet @entity {
-  id: ID!
-  feeWallet: Bytes! # address
-}
-
-type SetRebateMax @entity {
-  id: ID!
-  rebateMax: BigInt! # uint256
-}
-
-type SetRebateScale @entity {
-  id: ID!
-  rebateScale: BigInt! # uint256
-}
-
-type SetStaking @entity {
-  id: ID!
-  staking: Bytes! # address
-}
-
 type Swap @entity {
   id: ID!
+  swap: SwapContract! # address of swap contract that executed this order
+  block: BigInt! # The block this swap was executed at
+  transactionHash: Bytes! # The transaction hash the swap was executed at
+  from: Bytes! # address of the originator of the transaction
+  to: Bytes # who the originator sent the transaction to
+  value: BigInt! # value sent with the transaction
   nonce: BigInt! # uint256
+  expiry: BigInt!
   timestamp: BigInt! # uint256
-  signerWallet: Bytes! # address
-  signerToken: Bytes! # address
-  signerAmount: BigInt! # uint256
+  signerWallet: User! # address
+  signerToken: Token! # address
+  signerAmount: BigDecimal! # uint256
   protocolFee: BigInt! # uint256
-  senderWallet: Bytes! # address
-  senderToken: Bytes! # address
-  senderAmount: BigInt! # uint256
+  senderWallet: User! # address
+  senderToken: Token! # address
+  senderAmount: BigDecimal! # uint256
 }
 
 # wrapper
@@ -106,14 +76,7 @@ type WrappedSwapFor @entity {
   senderWallet: Bytes! # address
 }
 
-
 # pool
-type DrainTo @entity {
-  id: ID!
-  tokens: [Bytes!]! # address[]
-  dest: Bytes! # address
-}
-
 type SetMax @entity {
   id: ID!
   max: BigInt! # uint256
@@ -143,7 +106,6 @@ type ConvertAndTransfer @entity {
   swapToToken: Bytes! # address
   amountTokenFrom: BigInt! # uint256
   amountTokenTo: BigInt! # uint256
-  recievedAddresses: [Bytes!]! # address[]
 }
 
 type PayeeAdded @entity {
