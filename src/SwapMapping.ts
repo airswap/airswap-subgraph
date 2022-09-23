@@ -9,6 +9,8 @@ import {
   SwapContract
 } from "../generated/schema"
 import { getUser, getToken } from "./EntityHelper"
+import { getUsdPricePerToken } from "../src/prices";
+import * as utils from "./prices/common/utils";
 
 
 export function handleAuthorize(event: AuthorizeEvent): void {
@@ -52,6 +54,29 @@ export function handleSwap(event: SwapEvent): void {
   let senderToken = getToken(event.params.senderToken.toHex())
 
 
+  let senderTokenPrice = getUsdPricePerToken(event.params.senderToken);
+  let signerTokenPrice = getUsdPricePerToken(event.params.signerToken);
+
+
+  let senderTokenAmount = event.params.senderAmount
+  const senderTokenDecimal = utils.getTokenDecimal(event.params.senderToken)
+
+  const senderAmountUSD = senderTokenAmount
+    .toBigDecimal()
+    .div(senderTokenDecimal)
+    .times(senderTokenPrice.usdPrice)
+    .div(senderTokenPrice.decimalsBaseTen);
+
+    let signerTokenAmount = event.params.signerAmount
+    const signerTokenDecimal = utils.getTokenDecimal(event.params.signerToken)
+  
+  const signerAmountUSD = signerTokenAmount
+      .toBigDecimal()
+      .div(signerTokenDecimal)
+      .times(signerTokenPrice.usdPrice)
+      .div(signerTokenPrice.decimalsBaseTen);
+  
+
   completedSwap.swap = swapContract.id
   completedSwap.block = event.block.number
   completedSwap.transactionHash = event.transaction.hash
@@ -64,15 +89,16 @@ export function handleSwap(event: SwapEvent): void {
 
   completedSwap.signerWallet = signerWallet.id
   completedSwap.signerToken = signerToken.id
-  completedSwap.signerAmount = event.params.signerAmount.toBigDecimal()
   completedSwap.protocolFee = event.params.protocolFee
   completedSwap.senderWallet = senderWallet.id
   completedSwap.senderToken = senderToken.id
-  completedSwap.senderAmount = event.params.senderAmount.toBigDecimal()
+  completedSwap.senderAmountUSD = senderAmountUSD
+  completedSwap.signerAmountUSD = signerAmountUSD
+  completedSwap.signerTokenAmount = signerTokenAmount
+  completedSwap.senderTokenAmount = senderTokenAmount
+  completedSwap.senderTokenDecimal= senderTokenDecimal
+  completedSwap.signerTokenDecimal= signerTokenDecimal
+  completedSwap.senderTokenPrice=senderTokenPrice.usdPrice
+  completedSwap.signerTokenPrice=signerTokenPrice.usdPrice
   completedSwap.save()
 }
-
-// get pools
-// get tokens
-// get address
-// clean up schema

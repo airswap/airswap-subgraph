@@ -1,4 +1,5 @@
 import { User, Token } from "../generated/schema"
+import { _ERC20 } from "../generated/SwapContract/_ERC20"
 
 export function getUser(userAddress: string): User {
   let user = User.load(userAddress)

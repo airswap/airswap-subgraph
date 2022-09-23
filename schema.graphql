@@ -63,11 +63,22 @@ type Swap @entity {
   timestamp: BigInt! # uint256
   signerWallet: User! # address
   signerToken: Token! # address
-  signerAmount: BigDecimal! # uint256
   protocolFee: BigInt! # uint256
   senderWallet: User! # address
   senderToken: Token! # address
-  senderAmount: BigDecimal! # uint256
+  senderAmountUSD: BigDecimal!
+  signerAmountUSD: BigDecimal!
+  signerTokenAmount: BigInt!
+  senderTokenAmount: BigInt!
+  signerTokenDecimal: BigDecimal!
+  senderTokenDecimal: BigDecimal!
+  signerTokenPrice: BigDecimal!
+  senderTokenPrice: BigDecimal!
+}
+
+type SwapMetric @entity {
+  id: ID!
+  swapVolume: BigDecimal!
 }
 
 # wrapper
