@@ -76,9 +76,17 @@ type Swap @entity {
   senderTokenPrice: BigDecimal!
 }
 
-type SwapMetric @entity {
+type DailySwapVolume @entity {
   id: ID!
-  swapVolume: BigDecimal!
+  date: Int!
+  amount: BigDecimal!
+}
+
+
+type FeePerDay @entity {
+  id: ID!
+  date: Int!
+  amount: BigDecimal!
 }
 
 # wrapper

@@ -11,6 +11,8 @@ import {
 import { getUser, getToken } from "./EntityHelper"
 import { getUsdPricePerToken } from "../src/prices";
 import * as utils from "./prices/common/utils";
+import { BigDecimal, BigInt } from "@graphprotocol/graph-ts";
+import { updateDailyFeesCollected, updateDailySwapVolume } from "./metrics";
 
 
 export function handleAuthorize(event: AuthorizeEvent): void {
@@ -75,6 +77,18 @@ export function handleSwap(event: SwapEvent): void {
       .div(signerTokenDecimal)
       .times(signerTokenPrice.usdPrice)
       .div(signerTokenPrice.decimalsBaseTen);
+
+  const BIGINT_TWO = BigInt.fromI32(2);
+  const BIGDECIMAL_TWO= new BigDecimal(BIGINT_TWO);
+
+  let sumSwap = senderAmountUSD.plus(signerAmountUSD)
+  let avgSwap = sumSwap.div(BIGDECIMAL_TWO)
+
+
+  const BIGDECIMAL_10k= new BigDecimal(BigInt.fromI32(10000));
+
+  let protocolFee = event.params.protocolFee
+  let fees = avgSwap.times(protocolFee.toBigDecimal()).div(BIGDECIMAL_10k)
   
 
   completedSwap.swap = swapContract.id
@@ -101,4 +115,7 @@ export function handleSwap(event: SwapEvent): void {
   completedSwap.senderTokenPrice=senderTokenPrice.usdPrice
   completedSwap.signerTokenPrice=signerTokenPrice.usdPrice
   completedSwap.save()
+
+  updateDailySwapVolume(event, avgSwap)
+  updateDailyFeesCollected(event, fees)
 }
