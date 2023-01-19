@@ -23,11 +23,16 @@ type Transfer @entity {
   tokens: BigInt! # uint256
 }
 
+
 # Swap
 type User @entity {
   id: ID! # wallet address
   authorizeAddress: [User!]! # signers this user has authorized
+  tokenBalance: BigInt!
+  # tokenBalanceUSD: BigDecimal!
+  totalTransfers: BigInt!
 }
+
 
 type SwapContract @entity {
   id: ID! # address of the swap contract
@@ -68,8 +73,8 @@ type Swap @entity {
   senderToken: Token! # address
   senderAmountUSD: BigDecimal!
   signerAmountUSD: BigDecimal!
-  signerTokenAmount: BigInt!
-  senderTokenAmount: BigInt!
+  signerAmount: BigInt!
+  senderAmount: BigInt!
   signerTokenDecimal: BigDecimal!
   senderTokenDecimal: BigDecimal!
   signerTokenPrice: BigDecimal!
@@ -136,4 +141,19 @@ type PayeeAdded @entity {
 type PayeeRemoved @entity {
   id: ID!
   account: Bytes! # address
+}
+
+
+type AstDailySnapshot @entity {
+  id: ID!
+  date: Int!
+  dailyTotalTransfer: BigInt!
+}
+
+
+type TokenTransfer @entity {
+  id: ID! # tx-hash
+  _from: User! # address
+  _to: User! # address
+  _value: BigInt! # uint256
 }

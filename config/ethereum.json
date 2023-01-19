@@ -1,13 +1,15 @@
 {
-  "network": "ethereum",
+  "network": "mainnet",
   "staking_address": "0x6d88B09805b90dad911E5C5A512eEDd984D6860B",
   "swap_address" : "0x522D6F36c95A1b6509A14272C17747BbB582F2A6",
   "wrapper_address" : "0x3A0e257568cc9c6c5d767d5DC0CD8A9Ac69Cc3aE",
   "pool_address" : "0xaeB0E11e7C21715b4e8F3425Cb3d4978e5a7cf11",
   "converter_address" : "0x191A6Da5543772779CaBa4730cEdb2fF030b8b13",
+  "airswap_token" : "0x27054b13b1b798b345b591a4d22e6562d47ea75a",
   "start_block_staking": 14359343,
   "start_block_swap": 14411563,
   "start_block_wrapper": 14364771,
   "start_block_pool": 14364525,
-  "start_block_converter": 14364558
+  "start_block_converter": 14364558,
+  "airswap_token_block": 4352086
 }

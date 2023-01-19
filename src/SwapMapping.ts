@@ -108,8 +108,8 @@ export function handleSwap(event: SwapEvent): void {
   completedSwap.senderToken = senderToken.id
   completedSwap.senderAmountUSD = senderAmountUSD
   completedSwap.signerAmountUSD = signerAmountUSD
-  completedSwap.signerTokenAmount = signerTokenAmount
-  completedSwap.senderTokenAmount = senderTokenAmount
+  completedSwap.signerAmount = signerTokenAmount
+  completedSwap.senderAmount = senderTokenAmount
   completedSwap.senderTokenDecimal= senderTokenDecimal
   completedSwap.signerTokenDecimal= signerTokenDecimal
   completedSwap.senderTokenPrice=senderTokenPrice.usdPrice
