@@ -4,7 +4,7 @@ import {
   Token,
   DailySwapVolume,
   FeePerDay,
-  AstDailySnapshot,
+  AstDailySnapshot
 } from "../generated/schema";
 import { _ERC20 } from "../generated/SwapContract/_ERC20";
 import { Transfer } from "../generated/AirswapToken/AirswapToken";
@@ -73,10 +73,10 @@ export function updateDailyTransferValue(
   swapValue: BigInt
 ): void {
   //the following uses integer division based on the number of seconds in a day to generate the id and date
-  let dayId = event.block.timestamp.toI32() / 86400;
-  let dayStartTimestamp = dayId * 86400;
+  const dayId = event.block.timestamp.toI32() / 86400;
+  const dayStartTimestamp = dayId * 86400;
 
-  let dailyVolume = getDailyTransferValue(dayId.toString());
+  const dailyVolume = getDailyTransferValue(dayId.toString());
   //setup the dayStartTimeStamp if the entity is new
   if (dailyVolume.date == 0) {
     dailyVolume.date = dayStartTimestamp;

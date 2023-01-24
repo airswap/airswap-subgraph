@@ -62,6 +62,10 @@ graph build
 graph deploy --studio airswap-v3
 ```
 
+**Note:** 
+This subgraph uses the messari price library to get token prices in USD.
+
+https://github.com/messari/subgraphs/tree/master/subgraphs/_reference_/src/prices
 ## Subgraph Documentation
 
 <!-- AirSwap v3 Documentation can be found here -> https://hackmd.io/@6Vt_l5I0TP6t3O_awqTYkA/ryKJ5FIss -->

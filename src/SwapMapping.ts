@@ -1,7 +1,7 @@
 import {
   Authorize as AuthorizeEvent,
   Cancel as CancelEvent,
-  Swap as SwapEvent,
+  Swap as SwapEvent
 } from "../generated/SwapContract/SwapContract";
 import { Cancel, Swap, SwapContract } from "../generated/schema";
 import { getUser, getToken } from "./EntityHelper";
@@ -11,11 +11,11 @@ import { BigDecimal, BigInt } from "@graphprotocol/graph-ts";
 import { updateDailyFeesCollected, updateDailySwapVolume } from "./metrics";
 
 export function handleAuthorize(event: AuthorizeEvent): void {
-  let signer = getUser(event.params.signer.toHex());
-  let signerWallet = getUser(event.params.signerWallet.toHex());
+  const signer = getUser(event.params.signer.toHex());
+  const signerWallet = getUser(event.params.signerWallet.toHex());
 
-  let authorize = signer.authorizeAddress;
-  let currentIdx = authorize.indexOf(signerWallet.id);
+  const authorize = signer.authorizeAddress;
+  const currentIdx = authorize.indexOf(signerWallet.id);
 
   // only add if sender is not in the list
   if (currentIdx == -1) {
@@ -26,7 +26,7 @@ export function handleAuthorize(event: AuthorizeEvent): void {
 }
 
 export function handleCancel(event: CancelEvent): void {
-  let entity = new Cancel(
+  const entity = new Cancel(
     event.transaction.hash.toHex() + "-" + event.logIndex.toString()
   );
   entity.nonce = event.params.nonce;
@@ -35,7 +35,7 @@ export function handleCancel(event: CancelEvent): void {
 }
 
 export function handleSwap(event: SwapEvent): void {
-  let completedSwap = new Swap(
+  const completedSwap = new Swap(
     event.params.signerWallet.toHex() + event.params.nonce.toString()
   );
 
@@ -45,15 +45,15 @@ export function handleSwap(event: SwapEvent): void {
     swapContract.save();
   }
 
-  let signerWallet = getUser(event.params.signerWallet.toHex());
-  let senderWallet = getUser(event.params.senderWallet.toHex());
-  let signerToken = getToken(event.params.signerToken.toHex());
-  let senderToken = getToken(event.params.senderToken.toHex());
+  const signerWallet = getUser(event.params.signerWallet.toHex());
+  const senderWallet = getUser(event.params.senderWallet.toHex());
+  const signerToken = getToken(event.params.signerToken.toHex());
+  const senderToken = getToken(event.params.senderToken.toHex());
 
-  let senderTokenPrice = getUsdPricePerToken(event.params.senderToken);
-  let signerTokenPrice = getUsdPricePerToken(event.params.signerToken);
+  const senderTokenPrice = getUsdPricePerToken(event.params.senderToken);
+  const signerTokenPrice = getUsdPricePerToken(event.params.signerToken);
 
-  let senderTokenAmount = event.params.senderAmount;
+  const senderTokenAmount = event.params.senderAmount;
   const senderTokenDecimal = utils.getTokenDecimal(event.params.senderToken);
 
   const senderAmountUSD = senderTokenAmount
@@ -62,7 +62,7 @@ export function handleSwap(event: SwapEvent): void {
     .times(senderTokenPrice.usdPrice)
     .div(senderTokenPrice.decimalsBaseTen);
 
-  let signerTokenAmount = event.params.signerAmount;
+  const signerTokenAmount = event.params.signerAmount;
   const signerTokenDecimal = utils.getTokenDecimal(event.params.signerToken);
 
   const signerAmountUSD = signerTokenAmount
@@ -74,13 +74,13 @@ export function handleSwap(event: SwapEvent): void {
   const BIGINT_TWO = BigInt.fromI32(2);
   const BIGDECIMAL_TWO = new BigDecimal(BIGINT_TWO);
 
-  let sumSwap = senderAmountUSD.plus(signerAmountUSD);
-  let avgSwap = sumSwap.div(BIGDECIMAL_TWO);
+  const sumSwap = senderAmountUSD.plus(signerAmountUSD);
+  const avgSwap = sumSwap.div(BIGDECIMAL_TWO);
 
   const BIGDECIMAL_10k = new BigDecimal(BigInt.fromI32(10000));
 
-  let protocolFee = event.params.protocolFee;
-  let fees = avgSwap.times(protocolFee.toBigDecimal()).div(BIGDECIMAL_10k);
+  const protocolFee = event.params.protocolFee;
+  const fees = avgSwap.times(protocolFee.toBigDecimal()).div(BIGDECIMAL_10k);
 
   completedSwap.swap = swapContract.id;
   completedSwap.block = event.block.number;

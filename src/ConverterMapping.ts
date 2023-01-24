@@ -1,17 +1,17 @@
 import {
   ConvertAndTransfer as ConvertAndTransferEvent,
   PayeeAdded as PayeeAddedEvent,
-  PayeeRemoved as PayeeRemovedEvent,
+  PayeeRemoved as PayeeRemovedEvent
 } from "../generated/Converter/Converter";
 import {
   ConvertAndTransfer,
   PayeeAdded,
-  PayeeRemoved,
+  PayeeRemoved
 } from "../generated/schema";
 
 export function handleConvertAndTransfer(event: ConvertAndTransferEvent): void {
-  let id = event.transaction.hash.toHex() + "-" + event.logIndex.toString();
-  let entity = new ConvertAndTransfer(id);
+  const id = event.transaction.hash.toHex() + "-" + event.logIndex.toString();
+  const entity = new ConvertAndTransfer(id);
 
   entity.triggerAccount = event.params.triggerAccount;
   entity.swapFromToken = event.params.swapFromToken;
@@ -22,7 +22,7 @@ export function handleConvertAndTransfer(event: ConvertAndTransferEvent): void {
 }
 
 export function handlePayeeAdded(event: PayeeAddedEvent): void {
-  let entity = new PayeeAdded(
+  const entity = new PayeeAdded(
     event.transaction.hash.toHex() + "-" + event.logIndex.toString()
   );
   entity.account = event.params.account;
@@ -31,7 +31,7 @@ export function handlePayeeAdded(event: PayeeAddedEvent): void {
 }
 
 export function handlePayeeRemoved(event: PayeeRemovedEvent): void {
-  let entity = new PayeeRemoved(
+  const entity = new PayeeRemoved(
     event.transaction.hash.toHex() + "-" + event.logIndex.toString()
   );
   entity.account = event.params.account;

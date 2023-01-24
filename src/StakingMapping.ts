@@ -2,19 +2,19 @@ import {
   CompleteDurationChange as CompleteDurationChangeEvent,
   ProposeDelegate as ProposeDelegateEvent,
   SetDelegate as SetDelegateEvent,
-  Transfer as TransferEvent,
+  Transfer as TransferEvent
 } from "../generated/StakingContract/StakingContract";
 import {
   CompleteDurationChange,
   ProposeDelegate,
   SetDelegate,
-  Transfer,
+  Transfer
 } from "../generated/schema";
 
 export function handleCompleteDurationChange(
   event: CompleteDurationChangeEvent
 ): void {
-  let entity = new CompleteDurationChange(
+  const entity = new CompleteDurationChange(
     event.transaction.hash.toHex() + "-" + event.logIndex.toString()
   );
   entity.newDuration = event.params.newDuration;
@@ -22,7 +22,7 @@ export function handleCompleteDurationChange(
 }
 
 export function handleProposeDelegate(event: ProposeDelegateEvent): void {
-  let entity = new ProposeDelegate(
+  const entity = new ProposeDelegate(
     event.transaction.hash.toHex() + "-" + event.logIndex.toString()
   );
   entity.delegate = event.params.delegate;
@@ -31,7 +31,7 @@ export function handleProposeDelegate(event: ProposeDelegateEvent): void {
 }
 
 export function handleSetDelegate(event: SetDelegateEvent): void {
-  let entity = new SetDelegate(
+  const entity = new SetDelegate(
     event.transaction.hash.toHex() + "-" + event.logIndex.toString()
   );
   entity.delegate = event.params.delegate;
@@ -40,7 +40,7 @@ export function handleSetDelegate(event: SetDelegateEvent): void {
 }
 
 export function handleTransfer(event: TransferEvent): void {
-  let entity = new Transfer(
+  const entity = new Transfer(
     event.transaction.hash.toHex() + "-" + event.logIndex.toString()
   );
   entity.from = event.params.from;

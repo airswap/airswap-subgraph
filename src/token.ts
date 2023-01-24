@@ -6,10 +6,10 @@ import * as utils from "./prices/common/utils";
 import { getUsdPricePerToken } from "./prices";
 
 export function handleTransfer(event: TransferEvent): void {
-  let entity = new TokenTransfer(event.transaction.hash.toHex());
+  const entity = new TokenTransfer(event.transaction.hash.toHex());
 
-  let fromUser = getUser(event.params._from.toHexString());
-  let toUser = getUser(event.params._to.toHexString());
+  const fromUser = getUser(event.params._from.toHexString());
+  const toUser = getUser(event.params._to.toHexString());
 
   fromUser.tokenBalance = fromUser.tokenBalance.minus(event.params._value);
   //   fromUser.tokenBalanceUSD = fromUser.tokenBalanceUSD.minus(tokenAmountUSD);

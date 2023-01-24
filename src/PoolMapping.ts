@@ -1,12 +1,12 @@
 import {
   SetMax as SetMaxEvent,
   SetScale as SetScaleEvent,
-  Withdraw as WithdrawEvent,
+  Withdraw as WithdrawEvent
 } from "../generated/PoolContract/PoolContract";
 import { SetMax, SetScale, PoolClaim } from "../generated/schema";
 
 export function handleSetMax(event: SetMaxEvent): void {
-  let entity = new SetMax(
+  const entity = new SetMax(
     event.transaction.hash.toHex() + "-" + event.logIndex.toString()
   );
   entity.max = event.params.max;
@@ -14,7 +14,7 @@ export function handleSetMax(event: SetMaxEvent): void {
 }
 
 export function handleSetScale(event: SetScaleEvent): void {
-  let entity = new SetScale(
+  const entity = new SetScale(
     event.transaction.hash.toHex() + "-" + event.logIndex.toString()
   );
   entity.scale = event.params.scale;
@@ -22,7 +22,7 @@ export function handleSetScale(event: SetScaleEvent): void {
 }
 
 export function handleWithdraw(event: WithdrawEvent): void {
-  let entity = new PoolClaim(
+  const entity = new PoolClaim(
     event.transaction.hash.toHex() + "-" + event.logIndex.toString()
   );
   entity.nonce = event.params.nonce;

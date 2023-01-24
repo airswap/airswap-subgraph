@@ -7,10 +7,10 @@ export function updateDailySwapVolume(
   swapValue: BigDecimal
 ): void {
   //the following uses integer division based on the number of seconds in a day to generate the id and date
-  let dayId = event.block.timestamp.toI32() / 86400;
-  let dayStartTimestamp = dayId * 86400;
+  const dayId = event.block.timestamp.toI32() / 86400;
+  const dayStartTimestamp = dayId * 86400;
 
-  let dailyVolume = getDailySwapVolume(dayId.toString());
+  const dailyVolume = getDailySwapVolume(dayId.toString());
   //setup the dayStartTimeStamp if the entity is new
   if (dailyVolume.date == 0) {
     dailyVolume.date = dayStartTimestamp;
@@ -24,10 +24,10 @@ export function updateDailyFeesCollected(
   feeValueUsd: BigDecimal
 ): void {
   //the following uses integer division based on the number of seconds in a day to generate the id and date
-  let dayId = event.block.timestamp.toI32() / 86400;
-  let dayStartTimestamp = dayId * 86400;
+  const dayId = event.block.timestamp.toI32() / 86400;
+  const dayStartTimestamp = dayId * 86400;
 
-  let dailyFees = getDailyfeesCollected(dayId.toString());
+  const dailyFees = getDailyfeesCollected(dayId.toString());
   //setup the dayStartTimeStamp if the entity is new
   if (dailyFees.date == 0) {
     dailyFees.date = dayStartTimestamp;
