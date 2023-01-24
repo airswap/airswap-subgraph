@@ -12,13 +12,13 @@ export function handleTransfer(event: TransferEvent): void {
   let toUser = getUser(event.params._to.toHexString());
 
   fromUser.tokenBalance = fromUser.tokenBalance.minus(event.params._value);
-//   fromUser.tokenBalanceUSD = fromUser.tokenBalanceUSD.minus(tokenAmountUSD);
+  //   fromUser.tokenBalanceUSD = fromUser.tokenBalanceUSD.minus(tokenAmountUSD);
   fromUser.totalTransfers = fromUser.totalTransfers.plus(BigInt.fromI32(1));
 
   fromUser.save();
 
   toUser.tokenBalance = toUser.tokenBalance.plus(event.params._value);
-//   fromUser.tokenBalanceUSD = fromUser.tokenBalanceUSD.plus(tokenAmountUSD);
+  //   fromUser.tokenBalanceUSD = fromUser.tokenBalanceUSD.plus(tokenAmountUSD);
   toUser.totalTransfers = toUser.totalTransfers.plus(BigInt.fromI32(1));
   toUser.save();
 

@@ -1,5 +1,11 @@
 import { BigDecimal, BigInt } from "@graphprotocol/graph-ts";
-import { User, Token, DailySwapVolume, FeePerDay, AstDailySnapshot } from "../generated/schema";
+import {
+  User,
+  Token,
+  DailySwapVolume,
+  FeePerDay,
+  AstDailySnapshot,
+} from "../generated/schema";
 import { _ERC20 } from "../generated/SwapContract/_ERC20";
 import { Transfer } from "../generated/AirswapToken/AirswapToken";
 
@@ -12,7 +18,7 @@ export function getUser(userAddress: string): User {
     // user.tokenBalanceUSD = BigDecimal.fromString('0');
     user.totalTransfers = BigInt.fromI32(1);
     user.authorizeAddress = new Array<string>();
-      user.save();
+    user.save();
   }
 
   return user as User;
@@ -51,7 +57,6 @@ export function getDailyfeesCollected(dayId: string): FeePerDay {
   return fees as FeePerDay;
 }
 
-
 export function getDailyTransferValue(dayId: string): AstDailySnapshot {
   let value = AstDailySnapshot.load(dayId);
   if (!value) {
@@ -63,17 +68,21 @@ export function getDailyTransferValue(dayId: string): AstDailySnapshot {
   return value as AstDailySnapshot;
 }
 
+export function updateDailyTransferValue(
+  event: Transfer,
+  swapValue: BigInt
+): void {
+  //the following uses integer division based on the number of seconds in a day to generate the id and date
+  let dayId = event.block.timestamp.toI32() / 86400;
+  let dayStartTimestamp = dayId * 86400;
 
-export function updateDailyTransferValue(event: Transfer, swapValue: BigInt): void {
-    //the following uses integer division based on the number of seconds in a day to generate the id and date
-    let dayId = event.block.timestamp.toI32() / 86400
-    let dayStartTimestamp = dayId * 86400
-  
-    let dailyVolume = getDailyTransferValue(dayId.toString())
-    //setup the dayStartTimeStamp if the entity is new
-    if (dailyVolume.date == 0) {
-        dailyVolume.date = dayStartTimestamp
-    }
-    dailyVolume.dailyTotalTransfer = dailyVolume.dailyTotalTransfer.plus(swapValue)
-    dailyVolume.save()
+  let dailyVolume = getDailyTransferValue(dayId.toString());
+  //setup the dayStartTimeStamp if the entity is new
+  if (dailyVolume.date == 0) {
+    dailyVolume.date = dayStartTimestamp;
+  }
+  dailyVolume.dailyTotalTransfer = dailyVolume.dailyTotalTransfer.plus(
+    swapValue
+  );
+  dailyVolume.save();
 }
