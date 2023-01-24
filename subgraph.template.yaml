@@ -230,11 +230,11 @@ dataSources:
           handler: handlePayeeRemoved
       file: ./src/ConverterMapping.ts
   - kind: ethereum
-    name: AirswapToken
+    name: AirSwapToken
     network: '{{network}}'
     source:
       address: '{{airswap_token}}'
-      abi: AirswapToken
+      abi: AirSwapToken
       startBlock: {{airswap_token_block}}
     mapping:
       kind: ethereum/events
@@ -243,8 +243,8 @@ dataSources:
       entities:
         - Transfer
       abis:
-        - name: AirswapToken
-          file: ./abis/AirswapToken.json
+        - name: AirSwapToken
+          file: ./abis/AirSwapToken.json
         - name: ERC20
           file: ./abis/ERC20.json
 
