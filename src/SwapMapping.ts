@@ -1,7 +1,7 @@
 import {
   Authorize as AuthorizeEvent,
   Cancel as CancelEvent,
-  Swap as SwapEvent
+  Swap as SwapEvent,
 } from "../generated/SwapContract/SwapContract";
 import { Cancel, Swap, SwapContract } from "../generated/schema";
 import { getUser, getToken } from "./EntityHelper";

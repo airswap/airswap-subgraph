@@ -6,10 +6,12 @@
   "pool_address" : "0xaeB0E11e7C21715b4e8F3425Cb3d4978e5a7cf11",
   "converter_address" : "0x191A6Da5543772779CaBa4730cEdb2fF030b8b13",
   "airswap_token" : "0x27054b13b1b798b345b591a4d22e6562d47ea75a",
+  "maker_address": "0x8F9DA6d38939411340b19401E8c54Ea1f51B8f95",
   "start_block_staking": 14359343,
   "start_block_swap": 14411563,
   "start_block_wrapper": 14364771,
   "start_block_pool": 14364525,
   "start_block_converter": 14364558,
-  "airswap_token_block": 4352086
+  "airswap_token_block": 4352086,
+  "maker_block": 12782029
 }

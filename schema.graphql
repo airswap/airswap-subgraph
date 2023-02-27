@@ -157,3 +157,23 @@ type TokenTransfer @entity {
   _to: User! # address
   _value: BigInt! # uint256
 }
+
+# maker
+type AddToken @entity(immutable: true) {
+  id: Bytes!
+  account: Bytes! # address
+  tokens: [Bytes!]! # address[]
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+
+type RemoveToken @entity(immutable: true) {
+  id: Bytes!
+  account: Bytes! # address
+  tokens: [Bytes!]! # address[]
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
