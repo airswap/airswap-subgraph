@@ -3,11 +3,22 @@ import {
   Cancel as CancelEvent,
   Swap as SwapEvent,
 } from "../generated/SwapContract/SwapContract";
-import { Cancel, Swap, SwapContract } from "../generated/schema";
-import { getUser, getToken } from "./EntityHelper";
+import {
+  Cancel,
+  Swap,
+  SwapContract,
+  SwapProtocolVolume,
+} from "../generated/schema";
+import {
+  getUser,
+  getToken,
+  SWAP_ADDRESS,
+  BIGDECIMAL_ZERO,
+  BIGDECIMAL_TWO,
+  BIGDECIMAL_TEN_THOUSAND,
+} from "./EntityHelper";
 import { getUsdPricePerToken } from "../src/prices";
 import * as utils from "./prices/common/utils";
-import { BigDecimal, BigInt } from "@graphprotocol/graph-ts";
 import { updateDailyFeesCollected, updateDailySwapVolume } from "./metrics";
 
 export function handleAuthorize(event: AuthorizeEvent): void {
@@ -71,16 +82,20 @@ export function handleSwap(event: SwapEvent): void {
     .times(signerTokenPrice.usdPrice)
     .div(signerTokenPrice.decimalsBaseTen);
 
-  const BIGINT_TWO = BigInt.fromI32(2);
-  const BIGDECIMAL_TWO = new BigDecimal(BIGINT_TWO);
-
   const sumSwap = senderAmountUSD.plus(signerAmountUSD);
   const avgSwap = sumSwap.div(BIGDECIMAL_TWO);
 
-  const BIGDECIMAL_10k = new BigDecimal(BigInt.fromI32(10000));
-
   const protocolFee = event.params.protocolFee;
-  const fees = avgSwap.times(protocolFee.toBigDecimal()).div(BIGDECIMAL_10k);
+  const fees = avgSwap
+    .times(protocolFee.toBigDecimal())
+    .div(BIGDECIMAL_TEN_THOUSAND);
+  let swapVolume = SwapProtocolVolume.load(SWAP_ADDRESS);
+  if (!swapVolume) {
+    swapVolume = new SwapProtocolVolume(SWAP_ADDRESS);
+    swapVolume.totalVolumeUSD = BIGDECIMAL_ZERO;
+    swapVolume.save();
+  }
+  swapVolume.totalVolumeUSD = swapVolume.totalVolumeUSD.plus(avgSwap);
 
   completedSwap.swap = swapContract.id;
   completedSwap.block = event.block.number;
@@ -106,6 +121,7 @@ export function handleSwap(event: SwapEvent): void {
   completedSwap.senderTokenPrice = senderTokenPrice.usdPrice;
   completedSwap.signerTokenPrice = signerTokenPrice.usdPrice;
   completedSwap.save();
+  swapVolume.save();
 
   updateDailySwapVolume(event, avgSwap);
   updateDailyFeesCollected(event, fees);

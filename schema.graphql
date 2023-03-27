@@ -177,3 +177,10 @@ type RemoveToken @entity(immutable: true) {
   blockTimestamp: BigInt!
   transactionHash: Bytes!
 }
+
+type SwapProtocolVolume @entity {
+  id: ID!
+
+  # total volume
+  totalVolumeUSD: BigDecimal!
+}
