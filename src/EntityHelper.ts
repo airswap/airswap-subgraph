@@ -4,10 +4,20 @@ import {
   Token,
   DailySwapVolume,
   FeePerDay,
-  AstDailySnapshot
+  AstDailySnapshot,
 } from "../generated/schema";
 import { _ERC20 } from "../generated/SwapContract/_ERC20";
 import { Transfer } from "../generated/AirswapToken/AirswapToken";
+
+export const SWAP_ADDRESS = "0x522D6F36c95A1b6509A14272C17747BbB582F2A6";
+
+export const BIGINT_ZERO = BigInt.fromI32(0);
+export const BIGINT_TWO = BigInt.fromI32(2);
+export const BIGINT_TEN_THOUSAND = BigInt.fromI32(10000);
+
+export const BIGDECIMAL_ZERO = new BigDecimal(BIGINT_ZERO);
+export const BIGDECIMAL_TWO = new BigDecimal(BIGINT_TWO);
+export const BIGDECIMAL_TEN_THOUSAND = new BigDecimal(BIGINT_TEN_THOUSAND);
 
 export function getUser(userAddress: string): User {
   let user = User.load(userAddress);
@@ -81,8 +91,7 @@ export function updateDailyTransferValue(
   if (dailyVolume.date == 0) {
     dailyVolume.date = dayStartTimestamp;
   }
-  dailyVolume.dailyTotalTransfer = dailyVolume.dailyTotalTransfer.plus(
-    swapValue
-  );
+  dailyVolume.dailyTotalTransfer =
+    dailyVolume.dailyTotalTransfer.plus(swapValue);
   dailyVolume.save();
 }

@@ -294,3 +294,26 @@ dataSources:
           handler: handleTransfer
       file: ./src/token.ts
 
+  - kind: ethereum
+    name: Registry
+    network: '{{network}}'
+    source:
+      address: '{{maker_address}}'
+      abi: Registry
+      startBlock: {{maker_block}}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - AddTokens
+        - RemoveTokens
+      abis:
+        - name: Registry
+          file: ./abis/Registry.json
+      eventHandlers:
+        - event: AddTokens(indexed address,address[])
+          handler: handleAddTokens
+        - event: RemoveTokens(indexed address,address[])
+          handler: handleRemoveTokens
+      file: ./src/registry.ts
