@@ -1,6 +1,6 @@
 {
-  "name": "@airswap/subgraph-v3",
-  "version": "0.0.1",
+  "name": "@airswap/subgraph",
+  "version": "3.0.0",
   "license": "MIT",
   "private": true,
   "scripts": {
@@ -14,6 +14,7 @@
     "deploy:kovan": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ AirSwap/AirSwap-Kovan",
     "deploy:goerli": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ AirSwap/AirSwap-Goerli",
     "deploy:bnb": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ AirSwap/AirSwap-BNB",
+    "lint": "yarn eslint . --ext .js,.ts --fix",
     "prepare:development": "mustache config/development.json subgraph.template.yaml > subgraph.yaml",
     "prepare:ethereum": "mustache config/ethereum.json subgraph.template.yaml > subgraph.yaml",
     "prepare:rinkeby": "mustache config/rinkeby.json subgraph.template.yaml > subgraph.yaml",
@@ -21,18 +22,19 @@
     "prepare:avalanche": "mustache config/avalanche.json subgraph.template.yaml > subgraph.yaml",
     "prepare:polygon": "mustache config/polygon.json subgraph.template.yaml > subgraph.yaml",
     "prepare:goerli": "mustache config/goerli.json subgraph.template.yaml > subgraph.yaml",
-    "prepare:bnb": "mustache config/bnb.json subgraph.template.yaml > subgraph.yaml"
+    "prepare:bnb": "mustache config/bnb.json subgraph.template.yaml > subgraph.yaml",
+    "pretty": "prettier --write \"./**/*.ts\""
   },
-  "dependencies": {
-    "@graphprotocol/graph-cli": "^0.33.0",
-    "@graphprotocol/graph-ts": "^0.27.0",
-    "@typescript-eslint/eslint-plugin": "^5.49.0",
-    "@typescript-eslint/parser": "^5.45.1",
-    "eslint": "^8.32.0",
-    "mustache": "^3.1.0",
-    "typescript": "^4.8.4",
-    "eslint-config-prettier": "^8.5.0",
+  "devDependencies": {
+    "@graphprotocol/graph-cli": "^0.44.0",
+    "@graphprotocol/graph-ts": "^0.29.3",
+    "@typescript-eslint/eslint-plugin": "^5.57.0",
+    "@typescript-eslint/parser": "^5.57.0",
+    "eslint": "^8.36.0",
+    "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "prettier": "^2.7.1"
+    "mustache": "^3.1.0",
+    "prettier": "^2.8.7",
+    "typescript": "^4.8.4"
   }
 }

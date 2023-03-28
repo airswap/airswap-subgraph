@@ -33,7 +33,7 @@ dataSources:
           handler: handleSetDelegate
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleTransfer
-      file: ./src/StakingMapping.ts
+      file: ./src/mappings/Staking.ts
   - kind: ethereum
     name: SwapContract
     network: '{{network}}'
@@ -60,7 +60,7 @@ dataSources:
       abis:
         - name: SwapContract
           file: ./abis/Swap.json
-        
+
         ###########################################
         ############## Price Oracle ###############
         ###########################################
@@ -109,7 +109,7 @@ dataSources:
           handler: handleCancel
         - event: Swap(indexed uint256,uint256,indexed address,address,uint256,uint256,indexed address,address,uint256)
           handler: handleSwap
-      file: ./src/SwapMapping.ts
+      file: ./src/mappings/Swap.ts
   - kind: ethereum
     name: WrapperContract
     network: '{{network}}'
@@ -130,7 +130,7 @@ dataSources:
       eventHandlers:
         - event: WrappedSwapFor(address)
           handler: handleWrappedSwapFor
-      file: ./src/WrapperMapping.ts
+      file: ./src/mappings/Wrapper.ts
   - kind: ethereum
     name: PoolContract
     network: '{{network}}'
@@ -200,35 +200,7 @@ dataSources:
           handler: handleSetScale
         - event: Withdraw(indexed uint256,indexed uint256,indexed address,address,uint256,uint256)
           handler: handleWithdraw
-      file: ./src/PoolMapping.ts
-  - kind: ethereum
-    name: Converter
-    network: '{{network}}'
-    source:
-      address: '{{converter_address}}'
-      abi: Converter
-      startBlock: {{start_block_converter}}
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.6
-      language: wasm/assemblyscript
-      entities:
-        - ConvertAndTransfer
-        - DrainTo
-        - OwnershipTransferred
-        - PayeeAdded
-        - PayeeRemoved
-      abis:
-        - name: Converter
-          file: ./abis/Converter.json
-      eventHandlers:
-        - event: ConvertAndTransfer(address,address,address,uint256,uint256,address[])
-          handler: handleConvertAndTransfer
-        - event: PayeeAdded(address,uint256)
-          handler: handlePayeeAdded
-        - event: PayeeRemoved(address)
-          handler: handlePayeeRemoved
-      file: ./src/ConverterMapping.ts
+      file: ./src/mappings/Pool.ts
   - kind: ethereum
     name: AirSwapToken
     network: '{{network}}'
@@ -292,7 +264,7 @@ dataSources:
       eventHandlers:
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleTransfer
-      file: ./src/token.ts
+      file: ./src/mappings/ERC20.ts
 
   - kind: ethereum
     name: Registry
@@ -316,4 +288,4 @@ dataSources:
           handler: handleAddTokens
         - event: RemoveTokens(indexed address,address[])
           handler: handleRemoveTokens
-      file: ./src/registry.ts
+      file: ./src/mappings/Registry.ts

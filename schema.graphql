@@ -23,7 +23,6 @@ type Transfer @entity {
   tokens: BigInt! # uint256
 }
 
-
 # Swap
 type User @entity {
   id: ID! # wallet address
@@ -32,7 +31,6 @@ type User @entity {
   # tokenBalanceUSD: BigDecimal!
   totalTransfers: BigInt!
 }
-
 
 type SwapContract @entity {
   id: ID! # address of the swap contract
@@ -86,7 +84,6 @@ type DailySwapVolume @entity {
   date: Int!
   amount: BigDecimal!
 }
-
 
 type FeePerDay @entity {
   id: ID!
@@ -143,13 +140,11 @@ type PayeeRemoved @entity {
   account: Bytes! # address
 }
 
-
 type AstDailySnapshot @entity {
   id: ID!
   date: Int!
   dailyTotalTransfer: BigInt!
 }
-
 
 type TokenTransfer @entity {
   id: ID! # tx-hash
@@ -167,7 +162,6 @@ type AddToken @entity(immutable: true) {
   blockTimestamp: BigInt!
   transactionHash: Bytes!
 }
-
 
 type RemoveToken @entity(immutable: true) {
   id: Bytes!
