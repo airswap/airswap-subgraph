@@ -1,75 +1,21 @@
 # AirSwap Subgraph
 
-AirSwap subgraph for [The Graph](https://thegraph.com/).
+Latest is deployed at [3xdURMor7NCcFs1g1Ff7JjnASQcgDyGsGY3Ba5n8VRDL](https://thegraph.com/explorer/subgraphs/3xdURMor7NCcFs1g1Ff7JjnASQcgDyGsGY3Ba5n8VRDL)
 
+**Quick Start**
+Follow the official [quick start](https://thegraph.com/docs/en/cookbook/quick-start/) to develop, build, and deploy the subgraph.
 
-**Subgraph Studio** - https://thegraph.com/explorer/subgraphs/3xdURMor7NCcFs1g1Ff7JjnASQcgDyGsGY3Ba5n8VRDL?view=Overview
-
-
-# Get Started
-
-## Build Graph
-
-AirSwap is deployed to the following chains. Generate the `subgraph.yaml` manifest files for each chain using the commands below.
-
-**Ethereum**
+**Manifests**
+Before running `codegen` a `subgraph.yaml` manifest needs to be generated. Each chain requires its own. Use the `prepare` script to prepare a manifest for a specific chain.
 
 ```
-yarn prepare:ethereum
+yarn prepare:[network]
 ```
 
-**BNB Chain**
+Where `network` is `ethereum`, `bnb`, `avalanche`, or `polygon`.
 
-```
-yarn prepare:bnb
-```
-
-**Avalanche**
-
-```
-yarn prepare:avalanche
-```
-
-**Polygon**
-
-```
-yarn prepare:polygon
-```
-## Authorize, Generate and Deploy Code
-
-After generating the subgraph.yaml file, authorize graph cli.
-### Auth 
-
-```
-graph auth --studio <deploy-key>
-```
-
-
-```
-graph codegen
-```
-
-
-### Build
-
-```
-graph build
-
-```
-
-### Deploy
-```
-graph deploy --studio airswap-v3
-```
-
-**Note:** 
-This subgraph uses the messari price library to get token prices in USD.
-
-https://github.com/messari/subgraphs/tree/master/subgraphs/_reference_/src/prices
-## Subgraph Documentation
-
-<!-- AirSwap v3 Documentation can be found here -> https://hackmd.io/@6Vt_l5I0TP6t3O_awqTYkA/ryKJ5FIss -->
-
+**Pricing**
+This subgraph uses the [Messari Price Oracle](https://github.com/messari/subgraphs/tree/master/subgraphs/_reference_/src/prices) source code for asset pricing.
 
 **Test 1**
 
@@ -79,6 +25,7 @@ https://github.com/messari/subgraphs/tree/master/subgraphs/_reference_/src/price
 - Get the total daily AST transfer for Jan 18th, 2023, datetime is converted to unix timestamp.
 
 **Query**
+
 ```
 {
   astDailySnapshots(where: {date: 1674000000}) {
@@ -90,6 +37,7 @@ https://github.com/messari/subgraphs/tree/master/subgraphs/_reference_/src/price
 ```
 
 **Result**
+
 ```
 {
   "data": {
@@ -112,6 +60,7 @@ https://github.com/messari/subgraphs/tree/master/subgraphs/_reference_/src/price
 - Get the total daily Swap volume for Jan 18th, 2023, datetime is converted to unix timestamp.
 
 **Query**
+
 ```
 {
   dailySwapVolumes(where: {date: 1674000000}) {
@@ -123,6 +72,7 @@ https://github.com/messari/subgraphs/tree/master/subgraphs/_reference_/src/price
 ```
 
 **Result**
+
 ```
 {
   "data": {
@@ -145,6 +95,7 @@ https://github.com/messari/subgraphs/tree/master/subgraphs/_reference_/src/price
 - Get the total daily Swap fees for Jan 18th, 2023, datetime is converted to unix timestamp.
 
 **Query**
+
 ```
 {
   feePerDays(where: {date: 1674000000}) {
@@ -156,6 +107,7 @@ https://github.com/messari/subgraphs/tree/master/subgraphs/_reference_/src/price
 ```
 
 **Result**
+
 ```
 {
   "data": {
@@ -180,6 +132,7 @@ https://github.com/messari/subgraphs/tree/master/subgraphs/_reference_/src/price
 - etherscan link: https://etherscan.io/tx/0xb1e3fd07c73aaeb0645c97dc291c8bb182d7edec4c8d08aabf8617a98e760a56
 
 **Query**
+
 ```
 {
   swaps(
@@ -221,6 +174,7 @@ https://github.com/messari/subgraphs/tree/master/subgraphs/_reference_/src/price
 ```
 
 **Result**
+
 ```
 {
   "data": {
@@ -263,7 +217,6 @@ https://github.com/messari/subgraphs/tree/master/subgraphs/_reference_/src/price
 }
 ```
 
-
 **Test 5**
 
 **Users**
@@ -272,6 +225,7 @@ https://github.com/messari/subgraphs/tree/master/subgraphs/_reference_/src/price
 - Get user balance and total AST transfer
 
 **Query**
+
 ```
 {
   users(first: 3) {
@@ -283,6 +237,7 @@ https://github.com/messari/subgraphs/tree/master/subgraphs/_reference_/src/price
 ```
 
 **Result**
+
 ```
 {
   "data": {
@@ -310,6 +265,7 @@ https://github.com/messari/subgraphs/tree/master/subgraphs/_reference_/src/price
 - Get the first 3 users with total balance greater than **78000000**
 
 **Query**
+
 ```
 {
   users(where: {tokenBalance_gt: "78000000"}, first: 3) {
@@ -321,6 +277,7 @@ https://github.com/messari/subgraphs/tree/master/subgraphs/_reference_/src/price
 ```
 
 **Result**
+
 ```
 {
   "data": {
@@ -344,4 +301,3 @@ https://github.com/messari/subgraphs/tree/master/subgraphs/_reference_/src/price
   }
 }
 ```
-
