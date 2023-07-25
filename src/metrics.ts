@@ -1,37 +1,63 @@
-import { BigDecimal } from '@graphprotocol/graph-ts'
-import { getDailyfeesCollected, getDailySwapVolume } from './entities'
-import { SwapERC20 as SwapEvent } from '../generated/SwapERC20Contract/SwapERC20Contract'
+import { BigDecimal, BigInt } from '@graphprotocol/graph-ts'
+import { SwapERC20 as SwapERC20Event } from '../generated/SwapERC20Contract/SwapERC20Contract'
+import { TotalVolume, DailyVolume, DailyFees } from '../generated/schema'
 
-export function updateDailySwapVolume(
-  event: SwapEvent,
+export const BIGINT_ZERO = BigInt.zero()
+export const BIGINT_TWO = BigInt.fromI32(2)
+export const BIGINT_TEN = BigInt.fromI32(10)
+export const BIGINT_TEN_THOUSAND = BigInt.fromI32(10000)
+
+export const BIGDECIMAL_ZERO = new BigDecimal(BIGINT_ZERO)
+export const BIGDECIMAL_TWO = new BigDecimal(BIGINT_TWO)
+export const BIGDECIMAL_TEN_THOUSAND = new BigDecimal(BIGINT_TEN_THOUSAND)
+
+export function updateVolumeEntity(
+  event: SwapERC20Event,
   swapValue: BigDecimal
 ): void {
-  //the following uses integer division based on the number of seconds in a day to generate the id and date
   const dayId = event.block.timestamp.toI32() / 86400
-  const dayStartTimestamp = dayId * 86400
 
-  const dailyVolume = getDailySwapVolume(dayId.toString())
-  //setup the dayStartTimeStamp if the entity is new
-  if (dailyVolume.date == 0) {
-    dailyVolume.date = dayStartTimestamp
+  let volume = DailyVolume.load(dayId.toString())
+  if (!volume) {
+    volume = new DailyVolume(dayId.toString())
+    volume.date = 0
+    volume.amount = BigDecimal.fromString('0')
+    volume.save()
   }
-  dailyVolume.amount = dailyVolume.amount.plus(swapValue)
-  dailyVolume.save()
+
+  if (volume.date == 0) {
+    volume.date = event.block.timestamp.toI32()
+  }
+  volume.amount = volume.amount.plus(swapValue)
+  volume.save()
+
+  let swapVolume = TotalVolume.load(event.address.toHex())
+  if (!swapVolume) {
+    swapVolume = new TotalVolume(event.address.toHex())
+    swapVolume.amount = BIGDECIMAL_ZERO
+    swapVolume.save()
+  }
+  swapVolume.amount = swapVolume.amount.plus(swapValue)
+  swapVolume.save()
 }
 
-export function updateDailyFeesCollected(
-  event: SwapEvent,
+export function updateFeesEntity(
+  event: SwapERC20Event,
   feeValueUsd: BigDecimal
 ): void {
-  //the following uses integer division based on the number of seconds in a day to generate the id and date
   const dayId = event.block.timestamp.toI32() / 86400
-  const dayStartTimestamp = dayId * 86400
 
-  const dailyFees = getDailyfeesCollected(dayId.toString())
-  //setup the dayStartTimeStamp if the entity is new
-  if (dailyFees.date == 0) {
-    dailyFees.date = dayStartTimestamp
+  let fees = DailyFees.load(dayId.toString())
+  if (!fees) {
+    fees = new DailyFees(dayId.toString())
+    fees.date = 0
+    fees.amount = BigDecimal.fromString('0')
+    fees.save()
   }
-  dailyFees.amount = dailyFees.amount.plus(feeValueUsd)
-  dailyFees.save()
+
+  if (fees.date == 0) {
+    fees.date = event.block.timestamp.toI32()
+  }
+  fees.amount = fees.amount.plus(feeValueUsd)
+  fees.save()
 }

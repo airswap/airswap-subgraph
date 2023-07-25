@@ -28,32 +28,22 @@ dataSources:
       abis:
         - name: SwapERC20Contract
           file: ./node_modules/@airswap/swap-erc20/build/contracts/SwapERC20.sol/SwapERC20.json
-        ###########################################
-        ############## Price Oracle ###############
-        ###########################################
-        # ERC20
         - name: _ERC20
           file: ./src/messari/abis/Prices/ERC20.json
-        # Curve Contracts
         - name: CurvePool
           file: ./src/messari/abis/Prices/Curve/Pool.json
         - name: CurveRegistry
           file: ./src/messari/abis/Prices/Curve/Registry.json
         - name: CalculationsCurve
           file: ./src/messari/abis/Prices/Calculations/Curve.json
-        # YearnLens Contracts
         - name: YearnLensContract
           file: ./src/messari/abis/Prices/YearnLens.json
-        # Aave Oracle Contract
         - name: AaveOracleContract
           file: ./src/messari/abis/Prices/AaveOracle.json
-        # SushiSwap Contracts
         - name: CalculationsSushiSwap
           file: ./src/messari/abis/Prices/Calculations/SushiSwap.json
-        # ChainLink Contracts
         - name: ChainLinkContract
           file: ./src/messari/abis/Prices/ChainLink.json
-        # Uniswap Contracts
         - name: UniswapRouter
           file: ./src/messari/abis/Prices/Uniswap/Router.json
         - name: UniswapFactory
@@ -61,63 +51,6 @@ dataSources:
         - name: UniswapPair
           file: ./src/messari/abis/Prices/Uniswap/Pair.json
       eventHandlers:
-        - event: Authorize(indexed address,indexed address)
-          handler: handleAuthorize
-        - event: Cancel(indexed uint256,indexed address)
-          handler: handleCancel
         - event: SwapERC20(indexed uint256,indexed address,address,uint256,uint256,indexed address,address,uint256)
-          handler: handleSwap
+          handler: handleSwapERC20
       file: ./src/mappings/SwapERC20.ts
-  - kind: ethereum/contract
-    name: WrapperContract
-    network: '{{network}}'
-    source:
-      address: '{{wrapper_address}}'
-      abi: WrapperContract
-      startBlock: {{wrapper_start_block}}
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.6
-      language: wasm/assemblyscript
-      entities:
-        - OwnershipTransferred
-        - WrappedSwapFor
-      abis:
-        - name: WrapperContract
-          file: ./node_modules/@airswap/wrapper/build/contracts/Wrapper.sol/Wrapper.json
-      eventHandlers:
-        - event: WrappedSwapFor(indexed address)
-          handler: handleWrappedSwapFor
-      file: ./src/mappings/Wrapper.ts
-  - kind: ethereum/contract
-    name: StakingContract
-    network: '{{network}}'
-    source:
-      address: '{{staking_address}}'
-      abi: StakingContract
-      startBlock: {{staking_start_block}}
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.6
-      language: wasm/assemblyscript
-      entities:
-        - CancelDurationChange
-        - CompleteDurationChange
-        - OwnershipTransferred
-        - ProposeDelegate
-        - ScheduleDurationChange
-        - SetDelegate
-        - Transfer
-      abis:
-        - name: StakingContract
-          file: ./node_modules/@airswap/staking/build/contracts/Staking.sol/Staking.json
-      eventHandlers:
-        - event: CompleteDurationChange(indexed uint256)
-          handler: handleCompleteDurationChange
-        - event: ProposeDelegate(indexed address,indexed address)
-          handler: handleProposeDelegate
-        - event: SetDelegate(indexed address,indexed address)
-          handler: handleSetDelegate
-        - event: Transfer(indexed address,indexed address,uint256)
-          handler: handleTransfer
-      file: ./src/mappings/Staking.ts

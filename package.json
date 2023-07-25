@@ -7,7 +7,7 @@
     "configure": "node scripts/configure.js",
     "codegen": "rm -rf ./generated; graph codegen",
     "build": "rm -rf ./build; graph build",
-    "deploy": "graph deploy --subgraph airswap",
+    "deploy": "graph deploy --studio airswap",
     "lint": "yarn eslint . --ext .js,.ts --fix",
     "pretty": "prettier --write \"./**/*.ts\""
   },
