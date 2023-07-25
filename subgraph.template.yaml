@@ -1,46 +1,14 @@
-specVersion: 0.0.2
+specVersion: 0.0.4
 schema:
   file: ./schema.graphql
 dataSources:
-  - kind: ethereum
-    name: StakingContract
+  - kind: ethereum/contract
+    name: SwapERC20Contract
     network: '{{network}}'
     source:
-      address: '{{staking_address}}'
-      abi: StakingContract
-      startBlock: {{start_block_staking}}
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.6
-      language: wasm/assemblyscript
-      entities:
-        - CancelDurationChange
-        - CompleteDurationChange
-        - OwnershipTransferred
-        - ProposeDelegate
-        - ScheduleDurationChange
-        - SetDelegate
-        - Transfer
-      abis:
-        - name: StakingContract
-          file: ./abis/Staking.json
-      eventHandlers:
-        - event: CompleteDurationChange(indexed uint256)
-          handler: handleCompleteDurationChange
-        - event: ProposeDelegate(indexed address,indexed address)
-          handler: handleProposeDelegate
-        - event: SetDelegate(indexed address,indexed address)
-          handler: handleSetDelegate
-        - event: Transfer(indexed address,indexed address,uint256)
-          handler: handleTransfer
-      file: ./src/mappings/Staking.ts
-  - kind: ethereum
-    name: SwapContract
-    network: '{{network}}'
-    source:
-      address: '{{swap_address}}'
-      abi: SwapContract
-      startBlock: {{start_block_swap}}
+      address: '{{swap_erc20_address}}'
+      abi: SwapERC20Contract
+      startBlock: {{swap_erc20_start_block}}
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -56,67 +24,57 @@ dataSources:
         - SetRebateMax
         - SetRebateScale
         - SetStaking
-        - Swap
+        - SwapERC20
       abis:
-        - name: SwapContract
-          file: ./abis/Swap.json
-
+        - name: SwapERC20Contract
+          file: ./node_modules/@airswap/swap-erc20/build/contracts/SwapERC20.sol/SwapERC20.json
         ###########################################
         ############## Price Oracle ###############
         ###########################################
         # ERC20
         - name: _ERC20
-          file: ./abis/Prices/ERC20.json
+          file: ./src/messari/abis/Prices/ERC20.json
         # Curve Contracts
+        - name: CurvePool
+          file: ./src/messari/abis/Prices/Curve/Pool.json
         - name: CurveRegistry
-          file: ./abis/Prices/Curve/Registry.json
-        - name: CurvePoolRegistry
-          file: ./abis/Prices/Curve/PoolRegistry.json
+          file: ./src/messari/abis/Prices/Curve/Registry.json
         - name: CalculationsCurve
-          file: ./abis/Prices/Calculations/Curve.json
+          file: ./src/messari/abis/Prices/Calculations/Curve.json
         # YearnLens Contracts
         - name: YearnLensContract
-          file: ./abis/Prices/YearnLens.json
+          file: ./src/messari/abis/Prices/YearnLens.json
+        # Aave Oracle Contract
+        - name: AaveOracleContract
+          file: ./src/messari/abis/Prices/AaveOracle.json
+        # SushiSwap Contracts
+        - name: CalculationsSushiSwap
+          file: ./src/messari/abis/Prices/Calculations/SushiSwap.json
         # ChainLink Contracts
         - name: ChainLinkContract
-          file: ./abis/Prices/ChainLink.json
-        # 1Inch Contracts
-        - name: OneInchOracleContract
-          file: ./abis/Prices/1Inch/Oracle.json
-        # Aave Contracts
-        - name: AaveOracleContract
-          file: ./abis/Prices/Aave/Oracle.json
+          file: ./src/messari/abis/Prices/ChainLink.json
         # Uniswap Contracts
         - name: UniswapRouter
-          file: ./abis/Prices/Uniswap/Router.json
+          file: ./src/messari/abis/Prices/Uniswap/Router.json
         - name: UniswapFactory
-          file: ./abis/Prices/Uniswap/Factory.json
+          file: ./src/messari/abis/Prices/Uniswap/Factory.json
         - name: UniswapPair
-          file: ./abis/Prices/Uniswap/Pair.json
-        # SushiSwap Contracts
-        - name: SushiSwapRouter
-          file: ./abis/Prices/SushiSwap/Router.json
-        - name: SushiSwapFactory
-          file: ./abis/Prices/SushiSwap/Factory.json
-        - name: SushiSwapPair
-          file: ./abis/Prices/SushiSwap/Pair.json
-        - name: CalculationsSushiSwap
-          file: ./abis/Prices/Calculations/SushiSwap.json
+          file: ./src/messari/abis/Prices/Uniswap/Pair.json
       eventHandlers:
         - event: Authorize(indexed address,indexed address)
           handler: handleAuthorize
         - event: Cancel(indexed uint256,indexed address)
           handler: handleCancel
-        - event: Swap(indexed uint256,uint256,indexed address,address,uint256,uint256,indexed address,address,uint256)
+        - event: SwapERC20(indexed uint256,indexed address,address,uint256,uint256,indexed address,address,uint256)
           handler: handleSwap
-      file: ./src/mappings/Swap.ts
-  - kind: ethereum
+      file: ./src/mappings/SwapERC20.ts
+  - kind: ethereum/contract
     name: WrapperContract
     network: '{{network}}'
     source:
       address: '{{wrapper_address}}'
       abi: WrapperContract
-      startBlock: {{start_block_wrapper}}
+      startBlock: {{wrapper_start_block}}
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -126,166 +84,40 @@ dataSources:
         - WrappedSwapFor
       abis:
         - name: WrapperContract
-          file: ./abis/Wrapper.json
+          file: ./node_modules/@airswap/wrapper/build/contracts/Wrapper.sol/Wrapper.json
       eventHandlers:
-        - event: WrappedSwapFor(address)
+        - event: WrappedSwapFor(indexed address)
           handler: handleWrappedSwapFor
       file: ./src/mappings/Wrapper.ts
-  - kind: ethereum
-    name: PoolContract
+  - kind: ethereum/contract
+    name: StakingContract
     network: '{{network}}'
     source:
-      address: '{{pool_address}}'
-      abi: PoolContract
-      startBlock: {{start_block_pool}}
+      address: '{{staking_address}}'
+      abi: StakingContract
+      startBlock: {{staking_start_block}}
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
-        - DrainTo
+        - CancelDurationChange
+        - CompleteDurationChange
         - OwnershipTransferred
-        - SetMax
-        - SetScale
-        - Withdraw
-      abis:
-        - name: PoolContract
-          file: ./abis/Pool.json
-
-      ###########################################
-        ############## Price Oracle ###############
-        ###########################################
-        # ERC20
-        - name: _ERC20
-          file: ./abis/Prices/ERC20.json
-        # Curve Contracts
-        - name: CurveRegistry
-          file: ./abis/Prices/Curve/Registry.json
-        - name: CurvePoolRegistry
-          file: ./abis/Prices/Curve/PoolRegistry.json
-        - name: CalculationsCurve
-          file: ./abis/Prices/Calculations/Curve.json
-        # YearnLens Contracts
-        - name: YearnLensContract
-          file: ./abis/Prices/YearnLens.json
-        # ChainLink Contracts
-        - name: ChainLinkContract
-          file: ./abis/Prices/ChainLink.json
-        # 1Inch Contracts
-        - name: OneInchOracleContract
-          file: ./abis/Prices/1Inch/Oracle.json
-        # Aave Contracts
-        - name: AaveOracleContract
-          file: ./abis/Prices/Aave/Oracle.json
-        # Uniswap Contracts
-        - name: UniswapRouter
-          file: ./abis/Prices/Uniswap/Router.json
-        - name: UniswapFactory
-          file: ./abis/Prices/Uniswap/Factory.json
-        - name: UniswapPair
-          file: ./abis/Prices/Uniswap/Pair.json
-        # SushiSwap Contracts
-        - name: SushiSwapRouter
-          file: ./abis/Prices/SushiSwap/Router.json
-        - name: SushiSwapFactory
-          file: ./abis/Prices/SushiSwap/Factory.json
-        - name: SushiSwapPair
-          file: ./abis/Prices/SushiSwap/Pair.json
-        - name: CalculationsSushiSwap
-          file: ./abis/Prices/Calculations/SushiSwap.json
-      eventHandlers:
-        - event: SetMax(uint256)
-          handler: handleSetMax
-        - event: SetScale(uint256)
-          handler: handleSetScale
-        - event: Withdraw(indexed uint256,indexed uint256,indexed address,address,uint256,uint256)
-          handler: handleWithdraw
-      file: ./src/mappings/Pool.ts
-  - kind: ethereum
-    name: AirSwapToken
-    network: '{{network}}'
-    source:
-      address: '{{airswap_token}}'
-      abi: AirSwapToken
-      startBlock: {{airswap_token_block}}
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.6
-      language: wasm/assemblyscript
-      entities:
+        - ProposeDelegate
+        - ScheduleDurationChange
+        - SetDelegate
         - Transfer
       abis:
-        - name: AirSwapToken
-          file: ./abis/AirSwapToken.json
-        - name: ERC20
-          file: ./abis/ERC20.json
-
-      ###########################################
-        ############## Price Oracle ###############
-        ###########################################
-        # ERC20
-        - name: _ERC20
-          file: ./abis/Prices/ERC20.json
-        # Curve Contracts
-        - name: CurveRegistry
-          file: ./abis/Prices/Curve/Registry.json
-        - name: CurvePoolRegistry
-          file: ./abis/Prices/Curve/PoolRegistry.json
-        - name: CalculationsCurve
-          file: ./abis/Prices/Calculations/Curve.json
-        # YearnLens Contracts
-        - name: YearnLensContract
-          file: ./abis/Prices/YearnLens.json
-        # ChainLink Contracts
-        - name: ChainLinkContract
-          file: ./abis/Prices/ChainLink.json
-        # 1Inch Contracts
-        - name: OneInchOracleContract
-          file: ./abis/Prices/1Inch/Oracle.json
-        # Aave Contracts
-        - name: AaveOracleContract
-          file: ./abis/Prices/Aave/Oracle.json
-        # Uniswap Contracts
-        - name: UniswapRouter
-          file: ./abis/Prices/Uniswap/Router.json
-        - name: UniswapFactory
-          file: ./abis/Prices/Uniswap/Factory.json
-        - name: UniswapPair
-          file: ./abis/Prices/Uniswap/Pair.json
-        # SushiSwap Contracts
-        - name: SushiSwapRouter
-          file: ./abis/Prices/SushiSwap/Router.json
-        - name: SushiSwapFactory
-          file: ./abis/Prices/SushiSwap/Factory.json
-        - name: SushiSwapPair
-          file: ./abis/Prices/SushiSwap/Pair.json
-        - name: CalculationsSushiSwap
-          file: ./abis/Prices/Calculations/SushiSwap.json
+        - name: StakingContract
+          file: ./node_modules/@airswap/staking/build/contracts/Staking.sol/Staking.json
       eventHandlers:
+        - event: CompleteDurationChange(indexed uint256)
+          handler: handleCompleteDurationChange
+        - event: ProposeDelegate(indexed address,indexed address)
+          handler: handleProposeDelegate
+        - event: SetDelegate(indexed address,indexed address)
+          handler: handleSetDelegate
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleTransfer
-      file: ./src/mappings/ERC20.ts
-
-  - kind: ethereum
-    name: Registry
-    network: '{{network}}'
-    source:
-      address: '{{maker_address}}'
-      abi: Registry
-      startBlock: {{maker_block}}
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.6
-      language: wasm/assemblyscript
-      entities:
-        - AddTokens
-        - RemoveTokens
-      abis:
-        - name: Registry
-          file: ./abis/Registry.json
-      eventHandlers:
-        - event: AddTokens(indexed address,address[])
-          handler: handleAddTokens
-        - event: RemoveTokens(indexed address,address[])
-          handler: handleRemoveTokens
-      file: ./src/mappings/Registry.ts
+      file: ./src/mappings/Staking.ts

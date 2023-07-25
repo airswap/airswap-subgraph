@@ -5,11 +5,15 @@ Latest is deployed at [3xdURMor7NCcFs1g1Ff7JjnASQcgDyGsGY3Ba5n8VRDL](https://the
 **Quick Start**
 Follow the official [quick start](https://thegraph.com/docs/en/cookbook/quick-start/) to develop, build, and deploy the subgraph.
 
+1. `yarn configure 1` – configure subgraph.yaml for specified network
+2. `yarn codegen` – generates classes for all smart contracts and events
+3. `yarn build` – compile the mappings to wasm for deployment
+
 **Manifests**
 Before running `codegen` a `subgraph.yaml` manifest needs to be generated. Each chain requires its own. Use the `prepare` script to prepare a manifest for a specific chain.
 
 ```
-yarn prepare:[network]
+yarn configure network
 ```
 
 Where `network` is `ethereum`, `bnb`, `avalanche`, or `polygon`.

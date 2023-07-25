@@ -1,12 +1,10 @@
 import {
   CompleteDurationChange as CompleteDurationChangeEvent,
-  ProposeDelegate as ProposeDelegateEvent,
   SetDelegate as SetDelegateEvent,
   Transfer as TransferEvent,
 } from '../../generated/StakingContract/StakingContract'
 import {
   CompleteDurationChange,
-  ProposeDelegate,
   SetDelegate,
   Transfer,
 } from '../../generated/schema'
@@ -18,15 +16,6 @@ export function handleCompleteDurationChange(
     event.transaction.hash.toHex() + '-' + event.logIndex.toString()
   )
   entity.newDuration = event.params.newDuration
-  entity.save()
-}
-
-export function handleProposeDelegate(event: ProposeDelegateEvent): void {
-  const entity = new ProposeDelegate(
-    event.transaction.hash.toHex() + '-' + event.logIndex.toString()
-  )
-  entity.delegate = event.params.delegate
-  entity.account = event.params.account
   entity.save()
 }
 

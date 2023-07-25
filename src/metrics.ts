@@ -1,6 +1,6 @@
 import { BigDecimal } from '@graphprotocol/graph-ts'
 import { getDailyfeesCollected, getDailySwapVolume } from './entities'
-import { Swap as SwapEvent } from '../generated/SwapContract/SwapContract'
+import { SwapERC20 as SwapEvent } from '../generated/SwapERC20Contract/SwapERC20Contract'
 
 export function updateDailySwapVolume(
   event: SwapEvent,
