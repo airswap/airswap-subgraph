@@ -3,7 +3,7 @@ const fs = require('fs')
 const Mustache = require('mustache')
 
 const { ChainIds, chainNames } = require('@airswap/constants')
-const { Staking, SwapERC20, Wrapper } = require('@airswap/libraries')
+const { SwapERC20 } = require('@airswap/libraries')
 
 async function main() {
   const chainId = Number(argv[2])
@@ -14,12 +14,8 @@ async function main() {
       fs.readFileSync('./subgraph.template.yaml').toString(),
       {
         network: ChainIds[chainId].toLowerCase(),
-        staking_address: Staking.getAddress(chainId),
-        staking_start_block: Staking.getBlock(chainId),
         swap_erc20_address: SwapERC20.getAddress(chainId),
         swap_erc20_start_block: SwapERC20.getBlock(chainId),
-        wrapper_address: Wrapper.getAddress(chainId),
-        wrapper_start_block: Wrapper.getBlock(chainId),
       }
     )
     fs.writeFileSync('./subgraph.yaml', content)

@@ -1,6 +1,6 @@
 import { BigDecimal, BigInt } from '@graphprotocol/graph-ts'
 import { SwapERC20 as SwapERC20Event } from '../generated/SwapERC20Contract/SwapERC20Contract'
-import { TotalVolume, DailyVolume, DailyFees } from '../generated/schema'
+import { Total, Daily } from '../generated/schema'
 
 export const BIGINT_ZERO = BigInt.zero()
 export const BIGINT_TWO = BigInt.fromI32(2)
@@ -11,53 +11,34 @@ export const BIGDECIMAL_ZERO = new BigDecimal(BIGINT_ZERO)
 export const BIGDECIMAL_TWO = new BigDecimal(BIGINT_TWO)
 export const BIGDECIMAL_TEN_THOUSAND = new BigDecimal(BIGINT_TEN_THOUSAND)
 
-export function updateVolumeEntity(
+export const SECONDS_IN_DAY = 86400
+
+export function updateMetrics(
   event: SwapERC20Event,
-  swapValue: BigDecimal
+  swapValue: BigDecimal,
+  feeValue: BigDecimal
 ): void {
-  const dayId = event.block.timestamp.toI32() / 86400
-
-  let volume = DailyVolume.load(dayId.toString())
-  if (!volume) {
-    volume = new DailyVolume(dayId.toString())
-    volume.date = 0
-    volume.amount = BigDecimal.fromString('0')
-    volume.save()
+  let total = Total.load(event.address.toHex())
+  if (!total) {
+    total = new Total(event.address.toHex())
+    total.volume = swapValue
+    total.fees = feeValue
+  } else {
+    total.volume = total.volume.plus(swapValue)
+    total.fees = total.fees.plus(feeValue)
   }
+  total.save()
 
-  if (volume.date == 0) {
-    volume.date = event.block.timestamp.toI32()
+  const dayId = event.block.timestamp.toI32() / SECONDS_IN_DAY
+  let daily = Daily.load(dayId.toString())
+  if (!daily) {
+    daily = new Daily(dayId.toString())
+    daily.date = event.block.timestamp.toI32()
+    daily.volume = swapValue
+    daily.fees = feeValue
+  } else {
+    daily.volume = daily.volume.plus(swapValue)
+    daily.fees = daily.fees.plus(feeValue)
   }
-  volume.amount = volume.amount.plus(swapValue)
-  volume.save()
-
-  let swapVolume = TotalVolume.load(event.address.toHex())
-  if (!swapVolume) {
-    swapVolume = new TotalVolume(event.address.toHex())
-    swapVolume.amount = BIGDECIMAL_ZERO
-    swapVolume.save()
-  }
-  swapVolume.amount = swapVolume.amount.plus(swapValue)
-  swapVolume.save()
-}
-
-export function updateFeesEntity(
-  event: SwapERC20Event,
-  feeValueUsd: BigDecimal
-): void {
-  const dayId = event.block.timestamp.toI32() / 86400
-
-  let fees = DailyFees.load(dayId.toString())
-  if (!fees) {
-    fees = new DailyFees(dayId.toString())
-    fees.date = 0
-    fees.amount = BigDecimal.fromString('0')
-    fees.save()
-  }
-
-  if (fees.date == 0) {
-    fees.date = event.block.timestamp.toI32()
-  }
-  fees.amount = fees.amount.plus(feeValueUsd)
-  fees.save()
+  daily.save()
 }

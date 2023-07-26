@@ -5,18 +5,13 @@ import { DEFAULT_USDC_DECIMALS } from '../messari/prices/common/constants'
 import { getTokenDecimals } from '../messari/prices/common/utils'
 
 import {
-  updateVolumeEntity,
-  updateFeesEntity,
+  updateMetrics,
   BIGINT_TEN,
   BIGDECIMAL_TWO,
   BIGDECIMAL_TEN_THOUSAND,
 } from '../metrics'
 
 export function handleSwapERC20(event: SwapERC20Event): void {
-  const swap = new SwapERC20(
-    event.params.signerWallet.toHex() + event.params.nonce.toString()
-  )
-
   const senderTokenPrice = getUsdPricePerToken(event.params.senderToken)
   const senderTokenDecimal = BIGINT_TEN.pow(
     getTokenDecimals(event.params.senderToken).toI32() as u8
@@ -37,17 +32,21 @@ export function handleSwapERC20(event: SwapERC20Event): void {
     .div(signerTokenDecimal)
     .times(signerTokenPrice.usdPrice)
 
-  const averageValue = senderAmountUSD
+  const swapValue = senderAmountUSD
     .plus(signerAmountUSD)
     .div(BIGDECIMAL_TWO)
     .truncate(DEFAULT_USDC_DECIMALS)
-  updateVolumeEntity(event, averageValue)
 
-  const feeValue = averageValue
+  const feeValue = swapValue
     .times(event.params.protocolFee.toBigDecimal())
     .div(BIGDECIMAL_TEN_THOUSAND)
     .truncate(DEFAULT_USDC_DECIMALS)
-  updateFeesEntity(event, feeValue)
+
+  updateMetrics(event, swapValue, feeValue)
+
+  const swap = new SwapERC20(
+    `${event.params.signerWallet.toHex()}${event.params.nonce.toString()}`
+  )
 
   swap.hash = event.transaction.hash
   swap.block = event.block.number

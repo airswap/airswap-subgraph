@@ -1,5 +1,5 @@
 #
-# SwapERC20
+# SwapERC20Contract
 #
 
 type SwapERC20 @entity {
@@ -29,19 +29,15 @@ type SwapERC20 @entity {
 # Aggregates
 #
 
-type DailyVolume @entity {
+type Daily @entity {
   id: ID!
   date: Int!
-  amount: BigDecimal!
+  volume: BigDecimal!
+  fees: BigDecimal!
 }
 
-type DailyFees @entity {
+type Total @entity {
   id: ID!
-  date: Int!
-  amount: BigDecimal!
-}
-
-type TotalVolume @entity {
-  id: ID!
-  amount: BigDecimal!
+  volume: BigDecimal!
+  fees: BigDecimal!
 }
