@@ -3,3 +3,4 @@ generated/
 build/
 src/prices/
 legacy/v2/
+messari/

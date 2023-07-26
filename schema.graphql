@@ -1,180 +1,43 @@
-# Staking
-type CompleteDurationChange @entity {
+#
+# SwapERC20Contract
+#
+
+type SwapERC20 @entity {
   id: ID!
-  newDuration: BigInt! # uint256
-}
-
-type ProposeDelegate @entity {
-  id: ID!
-  delegate: Bytes! # address
-  account: Bytes! # address
-}
-
-type SetDelegate @entity {
-  id: ID!
-  delegate: Bytes! # address
-  account: Bytes! # address
-}
-
-type Transfer @entity {
-  id: ID!
-  from: Bytes! # address
-  to: Bytes! # address
-  tokens: BigInt! # uint256
-}
-
-# Swap
-type User @entity {
-  id: ID! # wallet address
-  authorizeAddress: [User!]! # signers this user has authorized
-  tokenBalance: BigInt!
-  # tokenBalanceUSD: BigDecimal!
-  totalTransfers: BigInt!
-}
-
-type SwapContract @entity {
-  id: ID! # address of the swap contract
-}
-
-type Token @entity {
-  id: ID! # token address
-  isBlacklisted: Boolean
-}
-
-type Authorize @entity {
-  id: ID!
-  signer: Bytes! # address
-  signerWallet: Bytes! # address
-}
-
-type Cancel @entity {
-  id: ID!
-  nonce: BigInt! # uint256
-  signerWallet: Bytes! # address
-}
-
-type Swap @entity {
-  id: ID!
-  swap: SwapContract! # address of swap contract that executed this order
-  block: BigInt! # The block this swap was executed at
-  transactionHash: Bytes! # The transaction hash the swap was executed at
-  from: Bytes! # address of the originator of the transaction
-  to: Bytes # who the originator sent the transaction to
-  value: BigInt! # value sent with the transaction
-  nonce: BigInt! # uint256
-  expiry: BigInt!
-  timestamp: BigInt! # uint256
-  signerWallet: User! # address
-  signerToken: Token! # address
-  protocolFee: BigInt! # uint256
-  senderWallet: User! # address
-  senderToken: Token! # address
-  senderAmountUSD: BigDecimal!
-  signerAmountUSD: BigDecimal!
+  hash: Bytes!
+  block: BigInt!
+  sender: Bytes!
+  contract: Bytes!
+  timestamp: BigInt!
+  nonce: BigInt!
+  signerWallet: Bytes!
+  signerToken: Bytes!
+  senderWallet: Bytes!
+  senderToken: Bytes!
   signerAmount: BigInt!
   senderAmount: BigInt!
-  signerTokenDecimal: BigDecimal!
-  senderTokenDecimal: BigDecimal!
-  signerTokenPrice: BigDecimal!
+  protocolFee: BigInt!
+  senderAmountUSD: BigDecimal!
+  signerAmountUSD: BigDecimal!
   senderTokenPrice: BigDecimal!
+  signerTokenPrice: BigDecimal!
+  senderTokenDecimal: BigDecimal!
+  signerTokenDecimal: BigDecimal!
 }
 
-type DailySwapVolume @entity {
+#
+# Aggregates
+#
+
+type Daily @entity {
   id: ID!
   date: Int!
-  amount: BigDecimal!
+  volume: BigDecimal!
+  fees: BigDecimal!
 }
 
-type FeePerDay @entity {
+type Total @entity {
   id: ID!
-  date: Int!
-  amount: BigDecimal!
-}
-
-# wrapper
-type WrappedSwapFor @entity {
-  id: ID!
-  senderWallet: Bytes! # address
-}
-
-# pool
-type SetMax @entity {
-  id: ID!
-  max: BigInt! # uint256
-}
-
-type SetScale @entity {
-  id: ID!
-  scale: BigInt! # uint256
-}
-
-type PoolClaim @entity {
-  id: ID!
-  nonce: BigInt! # uint256
-  timestamp: BigInt!
-  expiry: BigInt! # uint256
-  account: Bytes! # address
-  token: Bytes! # address
-  amount: BigInt! # uint256
-  score: BigInt! # uint256
-}
-
-# converter
-type ConvertAndTransfer @entity {
-  id: ID!
-  triggerAccount: Bytes! # address
-  swapFromToken: Bytes! # address
-  swapToToken: Bytes! # address
-  amountTokenFrom: BigInt! # uint256
-  amountTokenTo: BigInt! # uint256
-}
-
-type PayeeAdded @entity {
-  id: ID!
-  account: Bytes! # address
-  shares: BigInt! # uint256
-}
-
-type PayeeRemoved @entity {
-  id: ID!
-  account: Bytes! # address
-}
-
-type AstDailySnapshot @entity {
-  id: ID!
-  date: Int!
-  dailyTotalTransfer: BigInt!
-}
-
-type TokenTransfer @entity {
-  id: ID! # tx-hash
-  _from: User! # address
-  _to: User! # address
-  _value: BigInt! # uint256
-}
-
-# maker
-type AddToken @entity(immutable: true) {
-  id: Bytes!
-  account: Bytes! # address
-  tokens: [Bytes!]! # address[]
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type RemoveToken @entity(immutable: true) {
-  id: Bytes!
-  account: Bytes! # address
-  tokens: [Bytes!]! # address[]
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type SwapProtocolVolume @entity {
-  id: ID!
-
-  # total volume
-  totalVolumeUSD: BigDecimal!
+  volume: BigDecimal!
+  fees: BigDecimal!
 }

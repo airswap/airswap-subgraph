@@ -1,37 +1,44 @@
-import { BigDecimal } from '@graphprotocol/graph-ts'
-import { getDailyfeesCollected, getDailySwapVolume } from './entities'
-import { Swap as SwapEvent } from '../generated/SwapContract/SwapContract'
+import { BigDecimal, BigInt } from '@graphprotocol/graph-ts'
+import { SwapERC20 as SwapERC20Event } from '../generated/SwapERC20Contract/SwapERC20Contract'
+import { Total, Daily } from '../generated/schema'
 
-export function updateDailySwapVolume(
-  event: SwapEvent,
-  swapValue: BigDecimal
+export const BIGINT_ZERO = BigInt.zero()
+export const BIGINT_TWO = BigInt.fromI32(2)
+export const BIGINT_TEN = BigInt.fromI32(10)
+export const BIGINT_TEN_THOUSAND = BigInt.fromI32(10000)
+
+export const BIGDECIMAL_ZERO = new BigDecimal(BIGINT_ZERO)
+export const BIGDECIMAL_TWO = new BigDecimal(BIGINT_TWO)
+export const BIGDECIMAL_TEN_THOUSAND = new BigDecimal(BIGINT_TEN_THOUSAND)
+
+export const SECONDS_IN_DAY = 86400
+
+export function updateMetrics(
+  event: SwapERC20Event,
+  swapValue: BigDecimal,
+  feeValue: BigDecimal
 ): void {
-  //the following uses integer division based on the number of seconds in a day to generate the id and date
-  const dayId = event.block.timestamp.toI32() / 86400
-  const dayStartTimestamp = dayId * 86400
-
-  const dailyVolume = getDailySwapVolume(dayId.toString())
-  //setup the dayStartTimeStamp if the entity is new
-  if (dailyVolume.date == 0) {
-    dailyVolume.date = dayStartTimestamp
+  let total = Total.load(event.address.toHex())
+  if (!total) {
+    total = new Total(event.address.toHex())
+    total.volume = swapValue
+    total.fees = feeValue
+  } else {
+    total.volume = total.volume.plus(swapValue)
+    total.fees = total.fees.plus(feeValue)
   }
-  dailyVolume.amount = dailyVolume.amount.plus(swapValue)
-  dailyVolume.save()
-}
+  total.save()
 
-export function updateDailyFeesCollected(
-  event: SwapEvent,
-  feeValueUsd: BigDecimal
-): void {
-  //the following uses integer division based on the number of seconds in a day to generate the id and date
-  const dayId = event.block.timestamp.toI32() / 86400
-  const dayStartTimestamp = dayId * 86400
-
-  const dailyFees = getDailyfeesCollected(dayId.toString())
-  //setup the dayStartTimeStamp if the entity is new
-  if (dailyFees.date == 0) {
-    dailyFees.date = dayStartTimestamp
+  const dayId = event.block.timestamp.toI32() / SECONDS_IN_DAY
+  let daily = Daily.load(dayId.toString())
+  if (!daily) {
+    daily = new Daily(dayId.toString())
+    daily.date = event.block.timestamp.toI32()
+    daily.volume = swapValue
+    daily.fees = feeValue
+  } else {
+    daily.volume = daily.volume.plus(swapValue)
+    daily.fees = daily.fees.plus(feeValue)
   }
-  dailyFees.amount = dailyFees.amount.plus(feeValueUsd)
-  dailyFees.save()
+  daily.save()
 }
