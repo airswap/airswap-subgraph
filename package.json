@@ -12,8 +12,8 @@
     "pretty": "prettier --write \"./**/*.ts\""
   },
   "devDependencies": {
-    "@airswap/constants": "4.0.10",
-    "@airswap/libraries": "4.0.19",
+    "@airswap/constants": "4.1.3",
+    "@airswap/libraries": "4.1.10",
     "@graphprotocol/graph-cli": "^0.53.0",
     "@graphprotocol/graph-ts": "^0.31.0",
     "@typescript-eslint/eslint-plugin": "^6.2.0",

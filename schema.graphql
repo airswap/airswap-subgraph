@@ -16,7 +16,7 @@ type SwapERC20 @entity {
   senderToken: Bytes!
   signerAmount: BigInt!
   senderAmount: BigInt!
-  protocolFee: BigInt!
+  feeAmount: BigInt!
   senderAmountUSD: BigDecimal!
   signerAmountUSD: BigDecimal!
   senderTokenPrice: BigDecimal!

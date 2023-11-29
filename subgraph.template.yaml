@@ -1,4 +1,4 @@
-specVersion: 0.0.4
+specVersion: 0.0.5
 schema:
   file: ./schema.graphql
 dataSources:
@@ -11,7 +11,7 @@ dataSources:
       startBlock: {{swap_erc20_start_block}}
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.6
+      apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
         - Authorize
@@ -51,6 +51,7 @@ dataSources:
         - name: UniswapPair
           file: ./src/messari/abis/Prices/Uniswap/Pair.json
       eventHandlers:
-        - event: SwapERC20(indexed uint256,indexed address,address,uint256,uint256,indexed address,address,uint256)
+        - event: SwapERC20(indexed uint256,indexed address)
           handler: handleSwapERC20
+          receipt: true
       file: ./src/mappings/SwapERC20.ts
