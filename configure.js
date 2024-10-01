@@ -2,8 +2,9 @@ const { argv } = require('node:process')
 const fs = require('fs')
 const Mustache = require('mustache')
 
-const { ChainIds, chainNames } = require('@airswap/constants')
-const { SwapERC20 } = require('@airswap/libraries')
+const { ChainIds, chainNames } = require('@airswap/utils')
+const deploys = require('@airswap/swap-erc20/deploys')
+const blocks = require('@airswap/swap-erc20/deploys-blocks')
 
 async function main() {
   const chainId = Number(argv[2])
@@ -14,8 +15,8 @@ async function main() {
       fs.readFileSync('./subgraph.template.yaml').toString(),
       {
         network: ChainIds[chainId].toLowerCase(),
-        swap_erc20_address: SwapERC20.getAddress(chainId),
-        swap_erc20_start_block: SwapERC20.getBlock(chainId),
+        swap_erc20_address: deploys[chainId],
+        swap_erc20_start_block: blocks[chainId],
       }
     )
     fs.writeFileSync('./subgraph.yaml', content)

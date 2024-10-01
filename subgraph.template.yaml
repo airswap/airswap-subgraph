@@ -1,33 +1,25 @@
-specVersion: 0.0.4
+specVersion: 1.0.0
+indexerHints:
+  prune: auto
 schema:
   file: ./schema.graphql
 dataSources:
-  - kind: ethereum/contract
+  - kind: ethereum
     name: SwapERC20Contract
-    network: '{{network}}'
+    network: "{{network}}"
     source:
-      address: '{{swap_erc20_address}}'
+      address: "{{swap_erc20_address}}"
       abi: SwapERC20Contract
       startBlock: {{swap_erc20_start_block}}
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.6
+      apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
-        - Authorize
-        - Cancel
-        - OwnershipTransferred
-        - Revoke
-        - SetProtocolFee
-        - SetProtocolFeeLight
-        - SetProtocolFeeWallet
-        - SetRebateMax
-        - SetRebateScale
-        - SetStaking
         - SwapERC20
       abis:
         - name: SwapERC20Contract
-          file: ./node_modules/@airswap/swap-erc20/build/contracts/SwapERC20.sol/SwapERC20.json
+          file: ./abis/SwapERC20.json
         - name: _ERC20
           file: ./src/messari/abis/Prices/ERC20.json
         - name: CurvePool
@@ -51,6 +43,6 @@ dataSources:
         - name: UniswapPair
           file: ./src/messari/abis/Prices/Uniswap/Pair.json
       eventHandlers:
-        - event: SwapERC20(indexed uint256,indexed address,address,uint256,uint256,indexed address,address,uint256)
+        - event: SwapERC20(indexed uint256,indexed address)
           handler: handleSwapERC20
-      file: ./src/mappings/SwapERC20.ts
+      file: ./src/swaps.ts

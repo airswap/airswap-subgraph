@@ -12,7 +12,10 @@
     "es6": true,
     "node": true
   },
-  "plugins": ["prettier", "@typescript-eslint"],
+  "plugins": [
+    "prettier",
+    "@typescript-eslint"
+  ],
   "extends": [
     "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended"

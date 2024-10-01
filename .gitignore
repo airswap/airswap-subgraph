@@ -1,20 +1,36 @@
-node_modules
-yarn-error.log
-lerna-debug.log
-.DS_Store
-*.swp
-*.orig
-coverage.json
-coverage
-build
-flatten/
-.env
-venv
-.vscode/
-.idea/
+# Graph CLI generated artifacts
+build/
+generated/
 subgraph.yaml
-**/subgraph/generated
-**/subgraph-v3/generated
-artifacts/
-cache/
-generated
+tests/.bin
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# dotenv environment variables file
+.env
+
+# Testing
+coverage
+coverage.json
+
+# Typechain
+typechain
+typechain-types
+
+# Hardhat files
+cache
