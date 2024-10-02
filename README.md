@@ -1,6 +1,6 @@
 # AirSwap Subgraph
 
-Latest is deployed at [3xdURMor7NCcFs1g1Ff7JjnASQcgDyGsGY3Ba5n8VRDL](https://thegraph.com/explorer/subgraphs/3xdURMor7NCcFs1g1Ff7JjnASQcgDyGsGY3Ba5n8VRDL)
+Latest is deployed at [7ruo9nxQ3LUqnKkbLgmETDQ27j6A2DFx5L5eV6MS2TAz](https://thegraph.com/explorer/subgraphs/7ruo9nxQ3LUqnKkbLgmETDQ27j6A2DFx5L5eV6MS2TAz?view=Query&chain=arbitrum-one)
 
 **Quick Start**
 
