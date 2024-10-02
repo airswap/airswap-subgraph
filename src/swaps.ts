@@ -8,26 +8,32 @@ import { getTokenDecimals } from './messari/prices/common/utils'
 import {
   Address,
   BigInt,
+  Bytes,
   ByteArray,
   crypto,
   ethereum,
-  log
 } from '@graphprotocol/graph-ts'
 
-import {
-  updateMetrics,
-  BIGINT_TEN,
-  BIGDECIMAL_TWO,
-  BIGDECIMAL_TEN_THOUSAND,
-  BIGINT_ZERO,
-} from './metrics'
+import { updateMetrics, BIGINT_TEN, BIGINT_ZERO } from './metrics'
 
-const PROTOCOL_FEE_RECEIVER_ADDRESS =
-  '0xaD30f7EEBD9Bd5150a256F47DA41d4403033CdF0'
+const PROTOCOL_FEE_RECEIVER = Address.fromString(
+  '0xad30f7eebd9bd5150a256f47da41d4403033cdf0'
+)
 
+const TRANSFER_TOPIC_HASH = crypto.keccak256(
+  ByteArray.fromUTF8('Transfer(address,address,uint256)')
+)
 const TRANSFER_TOPIC = 0
 const FROM_TOPIC = 1
 const TO_TOPIC = 2
+
+function getAddress(topic: Bytes): Address {
+  return ethereum.decode('address', topic)!.toAddress()
+}
+
+function getAmount(data: Bytes): BigInt {
+  return ethereum.decode('uint256', data)!.toBigInt()
+}
 
 export function handleSwapERC20(event: SwapERC20Event): void {
   const logs = event.receipt!.logs || []
@@ -40,60 +46,52 @@ export function handleSwapERC20(event: SwapERC20Event): void {
   let senderAmount: BigInt = BIGINT_ZERO
 
   let i = logs.length
+  let j = logs.length
+  let ilog: ethereum.Log
+  let jlog: ethereum.Log
+  let ifrom: Address
+  let ito: Address
+  let jfrom: Address
+  let jto: Address
+
+  // SwapERC20 only includes nonce and signerWallet.
+  // Remaining swap fields are derived from mutual transfers.
+  // Iterate over logs to find mutual transfers.
   while (i--) {
-    const logi = logs.at(i)
-    if (
-      logi.topics.length &&
-      crypto
-        .keccak256(ByteArray.fromUTF8('Transfer(address,address,uint256)'))
-        .equals(logi.topics.at(TRANSFER_TOPIC))
-    ) {
+    ilog = logs.at(i)
 
-      log.info('{}, {}', [
-        ethereum.decode('address', logi.topics.at(FROM_TOPIC))!.toAddress().toHexString(),
-        ethereum.decode('address', logi.topics.at(TO_TOPIC))!.toAddress().toHexString()
-      ])
+    // Check if log is a transfer.
+    if (ilog.topics.at(TRANSFER_TOPIC).equals(TRANSFER_TOPIC_HASH)) {
+      ito = getAddress(ilog.topics.at(TO_TOPIC))
 
-      if (
-        ethereum.decode('address', logi.topics.at(TO_TOPIC))!.toAddress() ===
-        Address.fromString(PROTOCOL_FEE_RECEIVER_ADDRESS)
-      ) {
-        feeAmount = ethereum.decode('uint256', logi.data)!.toBigInt()
+      // Check if transfer is to fee receiver.
+      if (ito.equals(PROTOCOL_FEE_RECEIVER)) {
+        feeAmount = getAmount(ilog.data)
       } else {
-        let j = logs.length
-        while (j--) {
-          const logj = logs.at(j)
-          if (
-            logi.topics.length &&
-            crypto
-              .keccak256(
-                ByteArray.fromUTF8('Transfer(address,address,uint256)')
-              )
-              .equals(logj.topics.at(TRANSFER_TOPIC))
-          ) {
-            const ifrom = ethereum
-              .decode('address', logi.topics.at(FROM_TOPIC))!
-              .toAddress()
-            const ito = ethereum
-              .decode('address', logi.topics.at(TO_TOPIC))!
-              .toAddress()
-            const jfrom = ethereum
-              .decode('address', logj.topics.at(FROM_TOPIC))!
-              .toAddress()
-            const jto = ethereum
-              .decode('address', logj.topics.at(TO_TOPIC))!
-              .toAddress()
+        ifrom = getAddress(ilog.topics.at(FROM_TOPIC))
+        j = logs.length
 
+        // Iterate over logs again to find mutual transfers.
+        while (j--) {
+          jlog = logs.at(j)
+
+          // Check if log is a transfer.
+          if (jlog.topics.at(TRANSFER_TOPIC).equals(TRANSFER_TOPIC_HASH)) {
+            jfrom = getAddress(jlog.topics.at(FROM_TOPIC))
+            jto = getAddress(jlog.topics.at(TO_TOPIC))
+
+            // Check if transfer is mutual.
             if (
-              ifrom === event.params.signerWallet &&
-              ifrom === jto &&
-              ito == jfrom
+              ifrom.equals(event.params.signerWallet) &&
+              ifrom.equals(jto) &&
+              ito.equals(jfrom)
             ) {
-              signerToken = logi.address
-              signerAmount = ethereum.decode('uint256', logi.data)!.toBigInt()
+              // Found mutual transfers.
+              signerToken = ilog.address
+              signerAmount = getAmount(ilog.data)
               senderWallet = jfrom
-              senderToken = logj.address
-              senderAmount = ethereum.decode('uint256', logj.data)!.toBigInt()
+              senderToken = jlog.address
+              senderAmount = getAmount(jlog.data)
               break
             }
           }
@@ -102,52 +100,49 @@ export function handleSwapERC20(event: SwapERC20Event): void {
     }
   }
 
-  if (
-    signerToken !== null &&
-    senderToken !== null &&
-    senderWallet !== null
-  ) {
-    const senderTokenPrice = getUsdPricePerToken(senderToken)
-    const senderTokenDecimal = BIGINT_TEN.pow(
-      getTokenDecimals(senderToken).toI32() as u8
-    ).toBigDecimal()
+  // If swap was found, determine USD values and save.
+  if (senderWallet !== null && signerToken !== null && senderToken !== null) {
+
+    const signerTokenUSDPrice = getUsdPricePerToken(signerToken).usdPrice
+    const senderTokenUSDPrice = getUsdPricePerToken(senderToken).usdPrice
+    const signerAmountUSD = signerAmount
+      .toBigDecimal()
+      .div(
+        BIGINT_TEN.pow(
+          getTokenDecimals(signerToken).toI32() as u8
+        ).toBigDecimal()
+      )
+      .times(signerTokenUSDPrice)
+
+    const feeAmountUSD = feeAmount
+      .toBigDecimal()
+      .div(
+        BIGINT_TEN.pow(
+          getTokenDecimals(signerToken).toI32() as u8
+        ).toBigDecimal()
+      )
+      .times(signerTokenUSDPrice)
 
     const senderAmountUSD = senderAmount
       .toBigDecimal()
-      .div(senderTokenDecimal)
-      .times(senderTokenPrice.usdPrice)
+      .div(
+        BIGINT_TEN.pow(
+          getTokenDecimals(senderToken).toI32() as u8
+        ).toBigDecimal()
+      )
+      .times(senderTokenUSDPrice)
 
-    const signerTokenPrice = getUsdPricePerToken(signerToken)
-    const signerTokenDecimal = BIGINT_TEN.pow(
-      getTokenDecimals(signerToken).toI32() as u8
-    ).toBigDecimal()
+    updateMetrics(event, senderAmountUSD, feeAmountUSD)
 
-    const signerAmountUSD = signerAmount
-      .toBigDecimal()
-      .div(signerTokenDecimal)
-      .times(signerTokenPrice.usdPrice)
-
-    const swapValue = senderAmountUSD
-      .plus(signerAmountUSD)
-      .div(BIGDECIMAL_TWO)
-      .truncate(DEFAULT_USDC_DECIMALS)
-
-    const feeValue = swapValue
-      .times(feeAmount.toBigDecimal())
-      .div(BIGDECIMAL_TEN_THOUSAND)
-      .truncate(DEFAULT_USDC_DECIMALS)
-
-    updateMetrics(event, swapValue, feeValue)
-
-    let entity = new SwapERC20(
+    const entity = new SwapERC20(
       event.transaction.hash.concatI32(event.logIndex.toI32())
     )
-    entity.nonce = event.params.nonce
-    entity.signerWallet = event.params.signerWallet
 
     entity.blockNumber = event.block.number
     entity.blockTimestamp = event.block.timestamp
     entity.transactionHash = event.transaction.hash
+    entity.from = event.transaction.from
+    entity.to = event.address
 
     entity.nonce = event.params.nonce
     entity.signerWallet = event.params.signerWallet
@@ -160,11 +155,7 @@ export function handleSwapERC20(event: SwapERC20Event): void {
 
     entity.senderAmountUSD = senderAmountUSD
     entity.signerAmountUSD = signerAmountUSD
-    entity.feeAmountUSD = feeValue
-    entity.senderTokenPrice = senderTokenPrice.usdPrice
-    entity.signerTokenPrice = signerTokenPrice.usdPrice
-    entity.senderTokenDecimal = senderTokenDecimal
-    entity.signerTokenDecimal = signerTokenDecimal
+    entity.feeAmountUSD = feeAmountUSD
 
     entity.save()
   }

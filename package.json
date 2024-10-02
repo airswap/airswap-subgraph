@@ -1,6 +1,7 @@
 {
   "name": "airswap",
-  "license": "UNLICENSED",
+  "version": "0.0.0",
+  "license": "MIT",
   "scripts": {
     "configure": "node configure.js",
     "codegen": "rm -rf ./generated; graph codegen",

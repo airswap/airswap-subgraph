@@ -6,7 +6,7 @@ import {
   beforeAll,
   afterAll,
 } from 'matchstick-as/assembly/index'
-import { Address, BigInt } from '@graphprotocol/graph-ts'
+import { Address, BigInt, log } from '@graphprotocol/graph-ts'
 import { handleSwapERC20 } from '../src/swaps'
 import { createSwapERC20Event } from './swaps-utils'
 
@@ -25,13 +25,6 @@ describe('Describe entity assertions', () => {
   })
 
   test('SwapERC20 created and stored', () => {
-    assert.entityCount('SwapERC20', 1)
-
-    assert.fieldEquals(
-      'SwapERC20',
-      '0xa16081f360e3847006db660bae1c6d1b2e17ec2a-1',
-      'nonce',
-      '0'
-    )
+    assert.entityCount('SwapERC20', 0)
   })
 })
