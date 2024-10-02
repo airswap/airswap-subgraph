@@ -3,12 +3,12 @@
 #
 
 type SwapERC20 @entity {
-  id: ID!
-  hash: Bytes!
-  block: BigInt!
-  sender: Bytes!
-  contract: Bytes!
-  timestamp: BigInt!
+  id: Bytes!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+  from: Bytes!
+  to: Bytes!
   nonce: BigInt!
   signerWallet: Bytes!
   signerToken: Bytes!
@@ -16,13 +16,10 @@ type SwapERC20 @entity {
   senderToken: Bytes!
   signerAmount: BigInt!
   senderAmount: BigInt!
-  protocolFee: BigInt!
+  feeAmount: BigInt!
+  feeAmountUSD: BigDecimal!
   senderAmountUSD: BigDecimal!
   signerAmountUSD: BigDecimal!
-  senderTokenPrice: BigDecimal!
-  signerTokenPrice: BigDecimal!
-  senderTokenDecimal: BigDecimal!
-  signerTokenDecimal: BigDecimal!
 }
 
 #

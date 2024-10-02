@@ -1,0 +1,8 @@
+{
+  "mainnet": {
+    "SwapERC20": {
+      "address": "0xD82E10B9A4107939e55fCCa9B53A9ede6CF2fC46",
+      "startBlock": 19341464
+    }
+  }
+}
