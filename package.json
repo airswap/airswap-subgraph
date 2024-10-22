@@ -1,6 +1,7 @@
 {
-  "name": "airswap",
+  "name": "airswap-subgraph",
   "version": "0.0.0",
+  "private": true,
   "license": "MIT",
   "scripts": {
     "configure": "node configure.js",
