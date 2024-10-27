@@ -1,32 +1,32 @@
 {
-	"name": "airswap-subgraph",
-	"version": "0.0.0",
-	"private": true,
-	"license": "MIT",
-	"type": "module",
-	"scripts": {
-		"configure": "node configure.js",
-		"codegen": "rm -rf ./generated; graph codegen",
-		"build": "graph build",
-		"deploy": "graph deploy --node https://api.studio.thegraph.com/deploy/ airswap",
-		"create-local": "graph create --node http://localhost:8020/ airswap",
-		"remove-local": "graph remove --node http://localhost:8020/ airswap",
-		"deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 airswap",
-		"test": "graph test",
-		"format": "prettier --write \"./**/*.ts\" \"./**/*.js\" \"./**/*.json\""
-	},
-	"dependencies": {
-		"@airswap/registry": "5.0.0",
-		"@airswap/swap-erc20": "5.0.0",
-		"@airswap/utils": "5.0.1",
-		"@graphprotocol/graph-cli": "^0.84.0",
-		"@graphprotocol/graph-ts": "^0.35.1"
-	},
-	"devDependencies": {
-		"eslint": "^8.45.0",
-		"eslint-config-prettier": "^8.8.0",
-		"eslint-plugin-prettier": "^5.0.0",
-		"matchstick-as": "0.5.0",
-		"mustache": "^4.2.0"
-	}
+  "name": "airswap-subgraph",
+  "version": "0.0.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "configure": "node configure.js",
+    "codegen": "rm -rf ./generated; graph codegen",
+    "build": "graph build",
+    "deploy": "graph deploy --node https://api.studio.thegraph.com/deploy/ airswap",
+    "create-local": "graph create --node http://localhost:8020/ airswap",
+    "remove-local": "graph remove --node http://localhost:8020/ airswap",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 airswap",
+    "test": "graph test",
+    "format": "prettier --write \"./**/*.ts\" \"./**/*.js\" \"./**/*.json\""
+  },
+  "dependencies": {
+    "@airswap/registry": "5.0.0",
+    "@airswap/swap-erc20": "5.0.0",
+    "@airswap/utils": "5.0.1",
+    "@graphprotocol/graph-cli": "^0.84.0",
+    "@graphprotocol/graph-ts": "^0.35.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.45.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "matchstick-as": "0.5.0",
+    "mustache": "^4.2.0"
+  }
 }

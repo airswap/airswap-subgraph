@@ -102,7 +102,6 @@ export function handleSwapERC20(event: SwapERC20Event): void {
 
   // If swap was found, determine USD values and save.
   if (senderWallet !== null && signerToken !== null && senderToken !== null) {
-
     const signerTokenUSDPrice = getUsdPricePerToken(signerToken).usdPrice
     const senderTokenUSDPrice = getUsdPricePerToken(senderToken).usdPrice
     const signerAmountUSD = signerAmount
