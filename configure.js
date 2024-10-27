@@ -1,10 +1,12 @@
-const { argv } = require('node:process')
-const fs = require('fs')
-const Mustache = require('mustache')
+import fs from 'node:fs'
+import { argv } from 'node:process'
+import Mustache from 'mustache'
 
-const { ChainIds, chainNames } = require('@airswap/utils')
-const deploys = require('@airswap/swap-erc20/deploys')
-const blocks = require('@airswap/swap-erc20/deploys-blocks')
+import registryBlocks from '@airswap/registry/deploys-blocks.js'
+import registryDeploys from '@airswap/registry/deploys.js'
+import swapBlocks from '@airswap/swap-erc20/deploys-blocks.js'
+import swapDeploys from '@airswap/swap-erc20/deploys.js'
+import { ChainIds, chainNames } from '@airswap/utils'
 
 async function main() {
   const chainId = Number(argv[2])
@@ -15,8 +17,10 @@ async function main() {
       fs.readFileSync('./subgraph.template.yaml').toString(),
       {
         network: ChainIds[chainId].toLowerCase(),
-        swap_erc20_address: deploys[chainId],
-        swap_erc20_start_block: blocks[chainId],
+        swap_erc20_address: swapDeploys[chainId],
+        swap_erc20_start_block: swapBlocks[chainId],
+        registry_address: registryDeploys[chainId],
+        registry_start_block: registryBlocks[chainId],
       }
     )
     fs.writeFileSync('./subgraph.yaml', content)
