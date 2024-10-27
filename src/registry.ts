@@ -6,84 +6,81 @@ import {
   SetServerURL,
   UnsetServer,
 } from '../generated/RegistryContract/RegistryContract'
-import { ProtocolServer, Server, TokenServer } from '../generated/schema'
-
+import { Server } from '../generated/schema'
 import { store } from '@graphprotocol/graph-ts'
 
 export function handleSetServerURL(event: SetServerURL): void {
   const staker = event.params.staker
-  let server = Server.load(staker.toHex())
+  let server = Server.load(staker)
   if (!server) {
-    server = new Server(staker.toHex())
-    server.staker = staker
+    server = new Server(staker)
+    server.protocols = []
+    server.tokens = []
   }
-  server.serverURL = event.params.url.toString()
+  server.url = event.params.url.toString()
   server.save()
 }
 
 export function handleAddProtocols(event: AddProtocols): void {
   const staker = event.params.staker
-  const server = Server.load(event.params.staker.toHex())
-
+  const protocols = event.params.protocols;
+  const server = Server.load(staker)
   if (server) {
-    for (let i = 0; i < event.params.protocols.length; i++) {
-      const protocol = event.params.protocols[i]
-      const protocolServer = new ProtocolServer(
-        `${staker.toHex()}-${protocol.toI32()}`
-      )
-      protocolServer.staker = staker
-      protocolServer.serverURL = server.serverURL
-      protocolServer.protocolID = protocol
-      protocolServer.save()
+    const newProtocols = server.protocols
+    for (let i = 0; i < protocols.length; i++) {
+      newProtocols.push(protocols[i])
     }
+    server.protocols = newProtocols
+    server.save()
   }
 }
 
 export function handleRemoveProtocols(event: RemoveProtocols): void {
   const staker = event.params.staker
-
-  for (let i = 0; i < event.params.protocols.length; i++) {
-    const protocol = event.params.protocols[i]
-    store.remove('ProtocolServer', `${staker.toHex()}-${protocol.toI32()}`)
+  const protocols = event.params.protocols;
+  const server = Server.load(staker)
+  if (server) {
+    for (let i = 0; i < protocols.length; i++) {
+      for (let j = 0; j < server.protocols.length; j++) {
+        if (server.protocols[j] === protocols[i]) {
+          server.protocols.splice(j, 1)
+        }
+      }
+    }
+    server.save()
   }
 }
 
 export function handleAddTokens(event: AddTokens): void {
   const staker = event.params.staker
-  const server = Server.load(event.params.staker.toHex())
-
+  const tokens = event.params.tokens;
+  const server = Server.load(staker)
   if (server) {
-    for (let i = 0; i < event.params.tokens.length; i++) {
-      const token = event.params.tokens[i]
-      const tokenServer = new TokenServer(`${staker.toHex()}-${token.toHex()}`)
-      tokenServer.staker = staker
-      tokenServer.serverURL = server.serverURL
-      tokenServer.tokenAddress = token
-      tokenServer.save()
+    const newTokens = server.tokens
+    for (let i = 0; i < tokens.length; i++) {
+      newTokens.push(tokens[i])
     }
+    server.tokens = newTokens
+    server.save()
   }
 }
 
 export function handleRemoveTokens(event: RemoveTokens): void {
   const staker = event.params.staker
-
-  for (let i = 0; i < event.params.tokens.length; i++) {
-    const token = event.params.tokens[i]
-    store.remove('TokenServer', `${staker.toHex()}-${token.toHex()}`)
+  const tokens = event.params.tokens;
+  const server = Server.load(staker)
+  if (server) {
+    for (let i = 0; i < tokens.length; i++) {
+      for (let j = 0; j < server.tokens.length; j++) {
+        if (server.tokens[j] === tokens[i]) {
+          server.tokens.splice(j, 1)
+        }
+      }
+    }
+    server.save()
   }
 }
 
 export function handleUnsetServer(event: UnsetServer): void {
-  const staker = event.params.staker
-  store.remove('Server', staker.toHex())
-
-  for (let i = 0; i < event.params.protocols.length; i++) {
-    const protocol = event.params.protocols[i]
-    store.remove('ProtocolServer', `${staker.toHex()}-${protocol.toI32()}`)
-  }
-
-  for (let i = 0; i < event.params.tokens.length; i++) {
-    const token = event.params.tokens[i]
-    store.remove('TokenServer', `${staker.toHex()}-${token.toHex()}`)
-  }
+  store.remove('Server', event.params.staker.toHex())
 }

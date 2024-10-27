@@ -27,23 +27,10 @@ type SwapERC20 @entity {
 #
 
 type Server @entity {
-  id: ID!
-  staker: Bytes!
-  serverURL: String!
-}
-
-type ProtocolServer @entity {
-  id: ID!
-  staker: Bytes!
-  serverURL: String!
-  protocolID: Bytes!
-}
-
-type TokenServer @entity {
-  id: ID!
-  staker: Bytes!
-  serverURL: String!
-  tokenAddress: Bytes!
+  id: Bytes!
+  url: String!
+  protocols: [Bytes!]!
+  tokens: [Bytes!]!
 }
 
 #
