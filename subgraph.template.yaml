@@ -46,3 +46,33 @@ dataSources:
         - event: SwapERC20(indexed uint256,indexed address)
           handler: handleSwapERC20
       file: ./src/swaps.ts
+  - kind: ethereum
+    name: RegistryContract
+    network: "{{network}}"
+    source:
+      address: "{{registry_address}}"
+      abi: RegistryContract
+      startBlock: {{registry_start_block}}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Registry
+      abis:
+        - name: RegistryContract
+          file: ./abis/Registry.json
+      eventHandlers:
+        - event: SetServerURL(indexed address,string)
+          handler: handleSetServerURL
+        - event: AddProtocols(indexed address,bytes4[])
+          handler: handleAddProtocols
+        - event: RemoveProtocols(indexed address,bytes4[])
+          handler: handleRemoveProtocols
+        - event: AddTokens(indexed address,address[])
+          handler: handleAddTokens
+        - event: RemoveTokens(indexed address,address[])
+          handler: handleRemoveTokens
+        - event: UnsetServer(indexed address,string,bytes4[],address[])
+          handler: handleUnsetServer
+      file: ./src/registry.ts

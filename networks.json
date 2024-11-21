@@ -3,6 +3,10 @@
     "SwapERC20": {
       "address": "0xD82E10B9A4107939e55fCCa9B53A9ede6CF2fC46",
       "startBlock": 19341464
+    },
+    "Registry": {
+      "address": "0xe30E9c001dEFb5F0B04fD21662454A2427F4257A",
+      "startBlock": 19169065
     }
   }
 }

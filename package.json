@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "license": "MIT",
+  "type": "module",
   "scripts": {
     "configure": "node configure.js",
     "codegen": "rm -rf ./generated; graph codegen",
@@ -15,6 +16,7 @@
     "format": "prettier --write \"./**/*.ts\" \"./**/*.js\" \"./**/*.json\""
   },
   "dependencies": {
+    "@airswap/registry": "5.0.0",
     "@airswap/swap-erc20": "5.0.0",
     "@airswap/utils": "5.0.1",
     "@graphprotocol/graph-cli": "^0.84.0",

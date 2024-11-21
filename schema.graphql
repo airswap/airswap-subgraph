@@ -23,6 +23,17 @@ type SwapERC20 @entity {
 }
 
 #
+# RegistryContract
+#
+
+type Server @entity {
+  id: Bytes!
+  url: String!
+  protocols: [Bytes!]!
+  tokens: [Bytes!]!
+}
+
+#
 # Aggregates
 #
 

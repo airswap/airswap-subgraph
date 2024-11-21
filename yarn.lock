@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@airswap/registry@5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@airswap/registry/-/registry-5.0.0.tgz#a27a6ab8e859a5776ac108940fc0714251b9d8fe"
+  integrity sha512-2Vkd7i0jjBq0ivYKHrr5NYR6a92VQW0F6ALfPpkaxuRV14OgfqmpBr/QGP2hEs5R0qbxDi4Z5lZO6af6eyh68A==
+
 "@airswap/swap-erc20@5.0.0":
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/@airswap/swap-erc20/-/swap-erc20-5.0.0.tgz#0b8bfb583ab847f864429aba0918e6989fbf7303"
