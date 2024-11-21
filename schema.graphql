@@ -34,6 +34,86 @@ type Server @entity {
 }
 
 #
+# DelegateContract
+#
+
+type Authorize @entity(immutable: true) {
+  id: Bytes!
+  signatory: Bytes! # address
+  signer: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type DelegateSwap @entity(immutable: true) {
+  id: Bytes!
+  nonce: BigInt! # uint256
+  signerWallet: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type OwnershipHandoverCanceled @entity(immutable: true) {
+  id: Bytes!
+  pendingOwner: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type OwnershipHandoverRequested @entity(immutable: true) {
+  id: Bytes!
+  pendingOwner: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type OwnershipTransferred @entity(immutable: true) {
+  id: Bytes!
+  oldOwner: Bytes! # address
+  newOwner: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type Revoke @entity(immutable: true) {
+  id: Bytes!
+  tmp: Bytes! # address
+  signer: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type SetRule @entity(immutable: true) {
+  id: Bytes!
+  senderWallet: Bytes! # address
+  senderToken: Bytes! # address
+  senderRuleAmount: BigInt! # uint256
+  senderFilledAmount: BigInt! # uint256
+  signerToken: Bytes! # address
+  signerAmount: BigInt! # uint256
+  ruleExpiry: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type UnsetRule @entity(immutable: true) {
+  id: Bytes!
+  signer: Bytes! # address
+  signerToken: Bytes! # address
+  senderToken: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+#
 # Aggregates
 #
 

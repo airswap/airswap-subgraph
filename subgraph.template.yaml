@@ -76,3 +76,44 @@ dataSources:
         - event: UnsetServer(indexed address,string,bytes4[],address[])
           handler: handleUnsetServer
       file: ./src/registry.ts
+  - kind: ethereum
+    name: Delegate
+    network: "{{network}}"
+    source:
+      address: "{{delegate_address}}"
+      abi: Delegate
+      startBlock: {{delegate_start_block}}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Authorize
+        - DelegateSwap
+        - OwnershipHandoverCanceled
+        - OwnershipHandoverRequested
+        - OwnershipTransferred
+        - Revoke
+        - SetRule
+        - UnsetRule
+      abis:
+        - name: Delegate
+          file: ./abis/Delegate.json
+      eventHandlers:
+        - event: Authorize(address,address)
+          handler: handleAuthorize
+        - event: DelegateSwap(uint256,address)
+          handler: handleDelegateSwap
+        - event: OwnershipHandoverCanceled(indexed address)
+          handler: handleOwnershipHandoverCanceled
+        - event: OwnershipHandoverRequested(indexed address)
+          handler: handleOwnershipHandoverRequested
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: Revoke(address,address)
+          handler: handleRevoke
+        - event: SetRule(address,address,uint256,uint256,address,uint256,uint256)
+          handler: handleSetRule
+        - event: UnsetRule(address,address,address)
+          handler: handleUnsetRule
+      file: ./src/delegate.ts

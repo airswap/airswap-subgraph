@@ -2,6 +2,13 @@
 # yarn lockfile v1
 
 
+"@airswap/delegate@^5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@airswap/delegate/-/delegate-5.0.1.tgz#0fb25951359093ceddce047f9ad38a03b4e36f49"
+  integrity sha512-DXKhz1/MZphzAwgNFpLCZFnEBK+Hs9AstDzs5ljyxIFO49dM8UdUt3BC5x072nmsAjH7r6j0IcEaddX9CYvpYA==
+  dependencies:
+    ethers "^5.7.2"
+
 "@airswap/registry@5.0.0":
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/@airswap/registry/-/registry-5.0.0.tgz#a27a6ab8e859a5776ac108940fc0714251b9d8fe"
