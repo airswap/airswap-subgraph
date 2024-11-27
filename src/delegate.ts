@@ -6,137 +6,145 @@ import {
   OwnershipTransferred as OwnershipTransferredEvent,
   Revoke as RevokeEvent,
   SetRule as SetRuleEvent,
-  UnsetRule as UnsetRuleEvent
-} from "../generated/Delegate/Delegate"
+  UnsetRule as UnsetRuleEvent,
+} from '../generated/Delegate/Delegate'
+import { Market } from '../generated/schema'
+
 import {
-  Authorize,
-  DelegateSwap,
-  OwnershipHandoverCanceled,
-  OwnershipHandoverRequested,
-  OwnershipTransferred,
-  Revoke,
-  SetRule,
-  UnsetRule
-} from "../generated/schema"
+  Address,
+  BigInt,
+  Bytes,
+  ByteArray,
+  crypto,
+  ethereum,
+  store,
+} from '@graphprotocol/graph-ts'
 
-export function handleAuthorize(event: AuthorizeEvent): void {
-  let entity = new Authorize(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.signatory = event.params.signatory
-  entity.signer = event.params.signer
+const TRANSFER_TOPIC_HASH = crypto.keccak256(
+  ByteArray.fromUTF8('Transfer(address,address,uint256)')
+)
+const TRANSFER_TOPIC = 0 // Index of event signature topic
+const FROM_TOPIC = 1 // Index of 'from' address topic
+const TO_TOPIC = 2 // Index of 'to' address topic
 
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
+// Helper function to decode address from log topic
+function getAddress(topic: Bytes): Address {
+  return ethereum.decode('address', topic)!.toAddress()
+}
 
-  entity.save()
+// Helper function to decode amount from log data
+function getAmount(data: Bytes): BigInt {
+  return ethereum.decode('uint256', data)!.toBigInt()
 }
 
 export function handleDelegateSwap(event: DelegateSwapEvent): void {
-  let entity = new DelegateSwap(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.nonce = event.params.nonce
-  entity.signerWallet = event.params.signerWallet
+  // Get all transaction logs
+  const logs = event.receipt!.logs || []
 
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
+  // Variables to store swap details extracted from logs
+  let signerToken: Address | null = null
+  let signerAmount: BigInt = BigInt.fromI32(0)
+  let senderWallet: Address | null = null
+  let senderToken: Address | null = null
+  let senderAmount: BigInt = BigInt.fromI32(0)
 
-  entity.save()
+  // Counters for nested log iteration
+  let i = logs.length
+  let j = logs.length
+  let ilog: ethereum.Log
+  let jlog: ethereum.Log
+  let ifrom: Address
+  let ito: Address
+  let jfrom: Address
+  let jto: Address
+
+  // Iterate through logs to find mutual transfers
+  while (i--) {
+    ilog = logs.at(i)
+
+    // Check if current log is a Transfer event
+    if (ilog.topics.at(TRANSFER_TOPIC).equals(TRANSFER_TOPIC_HASH)) {
+      ifrom = getAddress(ilog.topics.at(FROM_TOPIC))
+      ito = getAddress(ilog.topics.at(TO_TOPIC))
+
+      // Look for matching transfer in remaining logs
+      j = logs.length
+      while (j--) {
+        jlog = logs.at(j)
+
+        if (jlog.topics.at(TRANSFER_TOPIC).equals(TRANSFER_TOPIC_HASH)) {
+          jfrom = getAddress(jlog.topics.at(FROM_TOPIC))
+          jto = getAddress(jlog.topics.at(TO_TOPIC))
+
+          // Check if transfers are between the same parties
+          if (
+            ifrom.equals(event.params.signerWallet) &&
+            ifrom.equals(jto) &&
+            ito.equals(jfrom)
+          ) {
+            // Store swap details from matching transfers
+            signerToken = ilog.address
+            signerAmount = getAmount(ilog.data)
+            senderWallet = jfrom
+            senderToken = jlog.address
+            senderAmount = getAmount(jlog.data)
+            break
+          }
+        }
+      }
+    }
+  }
+
+  // If swap details were found, update the market
+  if (senderWallet !== null && signerToken !== null && senderToken !== null) {
+    // Create market ID using consistent token ordering
+    let marketId: Bytes
+    if (senderToken.toHexString() < signerToken.toHexString()) {
+      marketId = senderToken.concat(signerToken).concat(senderWallet)
+    } else {
+      marketId = signerToken.concat(senderToken).concat(senderWallet)
+    }
+
+    // Load and update market's filled amount
+    let market = Market.load(marketId)
+    if (market) {
+      market.filledAmount = market.filledAmount.plus(senderAmount)
+      market.save()
+    }
+  }
 }
-
-export function handleOwnershipHandoverCanceled(
-  event: OwnershipHandoverCanceledEvent
-): void {
-  let entity = new OwnershipHandoverCanceled(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.pendingOwner = event.params.pendingOwner
-
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
-
-  entity.save()
-}
-
-export function handleOwnershipHandoverRequested(
-  event: OwnershipHandoverRequestedEvent
-): void {
-  let entity = new OwnershipHandoverRequested(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.pendingOwner = event.params.pendingOwner
-
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
-
-  entity.save()
-}
-
-export function handleOwnershipTransferred(
-  event: OwnershipTransferredEvent
-): void {
-  let entity = new OwnershipTransferred(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.oldOwner = event.params.oldOwner
-  entity.newOwner = event.params.newOwner
-
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
-
-  entity.save()
-}
-
-export function handleRevoke(event: RevokeEvent): void {
-  let entity = new Revoke(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.tmp = event.params.tmp
-  entity.signer = event.params.signer
-
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
-
-  entity.save()
-}
-
 export function handleSetRule(event: SetRuleEvent): void {
-  let entity = new SetRule(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
+  let market = Market.load(
+    event.params.senderWallet
+      .concat(event.params.senderToken)
+      .concat(event.params.signerToken)
   )
-  entity.senderWallet = event.params.senderWallet
-  entity.senderToken = event.params.senderToken
-  entity.senderRuleAmount = event.params.senderRuleAmount
-  entity.senderFilledAmount = event.params.senderFilledAmount
-  entity.signerToken = event.params.signerToken
-  entity.signerAmount = event.params.signerAmount
-  entity.ruleExpiry = event.params.ruleExpiry
 
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
+  if (!market) {
+    market = new Market(
+      event.params.senderWallet
+        .concat(event.params.senderToken)
+        .concat(event.params.signerToken)
+    )
+  }
 
-  entity.save()
+  market.senderToken = event.params.senderToken
+  market.signerToken = event.params.signerToken
+  market.senderWallet = event.params.senderWallet
+  market.ruleAmount = event.params.senderAmount
+  market.filledAmount = BigInt.fromI32(0)
+  market.expiry = event.params.expiry
+
+  market.save()
 }
 
 export function handleUnsetRule(event: UnsetRuleEvent): void {
-  let entity = new UnsetRule(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.signer = event.params.signer
-  entity.signerToken = event.params.signerToken
-  entity.senderToken = event.params.senderToken
+  let marketId = event.params.senderWallet
+    .concat(event.params.senderToken)
+    .concat(event.params.signerToken)
 
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
-
-  entity.save()
+  let market = Market.load(marketId)
+  if (market) {
+    store.remove('Market', marketId.toHexString())
+  }
 }
