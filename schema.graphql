@@ -34,6 +34,20 @@ type Server @entity {
 }
 
 #
+# DelegateContract
+#
+
+type Market @entity {
+  id: Bytes!
+  senderWallet: Bytes!
+  senderToken: Bytes!
+  signerToken: Bytes!
+  ruleAmount: BigInt!
+  filledAmount: BigInt!
+  expiry: BigInt!
+}
+
+#
 # Aggregates
 #
 

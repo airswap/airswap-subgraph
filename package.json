@@ -16,6 +16,7 @@
     "format": "prettier --write \"./**/*.ts\" \"./**/*.js\" \"./**/*.json\""
   },
   "dependencies": {
+    "@airswap/delegate": "^5.0.1",
     "@airswap/registry": "5.0.0",
     "@airswap/swap-erc20": "5.0.0",
     "@airswap/utils": "5.0.1",
