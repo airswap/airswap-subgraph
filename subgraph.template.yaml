@@ -93,6 +93,6 @@ dataSources:
         - name: StakingContract
           file: ./abis/Staking.json
       eventHandlers:
-        - event: Transfer(indexed address, indexed address, uint256)
-          handler: handlerTransfer
-      file: ./src/registry.ts
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+      file: ./src/staking.ts
