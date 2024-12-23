@@ -6,9 +6,9 @@ schema:
 dataSources:
   - kind: ethereum
     name: SwapERC20Contract
-    network: "{{network}}"
+    network: '{{network}}'
     source:
-      address: "{{swap_erc20_address}}"
+      address: '{{swap_erc20_address}}'
       abi: SwapERC20Contract
       startBlock: {{swap_erc20_start_block}}
     mapping:
@@ -48,9 +48,9 @@ dataSources:
       file: ./src/swaps.ts
   - kind: ethereum
     name: RegistryContract
-    network: "{{network}}"
+    network: '{{network}}'
     source:
-      address: "{{registry_address}}"
+      address: '{{registry_address}}'
       abi: RegistryContract
       startBlock: {{registry_start_block}}
     mapping:
@@ -75,4 +75,24 @@ dataSources:
           handler: handleRemoveTokens
         - event: UnsetServer(indexed address,string,bytes4[],address[])
           handler: handleUnsetServer
+      file: ./src/registry.ts
+  - kind: ethereum
+    name: StakingContract
+    network: '{{network}}'
+    source:
+      address: '{{staking_address}}'
+      abi: StakingContract
+      startBlock: {{staking_start_block}}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Staker
+      abis:
+        - name: StakingContract
+          file: ./abis/Staking.json
+      eventHandlers:
+        - event: Transfer(indexed address, indexed address, uint256)
+          handler: handlerTransfer
       file: ./src/registry.ts

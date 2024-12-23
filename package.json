@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@airswap/registry": "5.0.0",
+    "@airswap/staking": "^5.0.1",
     "@airswap/swap-erc20": "5.0.0",
     "@airswap/utils": "5.0.1",
     "@graphprotocol/graph-cli": "^0.84.0",

@@ -6,6 +6,8 @@ import registryBlocks from '@airswap/registry/deploys-blocks.js'
 import registryDeploys from '@airswap/registry/deploys.js'
 import swapBlocks from '@airswap/swap-erc20/deploys-blocks.js'
 import swapDeploys from '@airswap/swap-erc20/deploys.js'
+import stakingBlocks from '@airswap/staking/deploys-blocks.js'
+import stakingDeploys from '@airswap/staking/deploys.js'
 import { ChainIds, chainNames } from '@airswap/utils'
 
 async function main() {
@@ -21,6 +23,8 @@ async function main() {
         swap_erc20_start_block: swapBlocks[chainId],
         registry_address: registryDeploys[chainId],
         registry_start_block: registryBlocks[chainId],
+        staking_address: stakingDeploys[chainId],
+        staking_start_block: stakingBlocks[chainId],
       }
     )
     fs.writeFileSync('./subgraph.yaml', content)
