@@ -9,21 +9,21 @@ export function handleTransfer(event: Transfer): void {
   let tokenCount = event.params.tokens
   // Stakers to add/subtract from totalStakersCount
   let stakersCount = BigInt.fromI32(0)
-  // If to is zero address, this is a staking action
-  if (event.params.to.toHex() == ADDRESS_ZERO) {
-    let staker = Staker.load(event.params.from)
+  // If from is zero address, this is a staking action
+  if (event.params.from.toHex() == ADDRESS_ZERO) {
+    let staker = Staker.load(event.params.to)
     if (!staker) {
-      staker = new Staker(event.params.from)
+      staker = new Staker(event.params.to)
       staker.stakedAmount = BigInt.fromI32(0)
       stakersCount = BigInt.fromI32(1)
     }
     staker.stakedAmount = staker.stakedAmount.plus(event.params.tokens)
 
     staker.save()
-    // If from is zero address, this is a staking action
-  } else if (event.params.from.toHex() == ADDRESS_ZERO) {
+    // If to is zero address, this is a staking action
+  } else if (event.params.to.toHex() == ADDRESS_ZERO) {
     tokenCount = tokenCount.times(BigInt.fromI32(-1))
-    let staker = Staker.load(event.params.to)
+    let staker = Staker.load(event.params.from)
     // staker should always exist as you can't unstake if you don't have any tokens staked
     if (staker) {
       staker.stakedAmount = staker.stakedAmount.minus(event.params.tokens)
