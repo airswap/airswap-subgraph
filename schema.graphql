@@ -39,7 +39,10 @@ type Server @entity {
 
 type Staker @entity {
   id: Bytes!
-  stakedAmount: BigInt!
+  totalStakedAmount: BigInt!
+  v3StakedAmount: BigInt!
+  v4StakedAmount: BigInt!
+  v4_2StakedAmount: BigInt!
 }
 
 #

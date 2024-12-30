@@ -5,8 +5,8 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "configure": "node configure.js",
-    "codegen": "rm -rf ./generated; graph codegen",
+    "configure": "node configure.js 1",
+    "codegen": "rm -rf ./generated;node generate-constants.js 1; graph codegen",
     "build": "graph build",
     "deploy": "graph deploy --node https://api.studio.thegraph.com/deploy/ airswap",
     "create-local": "graph create --node http://localhost:8020/ airswap",

@@ -96,3 +96,43 @@ dataSources:
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleTransfer
       file: ./src/staking.ts
+  - kind: ethereum
+    name: StakingContractV3
+    network: '{{network}}'
+    source:
+      address: '{{staking_v3_address}}'
+      abi: StakingContract
+      startBlock: {{staking_v3_start_block}}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Staker
+      abis:
+        - name: StakingContract
+          file: ./abis/Staking.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+      file: ./src/staking.ts
+  - kind: ethereum
+    name: StakingContractV4
+    network: '{{network}}'
+    source:
+      address: '{{staking_v4_address}}'
+      abi: StakingContract
+      startBlock: {{staking_v4_start_block}}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Staker
+      abis:
+        - name: StakingContract
+          file: ./abis/Staking.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+      file: ./src/staking.ts
