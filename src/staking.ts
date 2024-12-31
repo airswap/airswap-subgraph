@@ -37,14 +37,9 @@ export function handleTransfer(event: Transfer): void {
     if (staker) {
       removeStakerAmount(event, staker)
       if (staker.totalStakedAmount.equals(BigInt.fromI32(0))) {
-        if (
-          !staker.v3StakedAmount.equals(BigInt.fromI32(0)) ||
-          !staker.v4StakedAmount.equals(BigInt.fromI32(0)) ||
-          !staker.v4_2StakedAmount.equals(BigInt.fromI32(0))
-        ) {
-          stakersCount = BigInt.fromI32(-1)
-        }
-        store.remove('Staker', staker.id.toHexString())
+        stakersCount = BigInt.fromI32(-1)
+        store.remove('Staker', event.params.from.toHexString())
+        return
       }
       staker.save()
     }
