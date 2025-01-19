@@ -23,7 +23,4 @@ We support the following contracts:
 - Staking V4
 - Staking V4.2 (latest version)
 
-To add support for a new contract, you need to:
-
-1. Add relevant supported contracts to `additionalContractsSupported.json` (latest version should be imported from `@airswap/xxx/deploys.js`)
-2. Update `generate-constants.js` and the relevant mapping files to match right the contract versions constants
+To add support for a new contract, add relevant supported contracts to `additionalContractsSupported.json` (latest version should be imported from `@airswap/xxx/deploys.js`)
