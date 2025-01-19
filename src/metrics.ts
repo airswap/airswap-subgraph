@@ -52,11 +52,11 @@ export function updateStakingMetrics(
   let totalStaked = TotalStaked.load(event.address.toHex())
   if (!totalStaked) {
     totalStaked = new TotalStaked(event.address.toHex())
-    totalStaked.stakedAmount = BigInt.fromI32(0)
-    totalStaked.stakersCount = BigInt.fromI32(0)
+    totalStaked.amount = BigInt.fromI32(0)
+    totalStaked.count = BigInt.fromI32(0)
   }
   // Stake/Unstake logic handeled in staking.ts
-  totalStaked.stakedAmount = totalStaked.stakedAmount.plus(stakedAmount)
-  totalStaked.stakersCount = totalStaked.stakersCount.plus(stakersCount)
+  totalStaked.amount = totalStaked.amount.plus(stakedAmount)
+  totalStaked.count = totalStaked.count.plus(stakersCount)
   totalStaked.save()
 }
