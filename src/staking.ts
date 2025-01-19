@@ -3,9 +3,9 @@ import { Transfer } from '../generated/StakingContract/StakingContract'
 import { Staker } from '../generated/schema'
 import { updateStakingMetrics } from './metrics'
 import { store } from '@graphprotocol/graph-ts'
-import { ADDRESS_ZERO } from '../generated/constants'
 
 export function handleTransfer(event: Transfer): void {
+  const ADDRESS_ZERO = '0x0000000000000000000000000000000000000000'
   // Tokens to add/subtract from totalStakedAmount
   let tokenAmount = event.params.tokens
   // Stakers to add/subtract from totalStakersCount
