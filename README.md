@@ -17,10 +17,4 @@ Follow the official [quick start](https://thegraph.com/docs/en/cookbook/quick-st
 We use the [Messari Price Oracle](https://github.com/messari/subgraphs/tree/master/subgraphs/_reference_/src/prices) for asset pricing.
 
 **Supported Contracts**
-We support the following contracts:
-
-- Staking V3
-- Staking V4
-- Staking V4.2 (latest version)
-
-To add support for a new contract, add relevant supported contracts to `additionalContractsSupported.json` (latest version should be imported from `@airswap/xxx/deploys.js`)
+SwapERC20 and Registry are available for all supported chains. Staking contracts (the current version and two legacy versions) are only available for Ethereum mainnet.
