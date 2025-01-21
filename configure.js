@@ -23,20 +23,29 @@ async function main() {
     let content
     if (chainId === 1) {
       content = Mustache.render(
-        fs.readFileSync('./subgraph.template.ethereum.yaml').toString(),
+        fs.readFileSync('./subgraph.template.yaml').toString(),
         {
-        network: ChainIds[chainId].toLowerCase(),
-        swap_erc20_address: swapDeploys[chainId],
-        swap_erc20_start_block: swapBlocks[chainId],
-        registry_address: registryDeploys[chainId],
-        registry_start_block: registryBlocks[chainId],
-        staking_address: stakingDeploys[chainId],
-        staking_start_block: stakingBlocks[chainId],
-        legacy_staking_v3_address: LEGACY_STAKING_V3_ADDRESS,
-        legacy_staking_v3_start_block: LEGACY_STAKING_V3_START_BLOCK,
-        legacy_staking_v4_address: LEGACY_STAKING_V4_ADDRESS,
-        legacy_staking_v4_start_block: LEGACY_STAKING_V4_START_BLOCK,
-      })
+          network: ChainIds[chainId].toLowerCase(),
+          swap_erc20_address: swapDeploys[chainId],
+          swap_erc20_start_block: swapBlocks[chainId],
+          registry_address: registryDeploys[chainId],
+          registry_start_block: registryBlocks[chainId],
+        }
+      )
+
+      const stakingContent = Mustache.render(
+        fs.readFileSync('./subgraph.template.staking.yaml').toString(),
+        {
+          network: ChainIds[chainId].toLowerCase(),
+          staking_address: stakingDeploys[chainId],
+          staking_start_block: stakingBlocks[chainId],
+          legacy_staking_v3_address: LEGACY_STAKING_V3_ADDRESS,
+          legacy_staking_v3_start_block: LEGACY_STAKING_V3_START_BLOCK,
+          legacy_staking_v4_address: LEGACY_STAKING_V4_ADDRESS,
+          legacy_staking_v4_start_block: LEGACY_STAKING_V4_START_BLOCK,
+        }
+      )
+      content = content + stakingContent
     } else {
       content = Mustache.render(
         fs.readFileSync('./subgraph.template.yaml').toString(),
