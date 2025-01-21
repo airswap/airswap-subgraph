@@ -20,19 +20,17 @@ async function main() {
   if (ChainIds[chainId] === undefined) {
     console.error(`Unknown chainId ${chainId}.`)
   } else {
-    let content
+    let content = Mustache.render(
+      fs.readFileSync('./subgraph.template.yaml').toString(),
+      {
+        network: ChainIds[chainId].toLowerCase(),
+        swap_erc20_address: swapDeploys[chainId],
+        swap_erc20_start_block: swapBlocks[chainId],
+        registry_address: registryDeploys[chainId],
+        registry_start_block: registryBlocks[chainId],
+      }
+    )
     if (chainId === 1) {
-      content = Mustache.render(
-        fs.readFileSync('./subgraph.template.yaml').toString(),
-        {
-          network: ChainIds[chainId].toLowerCase(),
-          swap_erc20_address: swapDeploys[chainId],
-          swap_erc20_start_block: swapBlocks[chainId],
-          registry_address: registryDeploys[chainId],
-          registry_start_block: registryBlocks[chainId],
-        }
-      )
-
       const stakingContent = Mustache.render(
         fs.readFileSync('./subgraph.template.staking.yaml').toString(),
         {
@@ -46,17 +44,6 @@ async function main() {
         }
       )
       content = content + stakingContent
-    } else {
-      content = Mustache.render(
-        fs.readFileSync('./subgraph.template.yaml').toString(),
-        {
-          network: ChainIds[chainId].toLowerCase(),
-          swap_erc20_address: swapDeploys[chainId],
-          swap_erc20_start_block: swapBlocks[chainId],
-          registry_address: registryDeploys[chainId],
-          registry_start_block: registryBlocks[chainId],
-        }
-      )
     }
     fs.writeFileSync('./subgraph.yaml', content)
     console.log(`Wrote subgraph.yaml for ${chainNames[chainId]}.`)
