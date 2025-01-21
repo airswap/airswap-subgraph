@@ -1,7 +1,6 @@
 import { BigDecimal, BigInt } from '@graphprotocol/graph-ts'
 import { SwapERC20 as SwapERC20Event } from '../generated/SwapERC20Contract/SwapERC20Contract'
-import { Transfer } from '../generated/StakingContract/StakingContract'
-import { Total, Daily, TotalStaked } from '../generated/schema'
+import { Total, Daily } from '../generated/schema'
 
 export const BIGINT_ZERO = BigInt.zero()
 export const BIGINT_TWO = BigInt.fromI32(2)
@@ -42,21 +41,4 @@ export function updateSwapMetrics(
     daily.fees = daily.fees.plus(feeValue)
   }
   daily.save()
-}
-
-export function updateStakingMetrics(
-  event: Transfer,
-  stakedAmount: BigInt,
-  stakersCount: BigInt
-): void {
-  let totalStaked = TotalStaked.load(event.address.toHex())
-  if (!totalStaked) {
-    totalStaked = new TotalStaked(event.address.toHex())
-    totalStaked.amount = BigInt.fromI32(0)
-    totalStaked.count = BigInt.fromI32(0)
-  }
-  // Stake/Unstake logic handeled in staking.ts
-  totalStaked.amount = totalStaked.amount.plus(stakedAmount)
-  totalStaked.count = totalStaked.count.plus(stakersCount)
-  totalStaked.save()
 }

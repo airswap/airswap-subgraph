@@ -1,7 +1,7 @@
 import { BigInt } from '@graphprotocol/graph-ts'
 import { Transfer } from '../generated/StakingContract/StakingContract'
 import { Staker } from '../generated/schema'
-import { updateStakingMetrics } from './metrics'
+import { updateStakingMetrics } from './metrics.staking'
 import { store } from '@graphprotocol/graph-ts'
 
 export function handleTransfer(event: Transfer): void {
