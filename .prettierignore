@@ -4,3 +4,4 @@ build/
 src/prices/
 messari/
 subgraph.template.yaml
+subgraph.template.staking.yaml
