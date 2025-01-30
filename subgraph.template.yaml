@@ -6,9 +6,9 @@ schema:
 dataSources:
   - kind: ethereum
     name: SwapERC20Contract
-    network: "{{network}}"
+    network: '{{network}}'
     source:
-      address: "{{swap_erc20_address}}"
+      address: '{{swap_erc20_address}}'
       abi: SwapERC20Contract
       startBlock: {{swap_erc20_start_block}}
     mapping:
@@ -48,9 +48,9 @@ dataSources:
       file: ./src/swaps.ts
   - kind: ethereum
     name: RegistryContract
-    network: "{{network}}"
+    network: '{{network}}'
     source:
-      address: "{{registry_address}}"
+      address: '{{registry_address}}'
       abi: RegistryContract
       startBlock: {{registry_start_block}}
     mapping:

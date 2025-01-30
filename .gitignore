@@ -34,3 +34,5 @@ typechain-types
 
 # Hardhat files
 cache
+
+data/

@@ -7,6 +7,13 @@
   resolved "https://registry.yarnpkg.com/@airswap/registry/-/registry-5.0.0.tgz#a27a6ab8e859a5776ac108940fc0714251b9d8fe"
   integrity sha512-2Vkd7i0jjBq0ivYKHrr5NYR6a92VQW0F6ALfPpkaxuRV14OgfqmpBr/QGP2hEs5R0qbxDi4Z5lZO6af6eyh68A==
 
+"@airswap/staking@^5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@airswap/staking/-/staking-5.0.1.tgz#dc181c7fd198613163321035ac59c7d555d1401f"
+  integrity sha512-tgxTjm/X61kRL2KCGx0kfEIXGnSYFZpWlulU8xiX2lf8RCcF8vPF1no2crqdfImqku8aXN6KQlXrS+5llLZzPg==
+  dependencies:
+    ethers "^5.7.2"
+
 "@airswap/swap-erc20@5.0.0":
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/@airswap/swap-erc20/-/swap-erc20-5.0.0.tgz#0b8bfb583ab847f864429aba0918e6989fbf7303"

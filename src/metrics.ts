@@ -13,7 +13,7 @@ export const BIGDECIMAL_TEN_THOUSAND = new BigDecimal(BIGINT_TEN_THOUSAND)
 
 export const SECONDS_IN_DAY = 86400
 
-export function updateMetrics(
+export function updateSwapMetrics(
   event: SwapERC20Event,
   swapValue: BigDecimal,
   feeValue: BigDecimal

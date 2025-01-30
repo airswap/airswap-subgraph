@@ -34,6 +34,16 @@ type Server @entity {
 }
 
 #
+# StakingContract
+#
+
+type Staker @entity {
+  id: Bytes!
+  amount: BigInt!
+  initial: BigInt!
+}
+
+#
 # Aggregates
 #
 
@@ -48,4 +58,10 @@ type Total @entity {
   id: ID!
   volume: BigDecimal!
   fees: BigDecimal!
+}
+
+type TotalStaked @entity {
+  id: ID!
+  amount: BigInt!
+  count: BigInt!
 }

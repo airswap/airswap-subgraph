@@ -14,7 +14,7 @@ import {
   ethereum,
 } from '@graphprotocol/graph-ts'
 
-import { updateMetrics, BIGINT_TEN, BIGINT_ZERO } from './metrics'
+import { updateSwapMetrics, BIGINT_TEN, BIGINT_ZERO } from './metrics'
 
 const PROTOCOL_FEE_RECEIVER = Address.fromString(
   '0xad30f7eebd9bd5150a256f47da41d4403033cdf0'
@@ -131,7 +131,7 @@ export function handleSwapERC20(event: SwapERC20Event): void {
       )
       .times(senderTokenUSDPrice)
 
-    updateMetrics(event, senderAmountUSD, feeAmountUSD)
+    updateSwapMetrics(event, senderAmountUSD, feeAmountUSD)
 
     const entity = new SwapERC20(
       event.transaction.hash.concatI32(event.logIndex.toI32())

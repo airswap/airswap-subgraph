@@ -7,6 +7,10 @@
     "Registry": {
       "address": "0xe30E9c001dEFb5F0B04fD21662454A2427F4257A",
       "startBlock": 19169065
+    },
+    "Staking": {
+      "address": "0x8Bf384296A009723435aD5E8203DA5736b895038",
+      "startBlock": 19169070
     }
   }
 }
