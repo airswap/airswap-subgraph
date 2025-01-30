@@ -10,6 +10,8 @@ import stakingBlocks from '@airswap/staking/deploys-blocks.js'
 import stakingDeploys from '@airswap/staking/deploys.js'
 import { ChainIds, chainNames } from '@airswap/utils'
 
+const LEGACY_SWAP_V4_ADDRESS = '0xd82fa167727a4dc6d6f55830a2c47abbb4b3a0f8'
+const LEGACY_SWAP_V4_START_BLOCK = 16776806
 const LEGACY_STAKING_V3_ADDRESS = '0x6d88B09805b90dad911E5C5A512eEDd984D6860B'
 const LEGACY_STAKING_V3_START_BLOCK = 14359343
 const LEGACY_STAKING_V4_ADDRESS = '0x9fc450F9AfE2833Eb44f9A1369Ab3678D3929860'
@@ -26,6 +28,8 @@ async function main() {
         network: ChainIds[chainId].toLowerCase(),
         swap_erc20_address: swapDeploys[chainId],
         swap_erc20_start_block: swapBlocks[chainId],
+        legacy_swap_erc20_v4_address: LEGACY_SWAP_V4_ADDRESS,
+        legacy_swap_erc20_v4_start_block: LEGACY_SWAP_V4_START_BLOCK,
         registry_address: registryDeploys[chainId],
         registry_start_block: registryBlocks[chainId],
       }

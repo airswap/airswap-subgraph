@@ -47,6 +47,48 @@ dataSources:
           handler: handleSwapERC20
       file: ./src/swaps.ts
   - kind: ethereum
+    name: SwapERC20ContractV4
+    network: '{{network}}'
+    source:
+      address: '{{legacy_swap_erc20_v4_address}}'
+      abi: SwapERC20Contract
+      startBlock: {{legacy_swap_erc20_v4_start_block}}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - SwapERC20
+      abis:
+        - name: SwapERC20Contract
+          file: ./abis/SwapERC20V4.json
+        - name: _ERC20
+          file: ./src/messari/abis/Prices/ERC20.json
+        - name: CurvePool
+          file: ./src/messari/abis/Prices/Curve/Pool.json
+        - name: CurveRegistry
+          file: ./src/messari/abis/Prices/Curve/Registry.json
+        - name: CalculationsCurve
+          file: ./src/messari/abis/Prices/Calculations/Curve.json
+        - name: YearnLensContract
+          file: ./src/messari/abis/Prices/YearnLens.json
+        - name: AaveOracleContract
+          file: ./src/messari/abis/Prices/AaveOracle.json
+        - name: CalculationsSushiSwap
+          file: ./src/messari/abis/Prices/Calculations/SushiSwap.json
+        - name: ChainLinkContract
+          file: ./src/messari/abis/Prices/ChainLink.json
+        - name: UniswapRouter
+          file: ./src/messari/abis/Prices/Uniswap/Router.json
+        - name: UniswapFactory
+          file: ./src/messari/abis/Prices/Uniswap/Factory.json
+        - name: UniswapPair
+          file: ./src/messari/abis/Prices/Uniswap/Pair.json
+      eventHandlers:
+        - event: SwapERC20(indexed uint256,indexed address,address,uint256,uint256,indexed address,address,uint256)
+          handler: handleSwapERC20
+      file: ./src/swaps.ts
+  - kind: ethereum
     name: RegistryContract
     network: '{{network}}'
     source:
