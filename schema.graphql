@@ -54,6 +54,12 @@ type Daily @entity {
   fees: BigDecimal!
 }
 
+type Yearly @entity {
+  id: ID!
+  volume: BigDecimal!
+  fees: BigDecimal!
+}
+
 type Total @entity {
   id: ID!
   volume: BigDecimal!
