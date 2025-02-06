@@ -1,6 +1,6 @@
 import { BigDecimal, BigInt } from '@graphprotocol/graph-ts'
 import { SwapERC20 as SwapERC20Event } from '../generated/SwapERC20Contract/SwapERC20Contract'
-import { Total, Daily } from '../generated/schema'
+import { Total, Yearly, Daily } from '../generated/schema'
 
 export const BIGINT_ZERO = BigInt.zero()
 export const BIGINT_TWO = BigInt.fromI32(2)
@@ -28,6 +28,18 @@ export function updateSwapMetrics(
     total.fees = total.fees.plus(feeValue)
   }
   total.save()
+
+  const yearId = new Date(event.block.timestamp.toI64() * 1000).getUTCFullYear()
+  let yearly = Yearly.load(yearId.toString())
+  if (!yearly) {
+    yearly = new Yearly(yearId.toString())
+    yearly.volume = swapValue
+    yearly.fees = feeValue
+  } else {
+    yearly.volume = yearly.volume.plus(swapValue)
+    yearly.fees = yearly.fees.plus(feeValue)
+  }
+  yearly.save()
 
   const dayId = event.block.timestamp.toI32() / SECONDS_IN_DAY
   let daily = Daily.load(dayId.toString())
