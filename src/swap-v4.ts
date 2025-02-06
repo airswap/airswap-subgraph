@@ -10,7 +10,7 @@ import {
   BIGINT_TEN,
   BIGDECIMAL_TWO,
   BIGDECIMAL_TEN_THOUSAND,
-} from './metrics'
+} from './metrics.swap'
 
 export function handleSwapERC20(event: SwapERC20Event): void {
   const senderTokenPrice = getUsdPricePerToken(event.params.senderToken)
