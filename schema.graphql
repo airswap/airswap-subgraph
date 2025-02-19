@@ -53,6 +53,7 @@ type Daily @entity {
   volume: BigDecimal!
   fees: BigDecimal!
   count: Int!
+  max: BigDecimal!
 }
 
 type Yearly @entity {
@@ -60,6 +61,7 @@ type Yearly @entity {
   volume: BigDecimal!
   fees: BigDecimal!
   count: Int!
+  max: BigDecimal!
 }
 
 type Total @entity {
@@ -67,6 +69,7 @@ type Total @entity {
   volume: BigDecimal!
   fees: BigDecimal!
   count: Int!
+  max: BigDecimal!
 }
 
 type TotalStaked @entity {

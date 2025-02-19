@@ -42,10 +42,14 @@ function updateMetricsCore(
     total.volume = swapValue
     total.fees = feeValue
     total.count = 1
+    total.max = swapValue
   } else {
     total.volume = total.volume.plus(swapValue)
     total.fees = total.fees.plus(feeValue)
     total.count += 1
+    if (swapValue.gt(total.max)) {
+      total.max = swapValue
+    }
   }
   total.save()
 
@@ -56,10 +60,14 @@ function updateMetricsCore(
     yearly.volume = swapValue
     yearly.fees = feeValue
     yearly.count = 1
+    yearly.max = swapValue
   } else {
     yearly.volume = yearly.volume.plus(swapValue)
     yearly.fees = yearly.fees.plus(feeValue)
     yearly.count += 1
+    if (swapValue.gt(yearly.max)) {
+      yearly.max = swapValue
+    }
   }
   yearly.save()
 
@@ -71,10 +79,14 @@ function updateMetricsCore(
     daily.volume = swapValue
     daily.fees = feeValue
     daily.count = 1
+    daily.max = swapValue
   } else {
     daily.volume = daily.volume.plus(swapValue)
     daily.fees = daily.fees.plus(feeValue)
     daily.count += 1
+    if (swapValue.gt(daily.max)) {
+      daily.max = swapValue
+    }
   }
   daily.save()
 }
