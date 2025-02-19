@@ -45,7 +45,7 @@ dataSources:
       eventHandlers:
         - event: SwapERC20(indexed uint256,indexed address)
           handler: handleSwapERC20
-      file: ./src/swaps.ts
+      file: ./src/swap-erc20-v5.ts
   - kind: ethereum
     name: SwapERC20ContractV4
     network: '{{network}}'
@@ -87,7 +87,7 @@ dataSources:
       eventHandlers:
         - event: SwapERC20(indexed uint256,indexed address,address,uint256,uint256,indexed address,address,uint256)
           handler: handleSwapERC20
-      file: ./src/swaps.ts
+      file: ./src/swap-erc20-v4.ts
   - kind: ethereum
     name: RegistryContract
     network: '{{network}}'

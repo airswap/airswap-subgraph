@@ -1,4 +1,4 @@
-import { SwapERC20 as SwapERC20Event } from '../generated/SwapERC20ContractV4/SwapERC20Contract'
+import { SwapERC20 as SwapERC20EventV4 } from '../generated/SwapERC20ContractV4/SwapERC20Contract'
 import { SwapERC20 } from '../generated/schema'
 import { getUsdPricePerToken } from './messari/prices'
 import { DEFAULT_USDC_DECIMALS } from './messari/prices/common/constants'
@@ -6,13 +6,13 @@ import { getTokenDecimals } from './messari/prices/common/utils'
 import { Bytes } from '@graphprotocol/graph-ts'
 
 import {
-  updateSwapMetrics,
+  updateSwapMetricsV4,
   BIGINT_TEN,
   BIGDECIMAL_TWO,
   BIGDECIMAL_TEN_THOUSAND,
 } from './metrics.swap'
 
-export function handleSwapERC20(event: SwapERC20Event): void {
+export function handleSwapERC20(event: SwapERC20EventV4): void {
   const senderTokenPrice = getUsdPricePerToken(event.params.senderToken)
   const senderTokenDecimal = BIGINT_TEN.pow(
     getTokenDecimals(event.params.senderToken).toI32() as u8
@@ -47,7 +47,7 @@ export function handleSwapERC20(event: SwapERC20Event): void {
     .div(signerTokenDecimal)
     .times(signerTokenPrice.usdPrice)
 
-  updateSwapMetrics(event, swapValue, feeValue)
+  updateSwapMetricsV4(event, swapValue, feeValue)
 
   const entity = new SwapERC20(
     Bytes.fromUTF8(
