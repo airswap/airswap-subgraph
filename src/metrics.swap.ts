@@ -41,9 +41,11 @@ function updateMetricsCore(
     total = new Total(address.toHex())
     total.volume = swapValue
     total.fees = feeValue
+    total.count = 1
   } else {
     total.volume = total.volume.plus(swapValue)
     total.fees = total.fees.plus(feeValue)
+    total.count += 1
   }
   total.save()
 
@@ -53,9 +55,11 @@ function updateMetricsCore(
     yearly = new Yearly(yearId.toString())
     yearly.volume = swapValue
     yearly.fees = feeValue
+    yearly.count = 1
   } else {
     yearly.volume = yearly.volume.plus(swapValue)
     yearly.fees = yearly.fees.plus(feeValue)
+    yearly.count += 1
   }
   yearly.save()
 
@@ -66,9 +70,11 @@ function updateMetricsCore(
     daily.date = timestamp.toI32()
     daily.volume = swapValue
     daily.fees = feeValue
+    daily.count = 1
   } else {
     daily.volume = daily.volume.plus(swapValue)
     daily.fees = daily.fees.plus(feeValue)
+    daily.count += 1
   }
   daily.save()
 }
