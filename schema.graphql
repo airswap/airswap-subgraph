@@ -44,6 +44,22 @@ type Staker @entity {
 }
 
 #
+# DelegateContract
+#
+
+type Rule @entity {
+  id: ID!
+  senderWallet: Bytes!
+  senderToken: Bytes!
+  senderAmount: BigInt!
+  signerToken: Bytes!
+  signerAmount: BigInt!
+  senderAmountFilled: BigInt!
+  signerAmountFilled: BigInt!
+  expiry: BigInt!
+}
+
+#
 # Aggregates
 #
 

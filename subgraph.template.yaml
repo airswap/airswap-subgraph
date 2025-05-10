@@ -118,3 +118,27 @@ dataSources:
         - event: UnsetServer(indexed address,string,bytes4[],address[])
           handler: handleUnsetServer
       file: ./src/registry.ts
+  - kind: ethereum
+    name: DelegateContract
+    network: '{{network}}'
+    source:
+      address: '{{delegate_address}}'
+      abi: DelegateContract
+      startBlock: {{delegate_start_block}}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Delegate
+      abis:
+        - name: DelegateContract
+          file: ./abis/Delegate.json
+      eventHandlers:
+        - event: SetRule(indexed address,indexed address,uint256,indexed address,uint256,uint256)
+          handler: handleSetRule
+        - event: UnsetRule(indexed address,indexed address,indexed address)
+          handler: handleUnsetRule
+        - event: DelegatedSwapFor(indexed address,indexed address,indexed uint256)
+          handler: handleDelegatedSwapFor
+      file: ./src/delegate.ts
