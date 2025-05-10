@@ -14,7 +14,7 @@ import {
   ethereum,
 } from '@graphprotocol/graph-ts'
 
-import { updateSwapMetrics, BIGINT_TEN, BIGINT_ZERO } from './metrics'
+import { updateSwapMetrics, BIGINT_TEN, BIGINT_ZERO } from './metrics.swap'
 
 const PROTOCOL_FEE_RECEIVER = Address.fromString(
   '0xad30f7eebd9bd5150a256f47da41d4403033cdf0'
