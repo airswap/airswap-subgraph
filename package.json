@@ -16,11 +16,11 @@
     "format": "prettier --write \"./**/*.ts\" \"./**/*.js\" \"./**/*.json\""
   },
   "dependencies": {
+    "@airswap/delegate": "5.0.3-beta.0",
     "@airswap/registry": "5.0.0",
     "@airswap/staking": "^5.0.1",
     "@airswap/swap-erc20": "5.0.0",
     "@airswap/utils": "5.0.1",
-    "@airswap/delegate": "5.0.3-beta.0",
     "@graphprotocol/graph-cli": "^0.84.0",
     "@graphprotocol/graph-ts": "^0.35.1"
   },
@@ -30,5 +30,6 @@
     "eslint-plugin-prettier": "^5.0.0",
     "matchstick-as": "0.5.0",
     "mustache": "^4.2.0"
-  }
+  },
+  "packageManager": "yarn@4.9.1"
 }

@@ -4,9 +4,16 @@ generated/
 subgraph.yaml
 tests/.bin
 
-# Dependency directories
-node_modules/
-jspm_packages/
+node_modules
+.yarn/*
+!.yarn/cache
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+yarn-error.log
+lerna-debug.log
 
 # Logs
 logs
