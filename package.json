@@ -21,10 +21,10 @@
     "@airswap/staking": "^5.0.1",
     "@airswap/swap-erc20": "5.0.0",
     "@airswap/utils": "5.0.1",
-    "@graphprotocol/graph-cli": "^0.84.0",
     "@graphprotocol/graph-ts": "^0.35.1"
   },
   "devDependencies": {
+    "@graphprotocol/graph-cli": "^0.97.1",
     "eslint": "^8.45.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^5.0.0",

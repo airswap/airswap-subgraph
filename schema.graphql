@@ -2,7 +2,7 @@
 # SwapERC20Contract
 #
 
-type SwapERC20 @entity {
+type SwapERC20 @entity(immutable: true) {
   id: Bytes!
   blockNumber: BigInt!
   blockTimestamp: BigInt!
@@ -26,7 +26,7 @@ type SwapERC20 @entity {
 # RegistryContract
 #
 
-type Server @entity {
+type Server @entity(immutable: true) {
   id: Bytes!
   url: String!
   protocols: [Bytes!]!
@@ -37,33 +37,17 @@ type Server @entity {
 # StakingContract
 #
 
-type Staker @entity {
+type Staker @entity(immutable: true) {
   id: Bytes!
   amount: BigInt!
   initial: BigInt!
 }
 
 #
-# DelegateContract
-#
-
-type Rule @entity {
-  id: ID!
-  senderWallet: Bytes!
-  senderToken: Bytes!
-  senderAmount: BigInt!
-  signerToken: Bytes!
-  signerAmount: BigInt!
-  senderAmountFilled: BigInt!
-  signerAmountFilled: BigInt!
-  expiry: BigInt!
-}
-
-#
 # Aggregates
 #
 
-type Daily @entity {
+type Daily @entity(immutable: false) {
   id: ID!
   date: Int!
   volume: BigDecimal!
@@ -72,7 +56,7 @@ type Daily @entity {
   max: BigDecimal!
 }
 
-type Yearly @entity {
+type Yearly @entity(immutable: false) {
   id: ID!
   volume: BigDecimal!
   fees: BigDecimal!
@@ -80,7 +64,7 @@ type Yearly @entity {
   max: BigDecimal!
 }
 
-type Total @entity {
+type Total @entity(immutable: false) {
   id: ID!
   volume: BigDecimal!
   fees: BigDecimal!
@@ -88,7 +72,7 @@ type Total @entity {
   max: BigDecimal!
 }
 
-type TotalStaked @entity {
+type TotalStaked @entity(immutable: false) {
   id: ID!
   amount: BigInt!
   count: BigInt!
