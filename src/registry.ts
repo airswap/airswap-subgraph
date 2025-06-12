@@ -23,7 +23,7 @@ export function handleSetServerURL(event: SetServerURL): void {
 
 export function handleAddProtocols(event: AddProtocols): void {
   const staker = event.params.staker
-  const protocols = event.params.protocols;
+  const protocols = event.params.protocols
   const server = Server.load(staker)
   if (server) {
     const newProtocols = server.protocols
@@ -37,7 +37,7 @@ export function handleAddProtocols(event: AddProtocols): void {
 
 export function handleRemoveProtocols(event: RemoveProtocols): void {
   const staker = event.params.staker
-  const protocols = event.params.protocols;
+  const protocols = event.params.protocols
   const server = Server.load(staker)
   if (server) {
     for (let i = 0; i < protocols.length; i++) {
@@ -53,7 +53,7 @@ export function handleRemoveProtocols(event: RemoveProtocols): void {
 
 export function handleAddTokens(event: AddTokens): void {
   const staker = event.params.staker
-  const tokens = event.params.tokens;
+  const tokens = event.params.tokens
   const server = Server.load(staker)
   if (server) {
     const newTokens = server.tokens
@@ -67,7 +67,7 @@ export function handleAddTokens(event: AddTokens): void {
 
 export function handleRemoveTokens(event: RemoveTokens): void {
   const staker = event.params.staker
-  const tokens = event.params.tokens;
+  const tokens = event.params.tokens
   const server = Server.load(staker)
   if (server) {
     for (let i = 0; i < tokens.length; i++) {
