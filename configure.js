@@ -8,8 +8,8 @@ import swapBlocks from '@airswap/swap-erc20/deploys-blocks.js'
 import swapDeploys from '@airswap/swap-erc20/deploys.js'
 import stakingBlocks from '@airswap/staking/deploys-blocks.js'
 import stakingDeploys from '@airswap/staking/deploys.js'
-import delegateBlocks from '@airswap/delegate/deploys-blocks.js'
-import delegateDeploys from '@airswap/delegate/deploys.js'
+import delegateBlocks from '@airswap/delegate-erc20/deploys-blocks.js'
+import delegateDeploys from '@airswap/delegate-erc20/deploys.js'
 import { ChainIds, chainNames } from '@airswap/utils'
 
 const LEGACY_SWAP_V4_ADDRESS = '0xd82fa167727a4dc6d6f55830a2c47abbb4b3a0f8'
@@ -51,7 +51,7 @@ async function main() {
           legacy_staking_v4_start_block: LEGACY_STAKING_V4_START_BLOCK,
         }
       )
-      content = content + stakingContent
+      content = content + '\n' + stakingContent
     }
     fs.writeFileSync('./subgraph.yaml', content)
     console.log(`Wrote subgraph.yaml for ${chainNames[chainId]}.`)
