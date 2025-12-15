@@ -45,6 +45,7 @@ dataSources:
       eventHandlers:
         - event: SwapERC20(indexed uint256,indexed address)
           handler: handleSwapERC20
+          receipt: true
       file: ./src/swap-erc20-v5.ts
   - kind: ethereum
     name: SwapERC20ContractV4
@@ -87,6 +88,7 @@ dataSources:
       eventHandlers:
         - event: SwapERC20(indexed uint256,indexed address,address,uint256,uint256,indexed address,address,uint256)
           handler: handleSwapERC20
+          receipt: true
       file: ./src/swap-erc20-v4.ts
   - kind: ethereum
     name: RegistryContract
@@ -107,16 +109,22 @@ dataSources:
       eventHandlers:
         - event: SetServerURL(indexed address,string)
           handler: handleSetServerURL
+          receipt: true
         - event: AddProtocols(indexed address,bytes4[])
           handler: handleAddProtocols
+          receipt: true
         - event: RemoveProtocols(indexed address,bytes4[])
           handler: handleRemoveProtocols
+          receipt: true
         - event: AddTokens(indexed address,address[])
           handler: handleAddTokens
+          receipt: true
         - event: RemoveTokens(indexed address,address[])
           handler: handleRemoveTokens
+          receipt: true
         - event: UnsetServer(indexed address,string,bytes4[],address[])
           handler: handleUnsetServer
+          receipt: true
       file: ./src/registry.ts
   - kind: ethereum
     name: DelegateContract
@@ -137,8 +145,11 @@ dataSources:
       eventHandlers:
         - event: SetRule(indexed address,indexed address,uint256,indexed address,uint256,uint256)
           handler: handleSetRule
+          receipt: true
         - event: UnsetRule(indexed address,indexed address,indexed address)
           handler: handleUnsetRule
+          receipt: true
         - event: DelegatedSwapFor(indexed address,indexed address,indexed uint256)
           handler: handleDelegatedSwapFor
+          receipt: true
       file: ./src/delegate.ts
